@@ -1,0 +1,43 @@
+{
+  "name": "User Repeatedly Rejects Bot Suggestions",
+  "groupId": "negative_utterances",
+  "goal": "Evaluate bot's persistence and escalation when user repeatedly rejects help.",
+  "constraints": "Bot should not loop endlessly; after multiple rejections, offer escalation to a human.",
+  "tags": [
+    "rejection",
+    "escalation",
+    "persistence"
+  ],
+  "testdata": {
+    "issue": "benefits enrollment",
+    "rejection_count": 3
+  },
+  "phases": [
+    {
+      "id": "initial_rejection",
+      "description": "User rejects the bot's first suggestion for resolving benefits enrollment.",
+      "completionCriteria": "Bot offers an alternative solution.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "second_rejection",
+      "description": "User rejects the second suggestion.",
+      "completionCriteria": "Bot offers a third solution or asks if user wants to escalate.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "final_rejection",
+      "description": "User rejects all automated help.",
+      "completionCriteria": "Bot offers to connect the user with a human HR representative.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

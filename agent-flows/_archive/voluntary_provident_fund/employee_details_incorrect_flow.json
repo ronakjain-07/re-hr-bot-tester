@@ -1,0 +1,46 @@
+{
+  "name": "Employee Details Incorrect Flow",
+  "groupId": "voluntary_provident_fund",
+  "goal": "User indicates employee details are incorrect and exits to main menu.",
+  "constraints": "User selects 'No' at employee details confirmation and then 'Go Back to Main Menu'.",
+  "tags": [
+    "branch",
+    "details_incorrect",
+    "exit"
+  ],
+  "testdata": {
+    "employee_name": "Priya Nair",
+    "employee_id": "RE11223",
+    "business_email_address": "priya.nair@royalenfield.com",
+    "job_title": "HR Executive",
+    "location": "Kochi"
+  },
+  "phases": [
+    {
+      "id": "init_intro",
+      "description": "User is presented with the VPF intro and chooses 'PROCEED'.",
+      "completionCriteria": "Bot displays intro message and user selects 'PROCEED'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "fetch_details",
+      "description": "Bot fetches and displays employee details for confirmation.",
+      "completionCriteria": "Bot displays correct employee details and user selects 'No'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "no_right_details",
+      "description": "Bot presents 'Go Back to Main Menu' option; user selects it.",
+      "completionCriteria": "Bot resets variables and goes to exit, asking if anything else is needed.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 25
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

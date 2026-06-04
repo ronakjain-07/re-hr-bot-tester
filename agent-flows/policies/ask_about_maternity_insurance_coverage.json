@@ -1,0 +1,38 @@
+{
+  "name": "Ask about maternity insurance coverage",
+  "groupId": "policies",
+  "goal": "User queries about maternity coverage under Group Mediclaim Policy.",
+  "constraints": "Bot must route to Group_Mediclaim_Policy, personalize response, use bullet points, caps for key info, source line with doc title and signed URL.",
+  "tags": [
+    "insurance",
+    "maternity",
+    "group_mediclaim",
+    "happy_path"
+  ],
+  "testdata": {
+    "user_query": "What is the maternity coverage amount in our group medical insurance?",
+    "employee_name": "Priya Sharma",
+    "designation": "Senior Analyst"
+  },
+  "phases": [
+    {
+      "id": "query_received",
+      "description": "User asks about maternity insurance coverage.",
+      "completionCriteria": "Bot does not acknowledge, directly responds with coverage details, uses user's name and designation."
+    },
+    {
+      "id": "response_format",
+      "description": "Bot formats answer as per instructions.",
+      "completionCriteria": "Response is under 120 words, uses bullet points, key info in CAPS, includes correct source line with signed URL.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

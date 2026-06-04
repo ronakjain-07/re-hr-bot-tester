@@ -1,0 +1,43 @@
+{
+  "constraints": "Use natural language. Testdata provides specific percentage values to use.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "VPF edge - text instead of percentage",
+  "tags": [
+    "edge",
+    "input_validation"
+  ],
+  "goal": "Verify the bot rejects non-numeric input where a percentage is expected",
+  "testdata": {
+    "invalidInput": "five percent",
+    "validPercentage": "5"
+  },
+  "phases": [
+    {
+      "id": "reach_percentage_prompt",
+      "description": "Navigate to VPF percentage prompt",
+      "completionCriteria": "Bot asks for the contribution percentage",
+      "maxAttempts": 5
+    },
+    {
+      "id": "send_text_as_percentage",
+      "description": "Send text (e.g. 'five percent') instead of a number",
+      "completionCriteria": "Bot rejects the input and asks for a valid numeric percentage",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_number",
+      "description": "Provide a valid number and complete",
+      "completionCriteria": "Bot confirms VPF opt-in",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "voluntary_provident_fund"
+}

@@ -1,0 +1,60 @@
+{
+  "name": "Book Employee with Spouse — Invalid State Then Valid",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User enters an invalid state name; bot rejects and user provides a valid state.",
+  "constraints": "First state input is not in allowed list; second is valid.",
+  "tags": [
+    "validation",
+    "state",
+    "edge_case"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Nisha Patel",
+    "spouseDOB": "05 Mar 1982",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10": "9876501234",
+    "state_invalid": "Atlantis",
+    "state_valid": "Rajasthan",
+    "city": "Jaipur",
+    "clinicName": "CK Birla Hospital"
+  },
+  "phases": [
+    {
+      "id": "spouse_details_to_mobile",
+      "description": "User provides spouse details, appointment date, and mobile number.",
+      "completionCriteria": "Bot accepts spouse name, DOB, appointment date, and mobile.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "state_invalid",
+      "description": "User enters invalid state.",
+      "completionCriteria": "Bot replies with 'This is not a state where we have this facility. Please try another location.'",
+      "maxAttempts": 1
+    },
+    {
+      "id": "state_valid",
+      "description": "User enters valid state.",
+      "completionCriteria": "Bot accepts and stores state.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "finish_booking",
+      "description": "User completes booking flow.",
+      "completionCriteria": "Bot confirms booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 42
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

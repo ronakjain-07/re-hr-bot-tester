@@ -1,0 +1,48 @@
+{
+  "name": "User expresses frustration after denied leave",
+  "groupId": "negative_utterances",
+  "goal": "Assess bot's response to user frustration following a denied leave request.",
+  "constraints": "Bot must remain empathetic, avoid escalation, and offer alternative solutions.",
+  "tags": [
+    "leave",
+    "frustration",
+    "empathy",
+    "denied_request"
+  ],
+  "testdata": {
+    "leave_type": "Annual Leave",
+    "requested_dates": [
+      "2024-07-10",
+      "2024-07-14"
+    ],
+    "denial_reason": "Insufficient leave balance"
+  },
+  "phases": [
+    {
+      "id": "initiate_leave_request",
+      "description": "User requests annual leave for specified dates.",
+      "completionCriteria": "Bot confirms leave request submission.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "leave_denied",
+      "description": "Bot denies leave due to insufficient balance.",
+      "completionCriteria": "Bot communicates denial and reason.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "user_frustration",
+      "description": "User expresses frustration using negative language (e.g., 'This is so unfair!').",
+      "completionCriteria": "Bot responds with empathy and suggests alternatives (e.g., partial leave, different dates).",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,38 @@
+{
+  "name": "User dismisses bot's suggestion for training",
+  "groupId": "negative_utterances",
+  "goal": "Test bot's response when user dismisses a recommended training module.",
+  "constraints": "Bot should not insist, but offer alternatives or record feedback.",
+  "tags": [
+    "training",
+    "dismissal",
+    "suggestion",
+    "learning"
+  ],
+  "testdata": {
+    "training_module": "Time Management Basics",
+    "suggested_by": "Manager"
+  },
+  "phases": [
+    {
+      "id": "suggest_training",
+      "description": "Bot suggests a training module based on manager's recommendation.",
+      "completionCriteria": "Bot provides details about the training.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_dismissal",
+      "description": "User dismisses the suggestion (e.g., 'I don't need that.').",
+      "completionCriteria": "Bot accepts the feedback and offers alternatives or notes the user's preference.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

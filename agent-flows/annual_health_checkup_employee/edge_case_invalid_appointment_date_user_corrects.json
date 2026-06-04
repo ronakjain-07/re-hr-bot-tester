@@ -1,0 +1,66 @@
+{
+  "name": "Edge Case — Invalid Appointment Date, User Corrects",
+  "groupId": "annual_health_checkup_employee",
+  "goal": "User provides an invalid appointment date, then corrects it after bot prompt.",
+  "constraints": "First date fails validation via workflow, user provides a valid date on retry.",
+  "tags": [
+    "edge",
+    "validation",
+    "appointment_date"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "Eligible for booking."
+      }
+    },
+    "coverageType": "Employee Only",
+    "appointmentDatestr_attempt1": "31 Feb 2024",
+    "appointmentDatestr_attempt2": "{{today+7}}",
+    "emp_mobile_raw": "9876543210",
+    "state": "Delhi",
+    "city": "New Delhi",
+    "clinicName": "Max Healthcare, Saket"
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "description": "Eligibility and booking intent.",
+      "completionCriteria": "User selects 'Book an appointment'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_2",
+      "description": "Coverage type selection.",
+      "completionCriteria": "User selects 'Employee Only'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_3",
+      "description": "Invalid then valid appointment date.",
+      "completionCriteria": "Bot rejects invalid date, accepts valid date.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "phase_4",
+      "description": "Mobile, state, city, clinic selection.",
+      "completionCriteria": "User provides valid mobile, state, city, and clinic.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_5",
+      "description": "Booking confirmation.",
+      "completionCriteria": "Bot confirms booking and thanks user.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 42
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

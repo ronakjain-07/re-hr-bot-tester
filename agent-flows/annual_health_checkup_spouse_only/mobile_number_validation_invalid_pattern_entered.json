@@ -1,0 +1,35 @@
+{
+  "name": "Mobile Number Validation — Invalid Pattern Entered",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User enters a mobile number with all identical digits; bot rejects and re-prompts until valid number is given.",
+  "constraints": "User first enters '9999999999', then a valid number.",
+  "tags": [
+    "validation",
+    "mobile_number",
+    "pattern_rejection"
+  ],
+  "testdata": {
+    "empMobileNumber_invalid": "9999999999",
+    "empMobileNumber_valid": "9876543210"
+  },
+  "phases": [
+    {
+      "id": "step6_invalid",
+      "description": "Bot asks for mobile number; user enters all identical digits.",
+      "completionCriteria": "Bot rejects input, displays correct error, and re-prompts."
+    },
+    {
+      "id": "step6_valid",
+      "description": "User enters valid mobile number.",
+      "completionCriteria": "Bot accepts and stores number."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 21,
+    "maxLlmCalls": 41
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

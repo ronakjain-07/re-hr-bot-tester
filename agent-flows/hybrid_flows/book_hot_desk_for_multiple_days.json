@@ -1,0 +1,44 @@
+{
+  "name": "Book Hot Desk for Multiple Days",
+  "groupId": "hybrid_flows",
+  "goal": "Employee books a hot desk for three consecutive days in the office.",
+  "constraints": "Dates must be consecutive weekdays and desk availability must be checked.",
+  "tags": [
+    "hot_desk",
+    "booking",
+    "multi_day"
+  ],
+  "testdata": {
+    "start_date": "{{today+15|iso}}",
+    "end_date": "{{today+17|iso}}",
+    "location": "HQ 5th Floor"
+  },
+  "phases": [
+    {
+      "id": "initiate_booking",
+      "description": "User requests to book a hot desk for a range of dates.",
+      "completionCriteria": "Bot asks for the date range and location.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_details",
+      "description": "User provides valid date range and office location.",
+      "completionCriteria": "Bot confirms desk availability for all dates.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "confirm_booking",
+      "description": "Bot confirms the booking for the requested days.",
+      "completionCriteria": "Bot message lists all booked dates and location.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 14,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

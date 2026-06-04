@@ -1,0 +1,37 @@
+{
+  "name": "User Uses Sarcasm About Payroll Delay",
+  "groupId": "negative_utterances",
+  "goal": "Test bot's ability to handle sarcasm regarding payroll delays.",
+  "constraints": "Bot should not take sarcasm literally; should clarify and address the payroll concern.",
+  "tags": [
+    "sarcasm",
+    "payroll",
+    "clarification"
+  ],
+  "testdata": {
+    "payroll_date": "2024-06-30",
+    "expected_amount": 3200.5
+  },
+  "phases": [
+    {
+      "id": "sarcastic_complaint",
+      "description": "User sarcastically comments on the payroll delay (e.g., 'Oh great, another payday on time, as usual...').",
+      "completionCriteria": "Bot recognizes possible dissatisfaction and asks if there is a payroll issue.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "confirm_issue",
+      "description": "User confirms their salary hasn't arrived.",
+      "completionCriteria": "Bot provides guidance on payroll status and next steps.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

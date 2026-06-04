@@ -1,0 +1,38 @@
+{
+  "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Employment letter - casual emp letter request",
+  "tags": [
+    "happy",
+    "casual"
+  ],
+  "goal": "Request employment letter using casual phrasing like real chat ('i want emp letter')",
+  "testdata": {
+    "casualPhrase": "i want emp letter"
+  },
+  "phases": [
+    {
+      "id": "casual_request",
+      "description": "Say 'i want emp letter' or 'Hey I want emp letter'",
+      "completionCriteria": "Bot shows employee details card with Send for HROPS Approval OR explains issue fetching details without crashing",
+      "maxAttempts": 5,
+      "recoveryHint": "If bot shows main menu only, try 'employment letter' or click Employment/HR Letters then Employment Letter"
+    },
+    {
+      "id": "send_for_approval",
+      "description": "Send for HROPS approval if details card is shown",
+      "completionCriteria": "Bot confirms employment letter request raised with HR team",
+      "maxAttempts": 4,
+      "recoveryHint": "Skip if backend shows 'issue in fetching your details' — note as environment issue"
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "employment_letter"
+}

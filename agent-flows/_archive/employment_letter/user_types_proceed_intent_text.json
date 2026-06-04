@@ -1,0 +1,45 @@
+{
+  "name": "user_types_proceed_intent_text",
+  "groupId": "employment_letter",
+  "goal": "User types a proceed intent like 'proceed' or 'continue' to request employment letter.",
+  "constraints": "Employee details must be present. User types a valid intent instead of selecting an option.",
+  "tags": [
+    "happy_path",
+    "intent_recognition",
+    "text_input"
+  ],
+  "testdata": {
+    "employee_id": "E13579",
+    "employee_name": "Deepak Kumar",
+    "email": "deepak.kumar@example.com",
+    "department": "Operations"
+  },
+  "phases": [
+    {
+      "id": "display_employee_details",
+      "description": "Bot displays employee details and options.",
+      "completionCriteria": "Bot displays correct employee details and options.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_types_proceed",
+      "description": "User types 'proceed' or 'continue'.",
+      "completionCriteria": "Bot proceeds to trigger mail workflow silently.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "confirm_success",
+      "description": "Bot triggers mail and confirms success.",
+      "completionCriteria": "Bot displays the exact confirmation message for employment letter request.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,49 @@
+{
+  "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "uploads": [],
+  "name": "AHC edge - spouse DOB future date rejected",
+  "tags": [
+    "edge",
+    "spouse_dob_validation"
+  ],
+  "goal": "Verify bot rejects a future date as spouse DOB",
+  "testdata": {
+    "futureSpouseDob": "{{today+365}}",
+    "validSpouseDob": "11th May 1990",
+    "spouseName": "Sita",
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_spouse_dob",
+      "description": "Start spouse booking and reach DOB prompt",
+      "completionCriteria": "Bot asks for spouse date of birth",
+      "maxAttempts": 5
+    },
+    {
+      "id": "future_dob",
+      "description": "Enter a future date as spouse DOB",
+      "completionCriteria": "Bot rejects future DOB (spouse cannot be born in the future)",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_dob_and_complete",
+      "description": "Enter valid DOB and complete booking",
+      "completionCriteria": "Bot confirms appointment",
+      "maxAttempts": 12,
+      "expectClick": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee_spouse"
+}

@@ -1,0 +1,49 @@
+{
+  "constraints": "Use natural language. Testdata provides specific percentage values to use.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "VPF edge - invalid percentage",
+  "tags": [
+    "edge",
+    "validation"
+  ],
+  "goal": "Verify the bot rejects an invalid VPF contribution percentage",
+  "testdata": {
+    "invalidPercentage": "0",
+    "validPercentage": "5"
+  },
+  "phases": [
+    {
+      "id": "reach_contribution_type",
+      "description": "Initiate VPF opt-in until Amount/Percentage choice",
+      "completionCriteria": "Bot asks Amount or Percentage for VPF contribution",
+      "maxAttempts": 6
+    },
+    {
+      "id": "choose_percentage_path",
+      "description": "Select Percentage (not Amount)",
+      "completionCriteria": "Bot asks for VPF contribution percentage (1–12)",
+      "maxAttempts": 4
+    },
+    {
+      "id": "invalid_percentage",
+      "description": "Provide an invalid percentage (0% or over 100%)",
+      "completionCriteria": "Bot has rejected the invalid percentage with an error message",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_percentage_and_complete",
+      "description": "Provide a valid percentage and confirm",
+      "completionCriteria": "Bot has confirmed the VPF opt-in",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "voluntary_provident_fund"
+}

@@ -1,0 +1,48 @@
+{
+  "name": "Negative - Tool Failure Handling",
+  "groupId": "appraisal_letter",
+  "goal": "Bot gracefully handles tool failure and offers retry/help options.",
+  "constraints": "Valid flow up to tool call. Tool returns failure. Bot shows fallback message and offers Go Home/Main Menu.",
+  "tags": [
+    "negative",
+    "tool_failure",
+    "fallback"
+  ],
+  "testdata": {
+    "menuType": "only years",
+    "isManagerAllowed": "no",
+    "year_resp": "2025",
+    "userAction": "Email",
+    "tool_resp": "failure"
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm menuType is 'only years'.",
+      "completionCriteria": "Bot presents quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "year_selection",
+      "description": "User selects 2025.",
+      "completionCriteria": "Bot prompts for delivery preference."
+    },
+    {
+      "id": "delivery_preference",
+      "description": "User selects 'Get the letter via email'.",
+      "completionCriteria": "Bot triggers workflow and receives failure."
+    },
+    {
+      "id": "failure_handling",
+      "description": "Bot handles tool failure.",
+      "completionCriteria": "Bot says fallback message and offers Go Home/Main Menu."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 12,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

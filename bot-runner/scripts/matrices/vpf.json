@@ -1,0 +1,149 @@
+{
+  "groupId": "voluntary_provident_fund",
+  "template": {
+    "constraints": "Follow VPF journey brief: opt-in → Amount or Percentage → if Percentage, enter 1–12% → confirm. Each phase completes when the bot reaches the NEXT brief step, not final confirmation unless that phase says so.",
+    "manualPrereqs": ["Chrome must be open and logged into Google Chat as the test user"],
+    "limits": { "maxTotalTurns": 20, "maxLlmCalls": 40 },
+    "uploads": []
+  },
+  "variants": [
+    {
+      "name": "VPF opt in happy flow",
+      "tags": ["happy", "opt_in"],
+      "goal": "Successfully opt into the Voluntary Provident Fund scheme",
+      "testdata": { "vpfPercentage": "5" },
+      "phases": [
+        {
+          "id": "greeting_and_intent",
+          "description": "State VPF opt-in intent",
+          "completionCriteria": "Bot has acknowledged VPF intent and asked for the contribution percentage or presented options",
+          "maxAttempts": 4
+        },
+        {
+          "id": "provide_percentage",
+          "description": "Provide the VPF contribution percentage",
+          "completionCriteria": "Bot has confirmed the VPF opt-in with the given percentage",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "VPF opt out happy flow",
+      "tags": ["happy", "opt_out"],
+      "goal": "Successfully opt out of the Voluntary Provident Fund scheme",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "greeting_and_intent",
+          "description": "State VPF opt-out intent",
+          "completionCriteria": "Bot has presented opt-out confirmation",
+          "maxAttempts": 4
+        },
+        {
+          "id": "confirm_opt_out",
+          "description": "Confirm the opt-out",
+          "completionCriteria": "Bot has confirmed the VPF opt-out",
+          "maxAttempts": 3
+        }
+      ]
+    },
+    {
+      "name": "VPF edge - invalid percentage",
+      "tags": ["edge", "validation"],
+      "goal": "Verify the bot rejects an invalid VPF contribution percentage",
+      "testdata": { "invalidPercentage": "0", "validPercentage": "5" },
+      "phases": [
+        {
+          "id": "reach_contribution_type",
+          "description": "Initiate VPF opt-in until Amount/Percentage choice",
+          "completionCriteria": "Bot asks Amount or Percentage for VPF contribution",
+          "maxAttempts": 6
+        },
+        {
+          "id": "choose_percentage_path",
+          "description": "Select Percentage (not Amount)",
+          "completionCriteria": "Bot asks for VPF contribution percentage (1–12)",
+          "maxAttempts": 4
+        },
+        {
+          "id": "invalid_percentage",
+          "description": "Provide an invalid percentage (0% or over 100%)",
+          "completionCriteria": "Bot has rejected the invalid percentage with an error message",
+          "maxAttempts": 3
+        },
+        {
+          "id": "valid_percentage_and_complete",
+          "description": "Provide a valid percentage and confirm",
+          "completionCriteria": "Bot has confirmed the VPF opt-in",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "VPF edge - over 100 percent rejected",
+      "tags": ["edge", "validation"],
+      "goal": "Verify the bot rejects VPF contribution percentage over 100",
+      "testdata": { "invalidPercentage": "150", "validPercentage": "10" },
+      "phases": [
+        {
+          "id": "reach_percentage_prompt",
+          "description": "Initiate VPF opt-in until the percentage prompt",
+          "completionCriteria": "Bot has asked for the VPF contribution percentage",
+          "maxAttempts": 5
+        },
+        {
+          "id": "over_100_percent",
+          "description": "Provide a percentage greater than 100",
+          "completionCriteria": "Bot has rejected the percentage as invalid",
+          "maxAttempts": 3
+        },
+        {
+          "id": "valid_percentage",
+          "description": "Provide a valid percentage and complete",
+          "completionCriteria": "Bot has confirmed the VPF opt-in",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "VPF edge - text instead of percentage",
+      "tags": ["edge", "input_validation"],
+      "goal": "Verify the bot rejects non-numeric input where a percentage is expected",
+      "testdata": { "invalidInput": "five percent", "validPercentage": "5" },
+      "phases": [
+        {
+          "id": "reach_percentage_prompt",
+          "description": "Navigate to VPF percentage prompt",
+          "completionCriteria": "Bot asks for the contribution percentage",
+          "maxAttempts": 5
+        },
+        {
+          "id": "send_text_as_percentage",
+          "description": "Send text (e.g. 'five percent') instead of a number",
+          "completionCriteria": "Bot rejects the input and asks for a valid numeric percentage",
+          "maxAttempts": 3
+        },
+        {
+          "id": "valid_number",
+          "description": "Provide a valid number and complete",
+          "completionCriteria": "Bot confirms VPF opt-in",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "VPF edge - opt in already enrolled",
+      "tags": ["edge", "state_check"],
+      "goal": "Verify bot behaviour when user tries to opt into VPF but is already enrolled",
+      "testdata": { "vpfPercentage": "5" },
+      "phases": [
+        {
+          "id": "attempt_opt_in",
+          "description": "Try to opt into VPF — test account may already be enrolled",
+          "completionCriteria": "Bot either processes the opt-in, shows current enrollment, or warns user is already enrolled",
+          "maxAttempts": 5
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "name": "Opt In Percentage All Invalid Escalation",
+  "groupId": "voluntary_provident_fund",
+  "goal": "User repeatedly enters invalid percentage input three times, resulting in escalation.",
+  "constraints": "User only enters invalid values (e.g., '0', 'abc', '13') for percentage.",
+  "tags": [
+    "negative",
+    "percentage",
+    "validation",
+    "escalation"
+  ],
+  "testdata": {
+    "employee_name": "Neha Verma",
+    "employee_id": "RE88990",
+    "business_email_address": "neha.verma@royalenfield.com",
+    "job_title": "Business Analyst",
+    "location": "Delhi",
+    "invalid_percentages": [
+      "0",
+      "abc",
+      "13"
+    ]
+  },
+  "phases": [
+    {
+      "id": "init_intro",
+      "description": "User is presented with the VPF intro and chooses 'PROCEED'.",
+      "completionCriteria": "Bot displays intro message and user selects 'PROCEED'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "fetch_details",
+      "description": "Bot fetches and displays employee details for confirmation.",
+      "completionCriteria": "Bot displays correct employee details and user confirms 'Yes'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "opt_in_select",
+      "description": "User selects 'Opt IN' for VPF.",
+      "completionCriteria": "Bot displays opt-in/out options and user selects 'Opt IN'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "contribution_type",
+      "description": "User chooses to contribute by 'Percentage'.",
+      "completionCriteria": "Bot displays 'Amount'/'Percentage' options and user selects 'Percentage'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "percentage_all_invalid",
+      "description": "User enters three invalid percentage values.",
+      "completionCriteria": "Bot re-prompts after each invalid input; after third, bot escalates with the exact escalation message.",
+      "maxAttempts": 3
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

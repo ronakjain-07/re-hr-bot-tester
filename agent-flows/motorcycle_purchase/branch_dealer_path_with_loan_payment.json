@@ -1,0 +1,78 @@
+{
+  "name": "Branch — Dealer Path with Loan Payment",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify application flow when user selects Dealer and chooses Loan as payment method.",
+  "constraints": "User selects Dealer, enters valid dealer code, selects Loan, all other inputs valid.",
+  "tags": [
+    "dealer",
+    "loan",
+    "branch",
+    "happy_path"
+  ],
+  "testdata": {
+    "mobile": "9123456789",
+    "state": "Kerala",
+    "city": "Kochi",
+    "address": "45, Marine Drive, Kochi, 682031",
+    "cc_category": "650 CC",
+    "model": "CONTINENTAL GT650 MR.CLEAN",
+    "purchase_from": "Dealer",
+    "dealer_code": "DL456",
+    "payment_method": "Loan",
+    "undertaking_file": "undertaking.pdf",
+    "feedback": "Yes",
+    "remark": "Great experience!"
+  },
+  "phases": [
+    {
+      "id": "main_menu",
+      "description": "User selects 'Start New Application'.",
+      "completionCriteria": "Bot proceeds to eligibility check.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "eligibility_check",
+      "description": "Eligibility workflow confirms eligible.",
+      "completionCriteria": "Bot proceeds to mobile number entry.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "location_and_address",
+      "description": "User provides valid mobile, state, city, address.",
+      "completionCriteria": "Bot accepts all and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "model_selection",
+      "description": "User selects 650 CC and valid model.",
+      "completionCriteria": "Bot shows correct models, user selects.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "dealer_and_payment",
+      "description": "User selects Dealer, enters dealer code, selects Loan.",
+      "completionCriteria": "Bot accepts and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "undertaking_and_feedback",
+      "description": "User uploads undertaking, gives feedback.",
+      "completionCriteria": "Bot accepts and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "preview_and_submit",
+      "description": "User confirms preview and submits.",
+      "completionCriteria": "Bot shows UID and ends.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 55
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

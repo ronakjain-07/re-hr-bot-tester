@@ -1,0 +1,28 @@
+{
+  "name": "Check Remaining Privilege Leaves",
+  "groupId": "free_flow",
+  "goal": "User queries remaining privilege leaves in Hinglish.",
+  "constraints": "Bot should provide accurate leave balance in Hinglish.",
+  "tags": [
+    "leave_balance",
+    "hinglish",
+    "privilege_leave"
+  ],
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_balance",
+      "description": "User asks 'Mere paas kitni privilege leave bachi hai?'",
+      "completionCriteria": "Bot replies with the exact number of privilege leaves left.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 5,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

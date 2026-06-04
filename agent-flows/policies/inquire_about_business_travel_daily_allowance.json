@@ -1,0 +1,34 @@
+{
+  "name": "Inquire about business travel daily allowance",
+  "groupId": "policies",
+  "goal": "User asks about the daily allowance amount for business travel.",
+  "constraints": "Bot must answer using only retrieved KB content, personalize with name/designation, and include the exact document source and signed URL. No extra info or suggestions.",
+  "tags": [
+    "happy_path",
+    "business_travel",
+    "allowance"
+  ],
+  "testdata": {
+    "user_name": "Rohit Mehra",
+    "user_designation": "Sales Manager",
+    "query": "What is the daily allowance for business travel?",
+    "expected_policy": "Business_Travel_Guidelines",
+    "expected_info": "daily allowance",
+    "expected_link_prefix": "https://app.yellow.ai/minio/"
+  },
+  "phases": [
+    {
+      "id": "ask_allowance",
+      "description": "User asks about daily allowance for business travel.",
+      "completionCriteria": "Bot responds with Rohit Mehra's name/designation, states the daily allowance, and provides the correct source document and signed URL."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

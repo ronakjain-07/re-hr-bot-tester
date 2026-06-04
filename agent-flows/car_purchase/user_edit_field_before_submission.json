@@ -1,0 +1,60 @@
+{
+  "name": "User - Edit Field Before Submission",
+  "groupId": "car_purchase",
+  "goal": "Test that a user can preview the application, choose to edit a specific field, and then successfully submit.",
+  "constraints": "User edits 'Car Model' after preview, then submits.",
+  "tags": [
+    "edit",
+    "preview",
+    "branch"
+  ],
+  "testdata": {
+    "userType": "users",
+    "emp_mobile_raw": "9876543210",
+    "phoneValidatorResp": {
+      "result": {
+        "isValid": true,
+        "normalizedNumber": "+919876543210"
+      }
+    },
+    "onRoadPriceOfCar": "1400000",
+    "emiOption": "60 Months",
+    "dealerName": "DEF Autos",
+    "dealerFullAddress": "456 Park Lane, Delhi",
+    "cheque": "EICHER MOTORS LTD",
+    "carMakerName": "Hyundai",
+    "carModel_initial": "i20",
+    "carModel_edited": "Creta",
+    "fuelType": "Diesel",
+    "undertakingLetter": "undertaking_letter.pdf",
+    "proformaInvoiceOfCar": "proforma_invoice.pdf"
+  },
+  "phases": [
+    {
+      "id": "phase1",
+      "description": "User fills all details and previews application.",
+      "completionCriteria": "Bot shows preview/edit/submit options.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase2",
+      "description": "User selects 'Edit', chooses 'Car Model', and provides new value.",
+      "completionCriteria": "Bot re-collects car model and returns to preview/submit.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase3",
+      "description": "User submits application after editing.",
+      "completionCriteria": "Bot confirms submission with final message.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 18,
+    "maxLlmCalls": 36
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

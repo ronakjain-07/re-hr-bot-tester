@@ -1,0 +1,29 @@
+{
+  "name": "Non-UK Visa Request — Routed to General Visa Agent",
+  "groupId": "uk_visa",
+  "goal": "User asks about a non-UK visa, bot transfers to general visa agent.",
+  "constraints": "User's initial message is about a non-UK visa.",
+  "tags": [
+    "routing",
+    "non_uk",
+    "transfer"
+  ],
+  "testdata": {
+    "initial_user_message": "I need an invitation letter for a US visa"
+  },
+  "phases": [
+    {
+      "id": "routing_non_uk",
+      "description": "User asks about a non-UK visa, bot detects and transfers to general visa agent.",
+      "completionCriteria": "Bot does not proceed with UK visa flow, initiates transfer."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 2,
+    "maxLlmCalls": 4
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

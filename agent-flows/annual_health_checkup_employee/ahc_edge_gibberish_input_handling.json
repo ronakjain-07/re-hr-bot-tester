@@ -1,0 +1,42 @@
+{
+  "goal": "Verify the bot handles nonsense/gibberish input gracefully and recovers to the right step",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "send_gibberish",
+      "description": "Send gibberish text at the health checkup intent step",
+      "completionCriteria": "Bot responds gracefully (either asks to clarify or reprompts with options)",
+      "maxAttempts": 3,
+      "recoveryHint": "After the gibberish, say 'Annual health checkup' to get back on track"
+    },
+    {
+      "id": "recover_and_book",
+      "description": "Recover and complete a valid AHC booking",
+      "completionCriteria": "Bot confirms the appointment booking",
+      "maxAttempts": 15,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - gibberish input handling",
+  "tags": [
+    "edge",
+    "input_validation"
+  ],
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "gibberishInput": "asdkjhasd 12312 !!!"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

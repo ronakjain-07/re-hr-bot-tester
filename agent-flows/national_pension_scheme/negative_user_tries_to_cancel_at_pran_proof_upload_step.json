@@ -1,0 +1,82 @@
+{
+  "name": "Negative — User Tries to Cancel at PRAN Proof Upload Step",
+  "groupId": "national_pension_scheme",
+  "goal": "User attempts to cancel or skip at PRAN proof upload, bot re-prompts as per rules.",
+  "constraints": "User types 'cancel' or 'skip' at PRAN proof prompt; bot must re-ask.",
+  "tags": [
+    "negative",
+    "pran_proof",
+    "no_cancel",
+    "edge_case"
+  ],
+  "testdata": {
+    "employee_name": "Anjali Rao",
+    "employee_id": "RE77777",
+    "position_title": "Operations Manager",
+    "employee_email": "anjali.rao@royalenfield.com",
+    "pranNumber": "123456789012",
+    "pranProofFile_cancel": "cancel",
+    "pranProofFile_valid": "pran_proof.pdf",
+    "pranProofSizeMB": 3.5,
+    "taxRegime": "New Regime",
+    "npsContributionNew": 11
+  },
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Proceed'.",
+      "completionCriteria": "Bot displays employee details confirmation.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "employee_details",
+      "description": "User confirms details.",
+      "completionCriteria": "Bot asks about PRAN availability.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_availability",
+      "description": "User says 'Yes'.",
+      "completionCriteria": "Bot prompts for PRAN number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_number",
+      "description": "User enters valid PRAN.",
+      "completionCriteria": "Bot prompts for PRAN proof upload.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_proof_cancel",
+      "description": "User types 'cancel' at PRAN proof prompt.",
+      "completionCriteria": "Bot rejects and re-prompts for PRAN proof.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_proof_valid",
+      "description": "User uploads valid PDF proof.",
+      "completionCriteria": "Bot prompts for Opt-In/Opt-Out.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "opt_selection",
+      "description": "User selects 'Opt IN for NPS'.",
+      "completionCriteria": "Bot prompts for tax regime.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "tax_regime_and_contribution",
+      "description": "User selects 'New Regime' and enters 11 as contribution.",
+      "completionCriteria": "Bot submits update and displays completion message.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,42 @@
+{
+  "name": "Update Mobile Number",
+  "groupId": "free_flow",
+  "goal": "User requests to update their mobile number via Hinglish.",
+  "constraints": "Bot must validate new mobile number format and confirm update.",
+  "tags": [
+    "profile_update",
+    "mobile",
+    "hinglish"
+  ],
+  "testdata": {
+    "new_mobile": "9876543210"
+  },
+  "phases": [
+    {
+      "id": "initiate_update",
+      "description": "User says 'Mera mobile number update karna hai'.",
+      "completionCriteria": "Bot asks for new mobile number.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_mobile",
+      "description": "User provides '9876543210'.",
+      "completionCriteria": "Bot confirms the new number and asks for confirmation.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "confirm_update",
+      "description": "User says 'Haan, update kar do'.",
+      "completionCriteria": "Bot confirms mobile number updated successfully.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 15
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

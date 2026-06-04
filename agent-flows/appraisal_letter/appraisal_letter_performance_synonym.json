@@ -1,0 +1,36 @@
+{
+  "constraints": "The bot always asks for the year regardless of how the user phrases the request. Never provide the year in the initial request — wait for the bot to ask.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Appraisal letter - performance synonym",
+  "tags": [
+    "edge",
+    "synonym"
+  ],
+  "goal": "Verify 'performance letter' maps to appraisal letter flow",
+  "testdata": {
+    "year": "2024"
+  },
+  "phases": [
+    {
+      "id": "performance_synonym",
+      "description": "Ask 'I need performance letter for documentation'",
+      "completionCriteria": "Bot understands performance = appraisal and asks for year",
+      "maxAttempts": 5
+    },
+    {
+      "id": "provide_year",
+      "description": "Provide year",
+      "completionCriteria": "Bot shows appraisal card",
+      "maxAttempts": 3
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "appraisal_letter"
+}

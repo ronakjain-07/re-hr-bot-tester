@@ -1,0 +1,71 @@
+{
+  "name": "UK Invitation Letter Email Workflow Fails Twice, Succeeds on Third Attempt",
+  "groupId": "uk_visa",
+  "goal": "All user inputs are valid, but the invitation letter email workflow fails twice before succeeding.",
+  "constraints": "Bot retries workflow up to 3 times, succeeds on third attempt.",
+  "tags": [
+    "workflow_retry",
+    "email_trigger",
+    "edge_case"
+  ],
+  "testdata": {
+    "cityUK": "Belfast",
+    "passportName": "Charlotte Evans",
+    "rawPassportNumber": "H8765432",
+    "validatedPassportNumber": "H8765432",
+    "ukStartDate": "{{today+15}}",
+    "validatedStartDate": "{{today+15}}",
+    "ukEndDate": "{{today+25}}",
+    "validatedReturnDate": "{{today+25}}",
+    "ukmailtrigger_results": [
+      "fail",
+      "fail",
+      "success"
+    ]
+  },
+  "phases": [
+    {
+      "id": "init_and_city",
+      "description": "Agent initializes, user selects 'Belfast'.",
+      "completionCriteria": "Bot captures 'Belfast'."
+    },
+    {
+      "id": "passport_name",
+      "description": "User provides 'Charlotte Evans'.",
+      "completionCriteria": "Bot captures name."
+    },
+    {
+      "id": "passport_number",
+      "description": "User provides valid passport number.",
+      "completionCriteria": "Bot validates and proceeds."
+    },
+    {
+      "id": "start_date",
+      "description": "User provides valid start date, confirms.",
+      "completionCriteria": "Bot saves start date."
+    },
+    {
+      "id": "end_date",
+      "description": "User provides valid end date, confirms.",
+      "completionCriteria": "Bot saves end date."
+    },
+    {
+      "id": "email_workflow_retries",
+      "description": "Bot triggers invitation letter workflow, fails twice, succeeds on third attempt.",
+      "completionCriteria": "Bot receives 'success' and proceeds."
+    },
+    {
+      "id": "confirmation",
+      "description": "Bot confirms successful submission to user.",
+      "completionCriteria": "Bot says confirmation message."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 18,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

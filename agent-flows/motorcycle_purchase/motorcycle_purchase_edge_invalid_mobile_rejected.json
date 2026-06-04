@@ -1,0 +1,50 @@
+{
+  "constraints": "Match real chat: motorcycle purchase → Start New Application → mobile → state → city → address → CC → model → dealer/store → dealer code 10441 → undertaking PDF → submit. Use testdata; invalid city tests use Mumbai in Haryana etc.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 40,
+    "maxLlmCalls": 80
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Motorcycle purchase edge - invalid mobile rejected",
+  "tags": [
+    "edge",
+    "mobile_validation"
+  ],
+  "goal": "Verify bot rejects invalid mobile (e.g. 94621376542) then accepts valid number",
+  "testdata": {
+    "invalidMobile": "94621376542",
+    "validMobile": "9462137658",
+    "state": "Haryana",
+    "city": "Gurgaon"
+  },
+  "phases": [
+    {
+      "id": "reach_mobile",
+      "description": "Start motorcycle flow until mobile prompt",
+      "completionCriteria": "Bot asks for 10-digit mobile number",
+      "maxAttempts": 6
+    },
+    {
+      "id": "invalid_mobile",
+      "description": "Enter invalid mobile (11 digits)",
+      "completionCriteria": "Bot says number is not valid and asks for correct 10-digit number",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_mobile",
+      "description": "Enter valid 10-digit mobile",
+      "completionCriteria": "Bot accepts mobile and asks for state or city",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "motorcycle_purchase"
+}

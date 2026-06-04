@@ -1,0 +1,31 @@
+{
+  "name": "Download Salary Slip for Last Month",
+  "groupId": "free_flow",
+  "goal": "User requests previous month's salary slip in Hinglish.",
+  "constraints": "Bot should provide correct slip download link or attachment.",
+  "tags": [
+    "salary_slip",
+    "download",
+    "hinglish"
+  ],
+  "testdata": {
+    "month": "May",
+    "year": 2024
+  },
+  "phases": [
+    {
+      "id": "request_slip",
+      "description": "User asks 'Pichle mahine ka salary slip bhej do'.",
+      "completionCriteria": "Bot provides download link or attachment for May 2024 salary slip.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 5,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

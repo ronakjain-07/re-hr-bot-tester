@@ -1,0 +1,232 @@
+{
+  "groupId": "employment_letter",
+  "template": {
+    "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+    "manualPrereqs": ["Chrome must be open and logged into Google Chat as the test user"],
+    "limits": { "maxTotalTurns": 20, "maxLlmCalls": 40 },
+    "uploads": []
+  },
+  "variants": [
+    {
+      "name": "Employment letter happy flow",
+      "tags": ["happy"],
+      "goal": "Request an employment letter and send it for HROPS approval",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "greeting_and_intent",
+          "description": "Greet the bot and request an employment letter",
+          "completionCriteria": "Bot has displayed the employee details card and presented action options (Send for HROPS Approval, Go Home)",
+          "maxAttempts": 4
+        },
+        {
+          "id": "send_for_approval",
+          "description": "Click or type 'Send For HROPS Approval'",
+          "completionCriteria": "Bot has confirmed the employment letter request has been raised with HR team",
+          "maxAttempts": 3
+        }
+      ]
+    },
+    {
+      "name": "Employment letter HROPS approval flow",
+      "tags": ["happy", "hrops"],
+      "goal": "Approve a pending employment letter request as HROPS",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "greeting_and_intent",
+          "description": "Greet the bot and state intent to approve employment letters",
+          "completionCriteria": "Bot has shown pending employment letter requests with Approve and Reject options",
+          "maxAttempts": 4
+        },
+        {
+          "id": "approve_request",
+          "description": "Click or type 'Approve' on the pending request",
+          "completionCriteria": "Bot has confirmed the approval and sent the email trigger",
+          "maxAttempts": 4,
+          "recoveryHint": "If email trigger fails, note the error but accept it as partial pass"
+        }
+      ]
+    },
+    {
+      "name": "Employment letter edge - go home without approval",
+      "tags": ["edge", "abandonment"],
+      "goal": "Request an employment letter but choose Go Home instead of sending for approval",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "greeting_and_intent",
+          "description": "Request employment letter and see the details card",
+          "completionCriteria": "Bot has shown the employee details card with action buttons",
+          "maxAttempts": 4
+        },
+        {
+          "id": "go_home",
+          "description": "Click or type 'Go Home' to cancel without approval",
+          "completionCriteria": "Bot returns to main menu or offers other services",
+          "maxAttempts": 3
+        }
+      ]
+    },
+    {
+      "name": "Employment letter edge - ambiguous intent",
+      "tags": ["edge", "intent_disambiguation"],
+      "goal": "Test that the bot correctly interprets an ambiguous letter request",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "ambiguous_request",
+          "description": "Send an ambiguous or misspelled employment letter request",
+          "completionCriteria": "Bot has understood the intent and shown the employee details card OR asked a clarifying question",
+          "maxAttempts": 5,
+          "recoveryHint": "Try 'I need a letter from HR', 'employment certificate', 'letter for job', 'work letter'"
+        },
+        {
+          "id": "confirm_or_proceed",
+          "description": "Confirm or clarify intent and reach the action options",
+          "completionCriteria": "Bot has presented action buttons (Send for HROPS Approval, Go Home)",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "Employment letter edge - misspelled request",
+      "tags": ["edge", "typo_handling"],
+      "goal": "Verify the bot understands a misspelled or casual employment letter request",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "misspelled_request",
+          "description": "Send request with typos like 'employmnt ltter' or 'emplyment lettr'",
+          "completionCriteria": "Bot understands and shows the employee details or asks clarifying question",
+          "maxAttempts": 5,
+          "recoveryHint": "Try various misspellings or synonyms: 'joining letter', 'salary letter', 'proof of employment'"
+        },
+        {
+          "id": "complete_flow",
+          "description": "Complete the flow after intent is recognized",
+          "completionCriteria": "Bot shows action buttons including Send for HROPS Approval",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "Employment letter edge - repeat request",
+      "tags": ["edge", "duplicate_request"],
+      "goal": "Test what happens when user requests employment letter twice in a row",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "first_request",
+          "description": "Request employment letter and see details card",
+          "completionCriteria": "Bot shows employee details card with action buttons",
+          "maxAttempts": 4
+        },
+        {
+          "id": "second_request_same_session",
+          "description": "Request employment letter again without submitting the first one",
+          "completionCriteria": "Bot either shows the same card again, warns about duplicate, or handles gracefully",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "Employment letter edge - random text before intent",
+      "tags": ["edge", "small_talk"],
+      "goal": "Verify the bot handles small talk before getting to the employment letter request",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "small_talk_first",
+          "description": "Say something unrelated first, then ask for employment letter",
+          "completionCriteria": "Bot shows the employee details card after the user clarifies the intent",
+          "maxAttempts": 6,
+          "recoveryHint": "After any bot response to off-topic message, say 'I want an employment letter'"
+        },
+        {
+          "id": "complete_approval",
+          "description": "Send for HROPS approval",
+          "completionCriteria": "Bot confirms the employment letter request has been raised",
+          "maxAttempts": 3
+        }
+      ]
+    },
+    {
+      "name": "Employment letter - casual emp letter request",
+      "tags": ["happy", "casual"],
+      "goal": "Request employment letter using casual phrasing like real chat ('i want emp letter')",
+      "testdata": { "casualPhrase": "i want emp letter" },
+      "phases": [
+        {
+          "id": "casual_request",
+          "description": "Say 'i want emp letter' or 'Hey I want emp letter'",
+          "completionCriteria": "Bot shows employee details card with Send for HROPS Approval OR explains issue fetching details without crashing",
+          "maxAttempts": 5,
+          "recoveryHint": "If bot shows main menu only, try 'employment letter' or click Employment/HR Letters then Employment Letter"
+        },
+        {
+          "id": "send_for_approval",
+          "description": "Send for HROPS approval if details card is shown",
+          "completionCriteria": "Bot confirms employment letter request raised with HR team",
+          "maxAttempts": 4,
+          "recoveryHint": "Skip if backend shows 'issue in fetching your details' — note as environment issue"
+        }
+      ]
+    },
+    {
+      "name": "Employment letter - Hinglish mujhe emp letter chaiye",
+      "tags": ["happy", "hinglish"],
+      "goal": "Request employment letter in Hinglish as employees do in chat",
+      "testdata": { "hinglishPhrase": "mujhe emp letter chaiye" },
+      "phases": [
+        {
+          "id": "hinglish_request",
+          "description": "Say 'mujhe emp letter chaiye'",
+          "completionCriteria": "Bot recognizes employment letter intent (details card, letter flow, or clear fetch error message)",
+          "maxAttempts": 5
+        },
+        {
+          "id": "complete_if_card_shown",
+          "description": "If employee card shown, send for HROPS approval",
+          "completionCriteria": "Bot confirms letter request raised OR still shows actionable next step",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "Employment letter - after leave policy question",
+      "tags": ["edge", "context_switch"],
+      "goal": "Ask leave policy then request employment letter in same session",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "ask_leave_policy",
+          "description": "Ask 'tell me about leave policy'",
+          "completionCriteria": "Bot answers with leave policy information from knowledge base",
+          "maxAttempts": 4
+        },
+        {
+          "id": "then_employment_letter",
+          "description": "Then say 'i want employment letter'",
+          "completionCriteria": "Bot starts employment letter flow (details card or fetch-details message)",
+          "maxAttempts": 5
+        }
+      ]
+    },
+    {
+      "name": "Employment letter - fetch details error handling",
+      "tags": ["edge", "backend"],
+      "goal": "When HR backend fails, bot shows 'issue in fetching your details' without breaking",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "request_letter",
+          "description": "Request employment letter clearly",
+          "completionCriteria": "Bot responds with employee details card OR a clear 'issue in fetching your details' message (not empty/silent)",
+          "maxAttempts": 5,
+          "recoveryHint": "Try 'i want employment letter' after greeting"
+        }
+      ]
+    }
+  ]
+}

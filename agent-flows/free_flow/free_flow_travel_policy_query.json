@@ -1,0 +1,28 @@
+{
+  "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "uploads": [],
+  "name": "Free flow - travel policy query",
+  "tags": [
+    "happy",
+    "policy"
+  ],
+  "goal": "Ask about travel/business travel policy in free-flow",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "travel_policy",
+      "description": "Say 'i want Business travel policy' or 'tell me about travel policy'",
+      "completionCriteria": "Bot provides travel policy information",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "free_flow"
+}

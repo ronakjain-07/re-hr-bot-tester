@@ -1,0 +1,45 @@
+{
+  "constraints": "Match real chat: motorcycle purchase → Start New Application → mobile → state → city → address → CC → model → dealer/store → dealer code 10441 → undertaking PDF → submit. Use testdata; invalid city tests use Mumbai in Haryana etc.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 40,
+    "maxLlmCalls": 80
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Motorcycle purchase - show more navigation",
+  "tags": [
+    "happy",
+    "navigation"
+  ],
+  "goal": "Use Show More on bike model list before selecting a model",
+  "testdata": {
+    "mobileNumber": "9462137658",
+    "state": "Haryana",
+    "city": "Gurgaon",
+    "address": "414 sec 20",
+    "ccCategory": "411 CC"
+  },
+  "phases": [
+    {
+      "id": "reach_bike_list",
+      "description": "Reach bike model selection for a CC category",
+      "completionCriteria": "Bot shows bike models with Show More or similar navigation",
+      "maxAttempts": 15
+    },
+    {
+      "id": "show_more",
+      "description": "Click or type Show more to see additional models",
+      "completionCriteria": "Bot shows more bike models in the list",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "motorcycle_purchase"
+}

@@ -1,0 +1,47 @@
+{
+  "goal": "Test the exact 4-day advance booking boundary — today+4 should be accepted or borderline",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "reach_date_prompt",
+      "description": "Start AHC booking and reach the appointment date prompt",
+      "completionCriteria": "Bot has asked for preferred appointment date",
+      "maxAttempts": 8
+    },
+    {
+      "id": "try_boundary_date",
+      "description": "Try the exact 4-day boundary date (today+4)",
+      "completionCriteria": "Bot either accepts the date and asks for mobile, or rejects it with the 4-day rule message",
+      "maxAttempts": 3
+    },
+    {
+      "id": "complete_with_safe_date",
+      "description": "Use a safe date (today+7) to complete the booking",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 10,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - exact 4-day boundary date",
+  "tags": [
+    "edge",
+    "date_boundary"
+  ],
+  "testdata": {
+    "boundary4DayDate": "{{today+4}}",
+    "safeDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

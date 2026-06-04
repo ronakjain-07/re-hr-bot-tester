@@ -1,0 +1,47 @@
+{
+  "constraints": "Test UK visa invitation letter flow thoroughly. Available cities: Bangalore, North Goa, Mumbai, Chennai, New Delhi.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "uploads": [],
+  "name": "UK visa edge - today's date as start rejected",
+  "tags": [
+    "edge",
+    "date_validation"
+  ],
+  "goal": "Verify bot rejects today's date as the start date",
+  "testdata": {
+    "todayDate": "{{today+0}}",
+    "validStartDate": "{{today+15}}",
+    "validEndDate": "{{today+20}}",
+    "name": "Geetika Mago",
+    "passportNumber": "B1234567",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_start_date",
+      "description": "Navigate to start date prompt",
+      "completionCriteria": "Bot asks for travel start date",
+      "maxAttempts": 8
+    },
+    {
+      "id": "today_as_start",
+      "description": "Enter today's date as start date",
+      "completionCriteria": "Bot rejects today's date and asks for a future start date",
+      "maxAttempts": 3
+    },
+    {
+      "id": "complete_with_valid_dates",
+      "description": "Enter valid future dates and complete",
+      "completionCriteria": "Bot confirms UK visa letter request",
+      "maxAttempts": 12
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

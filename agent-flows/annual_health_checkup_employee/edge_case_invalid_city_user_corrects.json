@@ -1,0 +1,66 @@
+{
+  "name": "Edge Case — Invalid City, User Corrects",
+  "groupId": "annual_health_checkup_employee",
+  "goal": "User provides an invalid city for the chosen state, then corrects it.",
+  "constraints": "First city input is not in allowed list for the selected state; user provides valid city on second attempt.",
+  "tags": [
+    "edge",
+    "validation",
+    "city"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "Eligible for booking."
+      }
+    },
+    "coverageType": "Employee Only",
+    "appointmentDatestr": "{{today+7}}",
+    "emp_mobile_raw": "9876543210",
+    "state": "West Bengal",
+    "city_attempt1": "Gotham",
+    "city_attempt2": "Kolkata",
+    "clinicName": "AMRI Hospital, Dhakuria"
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "description": "Eligibility and booking intent.",
+      "completionCriteria": "User selects 'Book an appointment'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_2",
+      "description": "Coverage type selection.",
+      "completionCriteria": "User selects 'Employee Only'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_3",
+      "description": "Appointment date, mobile, state collection.",
+      "completionCriteria": "User provides valid date, mobile, and state.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_4",
+      "description": "Invalid then valid city entry.",
+      "completionCriteria": "Bot rejects first city, accepts valid city.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "phase_5",
+      "description": "Clinic selection and booking confirmation.",
+      "completionCriteria": "User selects clinic; bot confirms booking.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 23,
+    "maxLlmCalls": 42
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

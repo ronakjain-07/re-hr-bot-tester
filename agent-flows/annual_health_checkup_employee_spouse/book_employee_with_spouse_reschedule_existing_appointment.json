@@ -1,0 +1,54 @@
+{
+  "name": "Book Employee with Spouse — Reschedule Existing Appointment",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User chooses to reschedule an existing appointment for employee with spouse.",
+  "constraints": "Eligibility mode is 'manage'. User selects 'Reschedule the appointment' and completes the flow.",
+  "tags": [
+    "reschedule",
+    "employee_with_spouse",
+    "happy_path"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "manage"
+      }
+    },
+    "status2": "Reschedule the appointment",
+    "spouseName": "Rachna Dey",
+    "spouseDOB": "25 May 1983",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10": "9876532104",
+    "state": "Haryana",
+    "city": "Gurgaon",
+    "clinicName": "Medanta Medicity"
+  },
+  "phases": [
+    {
+      "id": "manage_options",
+      "description": "Bot presents reschedule/cancel options; user selects reschedule.",
+      "completionCriteria": "Bot captures 'Reschedule the appointment' as status2.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_details_and_appointment",
+      "description": "User provides spouse details and new appointment date.",
+      "completionCriteria": "Bot accepts spouse name, DOB, and appointment date.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "mobile_state_city_clinic",
+      "description": "User provides valid mobile, state, city, and selects clinic.",
+      "completionCriteria": "Bot confirms reschedule and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

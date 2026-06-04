@@ -1,0 +1,60 @@
+{
+  "name": "Opt-Out Flow — User with PRAN Chooses to Opt-Out",
+  "groupId": "national_pension_scheme",
+  "goal": "User with valid PRAN chooses to opt-out of Employer NPS Contribution.",
+  "constraints": "User selects Opt-Out after providing PRAN details.",
+  "tags": [
+    "opt_out",
+    "pran_valid",
+    "branch"
+  ],
+  "testdata": {
+    "employee_name": "Karthik Rao",
+    "employee_id": "RE24680",
+    "position_title": "Analyst",
+    "employee_email": "karthik.rao@royalenfield.com",
+    "pranNumber": "112233445566",
+    "pranProofFile": "pran_proof.pdf",
+    "pranProofSizeMB": 3
+  },
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Proceed'.",
+      "completionCriteria": "Bot displays employee details confirmation.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "employee_details",
+      "description": "User confirms details.",
+      "completionCriteria": "Bot asks about PRAN availability.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_availability",
+      "description": "User says 'Yes'.",
+      "completionCriteria": "Bot prompts for PRAN number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_details",
+      "description": "User enters valid PRAN and uploads valid PDF proof.",
+      "completionCriteria": "Bot prompts for Opt-In/Opt-Out.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "opt_selection",
+      "description": "User selects 'Opt OUT for NPS'.",
+      "completionCriteria": "Bot submits opt-out and displays opt-out completion message.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

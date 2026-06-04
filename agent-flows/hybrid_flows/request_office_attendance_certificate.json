@@ -1,0 +1,43 @@
+{
+  "name": "Request Office Attendance Certificate",
+  "groupId": "hybrid_flows",
+  "goal": "Employee requests a certificate of office attendance for a specific period.",
+  "constraints": "Period must be within the last 12 months.",
+  "tags": [
+    "attendance",
+    "certificate",
+    "documentation"
+  ],
+  "testdata": {
+    "start_date": "2024-05-01",
+    "end_date": "2024-05-31"
+  },
+  "phases": [
+    {
+      "id": "initiate_certificate_request",
+      "description": "User asks for an attendance certificate for a date range.",
+      "completionCriteria": "Bot asks for the period.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_dates",
+      "description": "User provides valid start and end dates within the last 12 months.",
+      "completionCriteria": "Bot confirms eligibility and generates certificate.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "receive_certificate",
+      "description": "Bot delivers the attendance certificate.",
+      "completionCriteria": "Bot provides a downloadable link or attachment for the certificate.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 12,
+    "maxLlmCalls": 22
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

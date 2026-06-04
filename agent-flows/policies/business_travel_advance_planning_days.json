@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Business travel advance planning days",
+  "tags": [
+    "happy",
+    "kb"
+  ],
+  "goal": "Ask how many days in advance business travel should be planned",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_travel_advance",
+      "description": "Ask 'How many days in advance should I plan my business travel?'",
+      "completionCriteria": "Bot answers with the advance planning requirement for business travel",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

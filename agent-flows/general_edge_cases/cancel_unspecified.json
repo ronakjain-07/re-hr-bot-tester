@@ -1,0 +1,27 @@
+{
+  "name": "Cancel — which application not specified",
+  "groupId": "general_edge_cases",
+  "goal": "When the user says 'cancel my application' without saying which one, the bot must ask which application/request to cancel — not cancel something at random.",
+  "constraints": "General edge case: under-specified destructive intent. The bot must clarify before acting, never guess which record.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "phases": [
+    {
+      "id": "ambiguous_cancel",
+      "description": "Send a vague cancellation request:",
+      "verbatimUserMessage": "Cancel my application",
+      "completionCriteria": "Bot treats the cancel request as unclear and asks which application/request the user means before doing anything; it does NOT cancel or assume a specific record.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

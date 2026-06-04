@@ -1,0 +1,37 @@
+{
+  "name": "Request to Swap Office and Remote Days",
+  "groupId": "hybrid_flows",
+  "goal": "Employee requests to swap an office day with a remote day in their schedule.",
+  "constraints": "Swap must maintain minimum office days per week.",
+  "tags": [
+    "swap",
+    "schedule",
+    "validation"
+  ],
+  "testdata": {
+    "office_day": "{{today+18|iso}}",
+    "remote_day": "{{today+19|iso}}"
+  },
+  "phases": [
+    {
+      "id": "initiate_swap",
+      "description": "User requests to swap a specific office day with a remote day.",
+      "completionCriteria": "Bot asks for the dates to swap.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_swap_dates",
+      "description": "User provides valid office and remote day dates.",
+      "completionCriteria": "Bot checks policy compliance and confirms the swap.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 18
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,51 @@
+{
+  "constraints": "Match real chat: motorcycle purchase → Start New Application → mobile → state → city → address → CC → model → dealer/store → dealer code 10441 → undertaking PDF → submit. Use testdata; invalid city tests use Mumbai in Haryana etc.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 40,
+    "maxLlmCalls": 80
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Motorcycle purchase edge - wrong city no facility",
+  "tags": [
+    "edge",
+    "city_validation"
+  ],
+  "goal": "Verify bot rejects Mumbai when state is Haryana (no facility in that city)",
+  "testdata": {
+    "mobileNumber": "9462137658",
+    "state": "Haryana",
+    "invalidCity": "Mumbai",
+    "validCity": "Gurgaon",
+    "address": "sector 14"
+  },
+  "phases": [
+    {
+      "id": "reach_city_prompt",
+      "description": "Reach state and city step after valid mobile",
+      "completionCriteria": "Bot asks for city name",
+      "maxAttempts": 8
+    },
+    {
+      "id": "invalid_city_mumbai",
+      "description": "Enter Mumbai as city",
+      "completionCriteria": "Bot says this is not a city where facility is available or asks to try another location",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_city",
+      "description": "Enter valid Haryana city (e.g. Gurgaon)",
+      "completionCriteria": "Bot accepts city and asks for address or CC category",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "motorcycle_purchase"
+}

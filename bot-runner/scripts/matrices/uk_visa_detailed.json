@@ -1,0 +1,118 @@
+{
+  "groupId": "uk_visa",
+  "template": {
+    "constraints": "Test UK visa invitation letter flow thoroughly. Available cities: Bangalore, North Goa, Mumbai, Chennai, New Delhi.",
+    "manualPrereqs": ["Chrome must be open and logged into Google Chat as the test user"],
+    "limits": { "maxTotalTurns": 25, "maxLlmCalls": 50 },
+    "uploads": []
+  },
+  "variants": [
+    {
+      "name": "UK visa - all 5 cities available",
+      "tags": ["happy", "city_selection"],
+      "goal": "Verify all 5 city options (Bangalore, North Goa, Mumbai, Chennai, New Delhi) are shown in the UK visa flow",
+      "testdata": { "name": "Geetika Mago", "passportNumber": "B1234567", "startDate": "{{today+15}}", "endDate": "{{today+20}}", "city": "Chennai" },
+      "phases": [
+        { "id": "start_visa_flow", "description": "Request a UK visa letter", "completionCriteria": "Bot presents 5 city options including Bangalore, North Goa, Mumbai, Chennai, New Delhi", "maxAttempts": 4 },
+        { "id": "select_city_and_complete", "description": "Select Chennai and complete the visa letter request", "completionCriteria": "Bot confirms the UK visa letter request has been raised", "maxAttempts": 10 }
+      ]
+    },
+    {
+      "name": "UK visa - select and go back options",
+      "tags": ["happy", "navigation"],
+      "goal": "Verify Select and Go Back options work for all cards in the UK visa flow",
+      "testdata": { "name": "Geetika Mago", "passportNumber": "B1234567", "startDate": "{{today+15}}", "endDate": "{{today+20}}", "city": "Mumbai" },
+      "phases": [
+        { "id": "reach_city_selection", "description": "Navigate to the city selection step", "completionCriteria": "Bot shows city options with Select and Go Back buttons", "maxAttempts": 6 },
+        { "id": "try_go_back", "description": "Click Go Back to verify navigation works", "completionCriteria": "Bot takes user back to the previous step", "maxAttempts": 3 },
+        { "id": "complete_with_selection", "description": "Re-navigate and select a city to complete the flow", "completionCriteria": "Bot confirms the visa letter request", "maxAttempts": 10 }
+      ]
+    },
+    {
+      "name": "UK visa edge - name with numbers rejected",
+      "tags": ["edge", "name_validation"],
+      "goal": "Verify bot rejects a name that contains numbers",
+      "testdata": { "invalidName": "Geetika123", "validName": "Geetika Mago", "passportNumber": "B1234567", "startDate": "{{today+15}}", "endDate": "{{today+20}}", "city": "Chennai" },
+      "phases": [
+        { "id": "reach_name_prompt", "description": "Start UK visa flow and reach the name prompt", "completionCriteria": "Bot asks for the applicant's name", "maxAttempts": 5 },
+        { "id": "name_with_numbers", "description": "Enter a name with numbers (Geetika123)", "completionCriteria": "Bot rejects the name and asks for a valid name without numbers", "maxAttempts": 3 },
+        { "id": "valid_name_and_complete", "description": "Enter a valid name and complete the flow", "completionCriteria": "Bot confirms the UK visa letter request", "maxAttempts": 12 }
+      ]
+    },
+    {
+      "name": "UK visa edge - name with numbers and letters rejected",
+      "tags": ["edge", "name_validation"],
+      "goal": "Verify bot rejects a name like 'John123Smith' (name+numbers format)",
+      "testdata": { "invalidName": "John123Smith", "validName": "John Smith", "passportNumber": "B1234567", "startDate": "{{today+15}}", "endDate": "{{today+20}}", "city": "Chennai" },
+      "phases": [
+        { "id": "reach_name_prompt", "description": "Start UK visa flow and reach name prompt", "completionCriteria": "Bot asks for the applicant's name", "maxAttempts": 5 },
+        { "id": "alphanumeric_name", "description": "Enter 'John123Smith'", "completionCriteria": "Bot rejects alphanumeric name", "maxAttempts": 3 },
+        { "id": "complete_flow", "description": "Provide valid name and complete", "completionCriteria": "Bot confirms UK visa letter", "maxAttempts": 12 }
+      ]
+    },
+    {
+      "name": "UK visa edge - invalid passport format rejected",
+      "tags": ["edge", "passport_validation"],
+      "goal": "Verify bot only accepts 1-2 letters followed by 6-7 digits for passport number",
+      "testdata": { "invalidPassport": "123456789", "validPassport": "B1234567", "name": "Geetika Mago", "startDate": "{{today+15}}", "endDate": "{{today+20}}", "city": "Chennai" },
+      "phases": [
+        { "id": "reach_passport_prompt", "description": "Navigate to passport number prompt", "completionCriteria": "Bot asks for passport number", "maxAttempts": 7 },
+        { "id": "invalid_passport_digits_only", "description": "Enter all-numeric passport '123456789'", "completionCriteria": "Bot rejects and says passport must be 1-2 letters followed by 6-7 digits", "maxAttempts": 3 },
+        { "id": "valid_passport_and_complete", "description": "Enter valid passport B1234567 and complete", "completionCriteria": "Bot confirms UK visa letter request", "maxAttempts": 12 }
+      ]
+    },
+    {
+      "name": "UK visa edge - start date in past rejected",
+      "tags": ["edge", "date_validation"],
+      "goal": "Verify bot rejects a past date as the start date for UK visa",
+      "testdata": { "pastStartDate": "{{today-5}}", "validStartDate": "{{today+15}}", "validEndDate": "{{today+20}}", "name": "Geetika Mago", "passportNumber": "B1234567", "city": "Chennai" },
+      "phases": [
+        { "id": "reach_start_date", "description": "Navigate to start date prompt", "completionCriteria": "Bot asks for travel start date", "maxAttempts": 8 },
+        { "id": "past_start_date", "description": "Enter a past date as start date", "completionCriteria": "Bot rejects the past start date and asks for a future date", "maxAttempts": 3 },
+        { "id": "complete_with_valid_dates", "description": "Enter valid start and end dates and complete the flow", "completionCriteria": "Bot confirms UK visa letter request", "maxAttempts": 12 }
+      ]
+    },
+    {
+      "name": "UK visa edge - today's date as start rejected",
+      "tags": ["edge", "date_validation"],
+      "goal": "Verify bot rejects today's date as the start date",
+      "testdata": { "todayDate": "{{today+0}}", "validStartDate": "{{today+15}}", "validEndDate": "{{today+20}}", "name": "Geetika Mago", "passportNumber": "B1234567", "city": "Chennai" },
+      "phases": [
+        { "id": "reach_start_date", "description": "Navigate to start date prompt", "completionCriteria": "Bot asks for travel start date", "maxAttempts": 8 },
+        { "id": "today_as_start", "description": "Enter today's date as start date", "completionCriteria": "Bot rejects today's date and asks for a future start date", "maxAttempts": 3 },
+        { "id": "complete_with_valid_dates", "description": "Enter valid future dates and complete", "completionCriteria": "Bot confirms UK visa letter request", "maxAttempts": 12 }
+      ]
+    },
+    {
+      "name": "UK visa edge - end date before start date rejected",
+      "tags": ["edge", "date_validation"],
+      "goal": "Verify bot rejects an end date that is before the start date",
+      "testdata": { "validStartDate": "{{today+15}}", "endBeforeStart": "{{today+10}}", "validEndDate": "{{today+20}}", "name": "Geetika Mago", "passportNumber": "B1234567", "city": "Chennai" },
+      "phases": [
+        { "id": "provide_start_date", "description": "Navigate and provide a valid start date", "completionCriteria": "Bot accepts start date and asks for end date", "maxAttempts": 8 },
+        { "id": "end_before_start", "description": "Enter an end date that is before the start date", "completionCriteria": "Bot rejects end date that is before start date", "maxAttempts": 3 },
+        { "id": "valid_end_and_complete", "description": "Enter valid end date and complete", "completionCriteria": "Bot confirms UK visa letter request", "maxAttempts": 8 }
+      ]
+    },
+    {
+      "name": "UK visa - free flow natural language",
+      "tags": ["happy", "free_flow"],
+      "goal": "Test various natural language ways to request a UK visa letter",
+      "testdata": { "name": "Geetika Mago", "passportNumber": "B1234567", "startDate": "{{today+15}}", "endDate": "{{today+20}}", "city": "Chennai" },
+      "phases": [
+        { "id": "natural_language_intent", "description": "Say 'Can you create a visa letter for my UK trip' or 'I need something for UK visa approval'", "completionCriteria": "Bot recognizes UK visa letter intent and starts the flow", "maxAttempts": 5, "recoveryHint": "Try 'uk visa letter chahiye' or 'I need approval letter for UK travel'" },
+        { "id": "complete_flow", "description": "Complete the UK visa letter request with valid data", "completionCriteria": "Bot confirms the UK visa letter request", "maxAttempts": 15 }
+      ]
+    },
+    {
+      "name": "UK visa - Hinglish request",
+      "tags": ["happy", "hinglish"],
+      "goal": "Request UK visa letter in Hinglish",
+      "testdata": { "name": "Geetika Mago", "passportNumber": "B1234567", "startDate": "{{today+15}}", "endDate": "{{today+20}}", "city": "Chennai" },
+      "phases": [
+        { "id": "hinglish_intent", "description": "Say 'uk visa letter chahiye' or 'uk jaana hai visa letter chahiye'", "completionCriteria": "Bot understands and starts UK visa flow", "maxAttempts": 4 },
+        { "id": "complete_flow", "description": "Complete the UK visa letter with valid data", "completionCriteria": "Bot confirms UK visa letter request", "maxAttempts": 15 }
+      ]
+    }
+  ]
+}

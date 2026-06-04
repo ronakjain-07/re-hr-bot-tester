@@ -1,0 +1,47 @@
+{
+  "goal": "Verify that the bot rejects an 11-digit mobile number as invalid",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "up_to_mobile",
+      "description": "Navigate booking flow until the mobile number prompt",
+      "completionCriteria": "Bot has asked for a 10-digit mobile number",
+      "maxAttempts": 10
+    },
+    {
+      "id": "invalid_mobile_11_digits",
+      "description": "Provide an 11-digit mobile number",
+      "completionCriteria": "Bot has rejected the mobile and asked for a valid 10-digit number",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_mobile_and_complete",
+      "description": "Provide valid 10-digit mobile and complete booking",
+      "completionCriteria": "Bot has confirmed the appointment",
+      "maxAttempts": 8,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - 11-digit mobile rejected",
+  "tags": [
+    "edge",
+    "mobile_validation"
+  ],
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "invalidMobile": "98078231432",
+    "validMobile": "9808912543",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

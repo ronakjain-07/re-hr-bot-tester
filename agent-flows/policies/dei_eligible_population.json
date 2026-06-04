@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "DEI eligible population",
+  "tags": [
+    "happy",
+    "kb"
+  ],
+  "goal": "Find out who is eligible under the DEI policy",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_dei",
+      "description": "Ask 'Eligible population for DEI'",
+      "completionCriteria": "Bot explains which employee groups are eligible for the DEI program",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

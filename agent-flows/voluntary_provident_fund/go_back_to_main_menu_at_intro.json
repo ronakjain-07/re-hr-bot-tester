@@ -1,0 +1,28 @@
+{
+  "name": "Go Back to Main Menu at Intro",
+  "groupId": "voluntary_provident_fund",
+  "goal": "User chooses 'Go Back to Main Menu' at the intro step, agent exits.",
+  "constraints": "User selects 'Go Back to Main Menu' immediately at intro.",
+  "tags": [
+    "exit",
+    "main_menu",
+    "branch"
+  ],
+  "testdata": {},
+  "phases": [
+    {
+      "id": "intro_exit",
+      "description": "User selects 'Go Back to Main Menu' at the intro step.",
+      "completionCriteria": "Bot immediately exits and asks if anything else is needed.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 3,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,30 @@
+{
+  "name": "Request Hybrid Work Statistics",
+  "groupId": "hybrid_flows",
+  "goal": "Employee requests personal hybrid work statistics for the past quarter.",
+  "constraints": "Bot must provide accurate statistics for the specified period.",
+  "tags": [
+    "statistics",
+    "report",
+    "information"
+  ],
+  "testdata": {
+    "period": "Q2 2024"
+  },
+  "phases": [
+    {
+      "id": "initiate_stats_request",
+      "description": "User asks for their hybrid work statistics for a specific quarter.",
+      "completionCriteria": "Bot confirms the period and provides the statistics.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

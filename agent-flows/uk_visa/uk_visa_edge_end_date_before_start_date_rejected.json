@@ -1,0 +1,47 @@
+{
+  "constraints": "Test UK visa invitation letter flow thoroughly. Available cities: Bangalore, North Goa, Mumbai, Chennai, New Delhi.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "uploads": [],
+  "name": "UK visa edge - end date before start date rejected",
+  "tags": [
+    "edge",
+    "date_validation"
+  ],
+  "goal": "Verify bot rejects an end date that is before the start date",
+  "testdata": {
+    "validStartDate": "{{today+15}}",
+    "endBeforeStart": "{{today+10}}",
+    "validEndDate": "{{today+20}}",
+    "name": "Geetika Mago",
+    "passportNumber": "B1234567",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "provide_start_date",
+      "description": "Navigate and provide a valid start date",
+      "completionCriteria": "Bot accepts start date and asks for end date",
+      "maxAttempts": 8
+    },
+    {
+      "id": "end_before_start",
+      "description": "Enter an end date that is before the start date",
+      "completionCriteria": "Bot rejects end date that is before start date",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_end_and_complete",
+      "description": "Enter valid end date and complete",
+      "completionCriteria": "Bot confirms UK visa letter request",
+      "maxAttempts": 8
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

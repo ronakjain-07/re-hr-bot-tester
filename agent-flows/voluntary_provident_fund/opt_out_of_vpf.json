@@ -1,0 +1,51 @@
+{
+  "name": "Opt Out of VPF",
+  "groupId": "voluntary_provident_fund",
+  "goal": "User opts out of VPF.",
+  "constraints": "User selects 'Opt OUT' after confirming details; no contribution type or value required.",
+  "tags": [
+    "happy_path",
+    "opt_out"
+  ],
+  "testdata": {
+    "employee_name": "Suresh Patel",
+    "employee_id": "RE67890",
+    "business_email_address": "suresh.patel@royalenfield.com",
+    "job_title": "Manager",
+    "location": "Pune"
+  },
+  "phases": [
+    {
+      "id": "init_intro",
+      "description": "User is presented with the VPF intro and chooses 'PROCEED'.",
+      "completionCriteria": "Bot displays intro message and user selects 'PROCEED'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "fetch_details",
+      "description": "Bot fetches and displays employee details for confirmation.",
+      "completionCriteria": "Bot displays correct employee details and user confirms 'Yes'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "opt_out_select",
+      "description": "User selects 'Opt OUT' for VPF.",
+      "completionCriteria": "Bot displays opt-in/out options and user selects 'Opt OUT'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "submission",
+      "description": "Bot submits VPF update and receives 'opt-out' confirmation.",
+      "completionCriteria": "Bot displays 'We have successfully Opted Out for your Voluntary Provident Fund contribution.'",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 35
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

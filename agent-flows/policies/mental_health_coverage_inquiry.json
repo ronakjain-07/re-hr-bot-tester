@@ -1,0 +1,37 @@
+{
+  "name": "Mental health coverage inquiry",
+  "groupId": "policies",
+  "goal": "User asks about mental health coverage under insurance.",
+  "constraints": "Bot must use Group_Mediclaim_Policy, personalize, bullet points, caps, source line with signed URL.",
+  "tags": [
+    "insurance",
+    "mental_health",
+    "group_mediclaim"
+  ],
+  "testdata": {
+    "user_query": "Is mental health covered in our medical insurance?",
+    "employee_name": "Ritika Singh",
+    "designation": "Software Engineer"
+  },
+  "phases": [
+    {
+      "id": "query_received",
+      "description": "User asks about mental health coverage.",
+      "completionCriteria": "Bot answers coverage, uses user's name/designation, no filler."
+    },
+    {
+      "id": "formatting_check",
+      "description": "Bot formats per requirements.",
+      "completionCriteria": "Bullet points, caps for key info, source line with doc name and signed URL.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

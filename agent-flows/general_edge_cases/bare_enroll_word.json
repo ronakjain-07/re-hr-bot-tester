@@ -1,0 +1,27 @@
+{
+  "name": "Bare 'enroll me' — no context",
+  "groupId": "general_edge_cases",
+  "goal": "A single ambiguous word like 'Enroll me' with no scheme/journey must make the bot ask what the user wants to enroll in — not pick something at random.",
+  "constraints": "General edge case: under-specified / ambiguous user intent. The bot should clarify, never guess.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "phases": [
+    {
+      "id": "bare_enroll",
+      "description": "Send a single ambiguous enrollment word:",
+      "verbatimUserMessage": "Enroll me",
+      "completionCriteria": "Bot finds the request unclear and asks what the user wants to enroll in / shows the relevant options; it does NOT silently assume NPS, VPF, or any other journey.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,57 @@
+{
+  "name": "Others Year - Invalid Input Then Valid Year",
+  "groupId": "appraisal_letter",
+  "goal": "User selects 'Others', enters invalid year (e.g., 'abcd'), then valid year (2020), and downloads the letter.",
+  "constraints": "User selects 'Others', enters invalid year, is re-prompted, then enters 2020. Chooses download. Tool returns webViewLink.",
+  "tags": [
+    "validation",
+    "others",
+    "invalid_input",
+    "download"
+  ],
+  "testdata": {
+    "menuType": "only years",
+    "isManagerAllowed": "no",
+    "first_year_entry": "abcd",
+    "second_year_entry": "2020",
+    "userAction": "Download",
+    "tool_resp": {
+      "webViewLink": "https://appraisal.letters.com/letter/2020/ghi789"
+    }
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm menuType is 'only years'.",
+      "completionCriteria": "Bot presents quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "select_others",
+      "description": "User selects 'Others'.",
+      "completionCriteria": "Bot asks for year."
+    },
+    {
+      "id": "invalid_year_entry",
+      "description": "User enters 'abcd'.",
+      "completionCriteria": "Bot rejects input and re-prompts for year."
+    },
+    {
+      "id": "valid_year_entry",
+      "description": "User enters 2020.",
+      "completionCriteria": "Bot prompts for delivery preference."
+    },
+    {
+      "id": "delivery_preference",
+      "description": "User selects 'Show appraisal letter here'.",
+      "completionCriteria": "Bot triggers workflow and provides webViewLink."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 16,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,38 @@
+{
+  "name": "User expresses anger after benefits enrollment glitch",
+  "groupId": "negative_utterances",
+  "goal": "Evaluate bot's ability to de-escalate when user is angry about a benefits portal error.",
+  "constraints": "Bot must acknowledge frustration, apologize, and offer next steps.",
+  "tags": [
+    "benefits",
+    "enrollment",
+    "anger",
+    "technical_issue"
+  ],
+  "testdata": {
+    "benefit_plan": "Health Insurance",
+    "enrollment_period": "2024-06-01 to 2024-06-15"
+  },
+  "phases": [
+    {
+      "id": "report_enrollment_issue",
+      "description": "User reports being unable to enroll in health insurance due to a portal error.",
+      "completionCriteria": "Bot acknowledges the report and asks for error details.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_anger",
+      "description": "User expresses anger (e.g., 'This system is useless!').",
+      "completionCriteria": "Bot apologizes, acknowledges frustration, and offers to escalate or provide alternative solutions.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

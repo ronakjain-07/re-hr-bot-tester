@@ -1,0 +1,38 @@
+{
+  "name": "User expresses disappointment with promotion decision",
+  "groupId": "negative_utterances",
+  "goal": "Assess bot's handling of disappointment regarding a missed promotion.",
+  "constraints": "Bot should acknowledge feelings and provide information about future opportunities.",
+  "tags": [
+    "promotion",
+    "disappointment",
+    "career",
+    "future_opportunities"
+  ],
+  "testdata": {
+    "promotion_cycle": "2024 Mid-Year",
+    "position_applied": "Senior Analyst"
+  },
+  "phases": [
+    {
+      "id": "inquire_promotion_status",
+      "description": "User asks about the outcome of their promotion application.",
+      "completionCriteria": "Bot provides the status and feedback.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_disappointment",
+      "description": "User expresses disappointment (e.g., 'I'm really upset I didn't get it.').",
+      "completionCriteria": "Bot acknowledges disappointment and provides info on future opportunities or feedback.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

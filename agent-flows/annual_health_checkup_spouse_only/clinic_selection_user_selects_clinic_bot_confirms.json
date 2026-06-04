@@ -1,0 +1,29 @@
+{
+  "name": "Clinic Selection — User Selects Clinic, Bot Confirms",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User selects a clinic from the rich media widget; bot thanks and confirms clinic name.",
+  "constraints": "Clinic selection must be via widget, not typed.",
+  "tags": [
+    "happy_path",
+    "clinic_selection",
+    "confirmation"
+  ],
+  "testdata": {
+    "clinicName": "Max Healthcare, Saket"
+  },
+  "phases": [
+    {
+      "id": "step9",
+      "description": "Bot renders clinic selection widget; user selects a clinic.",
+      "completionCriteria": "Bot thanks user, displays name of selected clinic, and confirms booking."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

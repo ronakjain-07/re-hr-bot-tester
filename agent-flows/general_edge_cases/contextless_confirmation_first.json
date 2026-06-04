@@ -1,0 +1,27 @@
+{
+  "name": "Contextless 'Yes, proceed' as first message",
+  "groupId": "general_edge_cases",
+  "goal": "A bare confirmation ('Yes, proceed') as the very first message — with no flow started — must make the bot ask what the user wants, not assume a pending action.",
+  "constraints": "General edge case: a chip-like word sent with no context. The bot must not act on a non-existent pending step.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "phases": [
+    {
+      "id": "contextless_confirm",
+      "description": "Send a bare confirmation with no flow in progress:",
+      "verbatimUserMessage": "Yes, proceed",
+      "completionCriteria": "Bot does not assume a pending action; it treats the input as unclear and asks what the user would like to do / shows the main options.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

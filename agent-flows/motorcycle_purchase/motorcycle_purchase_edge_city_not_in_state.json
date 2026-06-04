@@ -1,0 +1,45 @@
+{
+  "constraints": "Match real chat: motorcycle purchase → Start New Application → mobile → state → city → address → CC → model → dealer/store → dealer code 10441 → undertaking PDF → submit. Use testdata; invalid city tests use Mumbai in Haryana etc.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 40,
+    "maxLlmCalls": 80
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Motorcycle purchase edge - city not in state",
+  "tags": [
+    "edge",
+    "city_validation"
+  ],
+  "goal": "Verify bot rejects city that does not belong to selected state (e.g. Chandigarh when Haryana selected with strict validation)",
+  "testdata": {
+    "mobileNumber": "9462137658",
+    "state": "Haryana",
+    "invalidCityForState": "Chandigarh",
+    "validCity": "Panipat"
+  },
+  "phases": [
+    {
+      "id": "reach_city",
+      "description": "Provide Haryana and reach city prompt",
+      "completionCriteria": "Bot asks for city",
+      "maxAttempts": 8
+    },
+    {
+      "id": "city_not_in_state",
+      "description": "Enter Chandigarh when state is Haryana",
+      "completionCriteria": "Bot rejects city as not valid for Haryana or asks for a listed Haryana city",
+      "maxAttempts": 4,
+      "recoveryHint": "Bot may say 'not valid city for Haryana' or 'not a city where we have facility' — either counts as rejection"
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "motorcycle_purchase"
+}

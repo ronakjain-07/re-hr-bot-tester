@@ -1,0 +1,66 @@
+{
+  "name": "Opt In with Percentage at Upper Limit",
+  "groupId": "voluntary_provident_fund",
+  "goal": "User opts in and sets the maximum allowed percentage (12%).",
+  "constraints": "User selects 'Percentage' and enters '12' as value.",
+  "tags": [
+    "happy_path",
+    "opt_in",
+    "percentage",
+    "boundary"
+  ],
+  "testdata": {
+    "employee_name": "Ritika Das",
+    "employee_id": "RE22334",
+    "business_email_address": "ritika.das@royalenfield.com",
+    "job_title": "Marketing Lead",
+    "location": "Kolkata",
+    "percentage": 12
+  },
+  "phases": [
+    {
+      "id": "init_intro",
+      "description": "User is presented with the VPF intro and chooses 'PROCEED'.",
+      "completionCriteria": "Bot displays intro message and user selects 'PROCEED'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "fetch_details",
+      "description": "Bot fetches and displays employee details for confirmation.",
+      "completionCriteria": "Bot displays correct employee details and user confirms 'Yes'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "opt_in_select",
+      "description": "User selects 'Opt IN' for VPF.",
+      "completionCriteria": "Bot displays opt-in/out options and user selects 'Opt IN'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "contribution_type",
+      "description": "User chooses to contribute by 'Percentage'.",
+      "completionCriteria": "Bot displays 'Amount'/'Percentage' options and user selects 'Percentage'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "enter_percentage",
+      "description": "User enters '12' as the percentage.",
+      "completionCriteria": "Bot accepts the percentage and proceeds to submission.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "submission",
+      "description": "Bot submits VPF update and receives 'opt-in' confirmation.",
+      "completionCriteria": "Bot displays 'We have successfully Opted In for your Voluntary Provident Fund contribution.'",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

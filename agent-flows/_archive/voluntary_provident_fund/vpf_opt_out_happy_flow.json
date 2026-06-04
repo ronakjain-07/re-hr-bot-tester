@@ -1,0 +1,34 @@
+{
+  "constraints": "Use natural language. Testdata provides specific percentage values to use.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "VPF opt out happy flow",
+  "tags": [
+    "happy",
+    "opt_out"
+  ],
+  "goal": "Successfully opt out of the Voluntary Provident Fund scheme",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "greeting_and_intent",
+      "description": "State VPF opt-out intent",
+      "completionCriteria": "Bot has presented opt-out confirmation",
+      "maxAttempts": 4
+    },
+    {
+      "id": "confirm_opt_out",
+      "description": "Confirm the opt-out",
+      "completionCriteria": "Bot has confirmed the VPF opt-out",
+      "maxAttempts": 3
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "voluntary_provident_fund"
+}

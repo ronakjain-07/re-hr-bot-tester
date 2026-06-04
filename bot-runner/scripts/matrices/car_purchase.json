@@ -1,0 +1,159 @@
+{
+  "groupId": "car_purchase",
+  "template": {
+    "constraints": "Match real employee chat: choose New car purchase, Start new Application, then step through mobile, price, EMI, dealer, car details, PDF uploads, and confirm. Use testdata values — do not invent dealer codes.",
+    "manualPrereqs": ["Chrome must be open and logged into Google Chat as the test user"],
+    "limits": { "maxTotalTurns": 45, "maxLlmCalls": 90 },
+    "uploads": [
+      { "key": "undertaking_letter", "path": "../upload/Car Undertakin letter format.pdf" },
+      { "key": "proforma_invoice", "path": "../upload/Car Undertakin letter format.pdf" }
+    ]
+  },
+  "variants": [
+    {
+      "name": "Car purchase - new car full flow",
+      "tags": ["happy"],
+      "goal": "Complete new car purchase application end-to-end (mobile, price, dealer, uploads, submit)",
+      "testdata": {
+        "mobileNumber": "9057234202",
+        "onRoadPrice": "28 lakhs",
+        "emiOption": "48 Months",
+        "dealerName": "eicher motors",
+        "dealerAddress": "abc market surat",
+        "chequeName": "raj p",
+        "manufacturer": "tata",
+        "carModel": "curvv",
+        "fuelType": "Petrol"
+      },
+      "phases": [
+        {
+          "id": "intent_new_car",
+          "description": "Say you want new car purchase (e.g. 'i want to purchase a car' then choose new car)",
+          "completionCriteria": "Bot has started new car application and asked for 10-digit mobile number or Start new Application is visible",
+          "maxAttempts": 6
+        },
+        {
+          "id": "mobile_price_emi",
+          "description": "Provide valid mobile, on-road price, and EMI option",
+          "completionCriteria": "Bot has accepted mobile and price and asked for dealer name or next car detail",
+          "maxAttempts": 8
+        },
+        {
+          "id": "dealer_and_car_details",
+          "description": "Provide dealer name, address, cheque name, manufacturer, model, and fuel type",
+          "completionCriteria": "Bot has asked to upload undertaking letter or proforma invoice PDF",
+          "maxAttempts": 12
+        },
+        {
+          "id": "upload_undertaking",
+          "description": "Upload signed undertaking letter PDF",
+          "completionCriteria": "Bot has accepted undertaking and asked for proforma invoice upload",
+          "maxAttempts": 5,
+          "expectUpload": true
+        },
+        {
+          "id": "upload_proforma_and_submit",
+          "description": "Upload proforma invoice PDF, review preview, and confirm/submit",
+          "completionCriteria": "Bot confirms the car purchase request was submitted successfully",
+          "maxAttempts": 8,
+          "expectUpload": true
+        }
+      ]
+    },
+    {
+      "name": "Car purchase edge - invalid 12-digit mobile rejected",
+      "tags": ["edge", "mobile_validation"],
+      "goal": "Verify bot rejects 12-digit mobile then accepts valid 10-digit number",
+      "testdata": {
+        "invalidMobile12": "932101243221",
+        "validMobile": "9057234202",
+        "onRoadPrice": "24 lakhs",
+        "emiOption": "48 Months",
+        "dealerName": "eicher motors",
+        "dealerAddress": "surat",
+        "chequeName": "raj p",
+        "manufacturer": "tata",
+        "carModel": "nexon",
+        "fuelType": "Petrol"
+      },
+      "phases": [
+        {
+          "id": "reach_mobile_prompt",
+          "description": "Navigate to new car Start new Application until mobile prompt",
+          "completionCriteria": "Bot asks for valid 10-digit mobile number",
+          "maxAttempts": 8
+        },
+        {
+          "id": "invalid_mobile_12_digit",
+          "description": "Enter 12-digit mobile (e.g. 932101243221)",
+          "completionCriteria": "Bot rejects the mobile as invalid and asks for a valid 10-digit number",
+          "maxAttempts": 3
+        },
+        {
+          "id": "valid_mobile_continue",
+          "description": "When the bot asks for on-road price, type testdata.onRoadPrice; reply to EMI/dealer prompts with matching testdata if shown next.",
+          "completionCriteria": "User has typed the on-road price from testdata and the bot has accepted it or has moved on to EMI, dealer, or a later vehicle detail prompt",
+          "maxAttempts": 6
+        }
+      ]
+    },
+    {
+      "name": "Car purchase edge - invalid 11-digit mobile rejected",
+      "tags": ["edge", "mobile_validation"],
+      "goal": "Verify bot rejects 11-digit mobile (e.g. 98765432101) before accepting valid number",
+      "testdata": {
+        "invalidMobile11": "98765432101",
+        "validMobile": "9876543310",
+        "onRoadPrice": "30 lakhs"
+      },
+      "phases": [
+        {
+          "id": "reach_mobile_prompt",
+          "description": "Reach new car mobile number step",
+          "completionCriteria": "Bot asks for 10-digit mobile number",
+          "maxAttempts": 8
+        },
+        {
+          "id": "invalid_mobile_11_digit",
+          "description": "Provide 11-digit mobile",
+          "completionCriteria": "Bot rejects mobile as invalid",
+          "maxAttempts": 3
+        },
+        {
+          "id": "valid_mobile_accepted",
+          "description": "Provide valid 10-digit mobile",
+          "completionCriteria": "Bot accepts mobile and proceeds (e.g. asks on-road price)",
+          "maxAttempts": 5
+        }
+      ]
+    },
+    {
+      "name": "Car purchase - status check",
+      "tags": ["happy", "status"],
+      "goal": "Check status of a car purchase application",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "status_intent",
+          "description": "Ask for car purchase application status or choose Check Status",
+          "completionCriteria": "Bot shows application status or says no application found",
+          "maxAttempts": 5
+        }
+      ]
+    },
+    {
+      "name": "Car purchase edge - used old car",
+      "tags": ["edge", "used_car"],
+      "goal": "Start old/used car purchase path",
+      "testdata": {},
+      "phases": [
+        {
+          "id": "choose_old_car",
+          "description": "Request car purchase and select Old car purchase",
+          "completionCriteria": "Bot acknowledges used/old car flow or explains restrictions",
+          "maxAttempts": 6
+        }
+      ]
+    }
+  ]
+}

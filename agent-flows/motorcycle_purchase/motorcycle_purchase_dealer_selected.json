@@ -1,0 +1,47 @@
+{
+  "constraints": "Match real chat: motorcycle purchase → Start New Application → mobile → state → city → address → CC → model → dealer/store → dealer code 10441 → undertaking PDF → submit. Use testdata; invalid city tests use Mumbai in Haryana etc.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 40,
+    "maxLlmCalls": 80
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Motorcycle purchase - dealer selected",
+  "tags": [
+    "happy",
+    "dealer"
+  ],
+  "goal": "Select Dealer (not company store) and enter dealer code 10441",
+  "testdata": {
+    "mobileNumber": "9462137658",
+    "state": "Haryana",
+    "city": "Gurgaon",
+    "address": "414, sec 20 A",
+    "ccCategory": "650 CC",
+    "dealerType": "Dealer",
+    "dealerCode": "10441"
+  },
+  "phases": [
+    {
+      "id": "reach_dealer_choice",
+      "description": "Navigate to company store vs dealer question",
+      "completionCriteria": "Bot asks company store or dealer",
+      "maxAttempts": 18
+    },
+    {
+      "id": "dealer_code",
+      "description": "Choose Dealer and enter sales code 10441",
+      "completionCriteria": "Bot accepts dealer code and proceeds to undertaking upload or payment step",
+      "maxAttempts": 6
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "motorcycle_purchase"
+}

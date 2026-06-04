@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Leave policy query",
+  "tags": [
+    "happy",
+    "kb"
+  ],
+  "goal": "Ask about leave policy and get a relevant answer from the HR bot",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_leave_policy",
+      "description": "Ask 'tell me about leave policy'",
+      "completionCriteria": "Bot answers with leave policy information (credited in April, 14 days continuous leave, etc.) or cites leave policy document",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

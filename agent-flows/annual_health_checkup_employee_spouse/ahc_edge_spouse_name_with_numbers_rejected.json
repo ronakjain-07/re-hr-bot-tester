@@ -1,0 +1,49 @@
+{
+  "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "uploads": [],
+  "name": "AHC edge - spouse name with numbers rejected",
+  "tags": [
+    "edge",
+    "spouse_name_validation"
+  ],
+  "goal": "Verify bot rejects spouse name containing numbers",
+  "testdata": {
+    "invalidSpouseName": "Sita123",
+    "validSpouseName": "Sita",
+    "spouseDob": "11th May 1990",
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_spouse_name",
+      "description": "Start AHC booking with spouse and reach the spouse name prompt",
+      "completionCriteria": "Bot has asked for the spouse's name",
+      "maxAttempts": 5
+    },
+    {
+      "id": "name_with_numbers",
+      "description": "Enter 'Sita123' as spouse name",
+      "completionCriteria": "Bot rejects the name with numbers and asks for a valid name",
+      "maxAttempts": 3
+    },
+    {
+      "id": "complete_with_valid_name",
+      "description": "Enter valid spouse name and complete booking",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 15,
+      "expectClick": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee_spouse"
+}

@@ -1,0 +1,45 @@
+# ── Node ──────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# ── Playwright ────────────────────────────────────────────────
+# Uncomment if you don't want to commit browser binaries
+# bot-runner/node_modules/.cache/
+
+# ── Test reports (generated at runtime) ───────────────────────
+# Default: `<HR_BOT_AGENT_NAME slug>-test` e.g. HR-Agentic-Bot-test
+HR-Agentic-Bot-test/
+test-reports/
+
+# ── Upload folder (contains real PDFs / personal documents) ───
+upload/
+
+# ── macOS ─────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# ── Environment variables ─────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Agent runner resume checkpoint (local only) ─────────────
+bot-runner/.hr-suite-checkpoint-agent.json
+# agent-flows/ is intentionally tracked.
+
+# ── Debug artifacts ───────────────────────────────────────────
+bot-runner/debug-screenshot.png
+
+# ── Editor / IDE ──────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Claude Code (per-user local settings; not shared) ─────────
+.claude/settings.local.json

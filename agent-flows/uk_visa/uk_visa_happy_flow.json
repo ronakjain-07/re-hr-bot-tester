@@ -1,0 +1,36 @@
+{
+  "constraints": "Use natural language. Testdata provides visa-related details.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "UK visa happy flow",
+  "tags": [
+    "happy"
+  ],
+  "goal": "Successfully request a UK visa support letter from HR",
+  "testdata": {
+    "travelDate": "{{today+15}}",
+    "purpose": "Business visit"
+  },
+  "phases": [
+    {
+      "id": "greeting_and_intent",
+      "description": "State UK visa letter request intent",
+      "completionCriteria": "Bot has acknowledged the UK visa letter intent and shown employee details or asked for travel info",
+      "maxAttempts": 4
+    },
+    {
+      "id": "provide_details_and_confirm",
+      "description": "Provide travel date/purpose and confirm submission",
+      "completionCriteria": "Bot has confirmed the UK visa letter request has been raised",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

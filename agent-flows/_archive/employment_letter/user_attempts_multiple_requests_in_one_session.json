@@ -1,0 +1,39 @@
+{
+  "name": "user_attempts_multiple_requests_in_one_session",
+  "groupId": "employment_letter",
+  "goal": "User successfully requests an employment letter, then tries to request again in the same session.",
+  "constraints": "Employee details must be present. User restarts the flow after completion.",
+  "tags": [
+    "edge_case",
+    "repeat_request",
+    "session"
+  ],
+  "testdata": {
+    "employee_id": "E33333",
+    "employee_name": "Kavita Rao",
+    "email": "kavita.rao@example.com",
+    "department": "Customer Support"
+  },
+  "phases": [
+    {
+      "id": "first_request",
+      "description": "User completes a successful employment letter request.",
+      "completionCriteria": "Bot displays confirmation message and marks task as done.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "second_request_same_session",
+      "description": "User initiates a new employment letter request in the same chat session.",
+      "completionCriteria": "Bot repeats the full flow and allows the second request.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Mental health treatment covered",
+  "tags": [
+    "happy",
+    "kb"
+  ],
+  "goal": "Ask if mental health or psychiatric treatment is included in the policy",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_mental_health",
+      "description": "Ask 'Is mental health or psychiatric treatment included?'",
+      "completionCriteria": "Bot answers about mental health treatment coverage",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

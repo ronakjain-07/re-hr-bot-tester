@@ -1,0 +1,47 @@
+{
+  "goal": "Verify that the bot rejects a city with no facility and accepts a valid city",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "booking_up_to_city",
+      "description": "Navigate through booking until the city prompt",
+      "completionCriteria": "Bot has asked for the city",
+      "maxAttempts": 10
+    },
+    {
+      "id": "invalid_city",
+      "description": "Provide a city with no facility",
+      "completionCriteria": "Bot has rejected the city and asked to try another location",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_city_and_confirm",
+      "description": "Provide a valid city and complete the booking",
+      "completionCriteria": "Bot has confirmed the appointment",
+      "maxAttempts": 5,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - invalid city rejected",
+  "tags": [
+    "edge",
+    "location_validation"
+  ],
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "invalidCity": "Surat",
+    "validCity": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

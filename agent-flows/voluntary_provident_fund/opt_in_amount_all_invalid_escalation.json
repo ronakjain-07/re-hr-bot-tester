@@ -1,0 +1,64 @@
+{
+  "name": "Opt In Amount All Invalid Escalation",
+  "groupId": "voluntary_provident_fund",
+  "goal": "User repeatedly enters invalid amount input three times, resulting in escalation.",
+  "constraints": "User only enters invalid values (e.g., 'abc', '-200', '0') for amount.",
+  "tags": [
+    "negative",
+    "amount",
+    "validation",
+    "escalation"
+  ],
+  "testdata": {
+    "employee_name": "Karan Mehta",
+    "employee_id": "RE77889",
+    "business_email_address": "karan.mehta@royalenfield.com",
+    "job_title": "Product Owner",
+    "location": "Chennai",
+    "invalid_amounts": [
+      "abc",
+      "-200",
+      "0"
+    ]
+  },
+  "phases": [
+    {
+      "id": "init_intro",
+      "description": "User is presented with the VPF intro and chooses 'PROCEED'.",
+      "completionCriteria": "Bot displays intro message and user selects 'PROCEED'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "fetch_details",
+      "description": "Bot fetches and displays employee details for confirmation.",
+      "completionCriteria": "Bot displays correct employee details and user confirms 'Yes'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "opt_in_select",
+      "description": "User selects 'Opt IN' for VPF.",
+      "completionCriteria": "Bot displays opt-in/out options and user selects 'Opt IN'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "contribution_type",
+      "description": "User chooses to contribute by 'Amount'.",
+      "completionCriteria": "Bot displays 'Amount'/'Percentage' options and user selects 'Amount'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "amount_all_invalid",
+      "description": "User enters three invalid amount values.",
+      "completionCriteria": "Bot re-prompts after each invalid input; after third, bot escalates with the exact escalation message.",
+      "maxAttempts": 3
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,69 @@
+{
+  "name": "Happy Path — Opt-In with Valid PRAN, Old Regime, Valid Contribution",
+  "groupId": "national_pension_scheme",
+  "goal": "User enrolls for NPS, provides valid PRAN, selects Old Regime, and enters valid contribution percentage.",
+  "constraints": "All inputs valid; PRAN is 12 digits; PRAN proof is PDF <5MB; tax regime is 'Old Regime'; contribution ≤10.",
+  "tags": [
+    "happy_path",
+    "opt_in",
+    "pran_valid",
+    "old_regime"
+  ],
+  "testdata": {
+    "employee_name": "Priya Menon",
+    "employee_id": "RE67890",
+    "position_title": "Manager",
+    "employee_email": "priya.menon@royalenfield.com",
+    "pranNumber": "987654321098",
+    "pranProofFile": "pran_proof.pdf",
+    "pranProofSizeMB": 4.5,
+    "taxRegime": "Old Regime",
+    "npsContributionOld": 9.5
+  },
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Proceed'.",
+      "completionCriteria": "Bot displays employee details confirmation card.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "employee_details",
+      "description": "User confirms employee details.",
+      "completionCriteria": "Bot asks about PRAN availability.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_availability",
+      "description": "User says 'Yes'.",
+      "completionCriteria": "Bot prompts for PRAN number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_details",
+      "description": "User enters valid PRAN and uploads valid PDF proof.",
+      "completionCriteria": "Bot prompts for Opt-In/Opt-Out.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "opt_selection",
+      "description": "User selects 'Opt IN for NPS'.",
+      "completionCriteria": "Bot prompts for tax regime.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "tax_regime_and_contribution",
+      "description": "User selects 'Old Regime' and enters 9.5 as contribution.",
+      "completionCriteria": "Bot submits update and displays completion message.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,69 @@
+{
+  "name": "Happy Path — Opt-In with Valid PRAN, New Regime, Valid Contribution",
+  "groupId": "national_pension_scheme",
+  "goal": "User successfully enrolls for Employer NPS Contribution by providing valid PRAN details, selects New Regime, and enters a valid contribution percentage.",
+  "constraints": "All inputs valid; PRAN is 12 digits; PRAN proof is PDF <5MB; tax regime is 'New Regime'; contribution ≤14.",
+  "tags": [
+    "happy_path",
+    "opt_in",
+    "pran_valid",
+    "new_regime"
+  ],
+  "testdata": {
+    "employee_name": "Amit Sharma",
+    "employee_id": "RE12345",
+    "position_title": "Senior Engineer",
+    "employee_email": "amit.sharma@royalenfield.com",
+    "pranNumber": "123456789012",
+    "pranProofFile": "pran_proof.pdf",
+    "pranProofSizeMB": 2,
+    "taxRegime": "New Regime",
+    "npsContributionNew": 12
+  },
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Proceed' from intro quick replies.",
+      "completionCriteria": "Bot displays employee details confirmation card.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "employee_details",
+      "description": "User confirms employee details as correct.",
+      "completionCriteria": "Bot asks about PRAN availability.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_availability",
+      "description": "User responds 'Yes' to PRAN availability.",
+      "completionCriteria": "Bot prompts for PRAN number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_details",
+      "description": "User enters valid 12-digit PRAN and uploads valid PDF proof (<5MB).",
+      "completionCriteria": "Bot prompts for Opt-In/Opt-Out selection.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "opt_selection",
+      "description": "User selects 'Opt IN for NPS'.",
+      "completionCriteria": "Bot prompts for tax regime selection.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "tax_regime_and_contribution",
+      "description": "User selects 'New Regime' and enters 12 as contribution.",
+      "completionCriteria": "Bot submits update and displays completion message.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

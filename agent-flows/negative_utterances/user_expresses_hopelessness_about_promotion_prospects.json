@@ -1,0 +1,37 @@
+{
+  "name": "User Expresses Hopelessness About Promotion Prospects",
+  "groupId": "negative_utterances",
+  "goal": "Assess bot's empathy and guidance when user feels hopeless about career progression.",
+  "constraints": "Bot should respond with empathy, provide information on promotion criteria, and offer resources.",
+  "tags": [
+    "empathy",
+    "career",
+    "guidance"
+  ],
+  "testdata": {
+    "current_role": "Software Engineer",
+    "years_in_role": 5
+  },
+  "phases": [
+    {
+      "id": "express_hopelessness",
+      "description": "User says they feel they'll never get promoted.",
+      "completionCriteria": "Bot responds empathetically and offers to share promotion criteria or career resources.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "request_criteria",
+      "description": "User asks for specific promotion requirements.",
+      "completionCriteria": "Bot provides accurate promotion criteria for the Software Engineer role.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,61 @@
+{
+  "name": "Happy Path — All Valid Inputs, Direct Dates",
+  "groupId": "uk_visa",
+  "goal": "User completes UK visa invitation letter request with all valid and direct inputs, receives confirmation.",
+  "constraints": "User provides all required information in correct format on first attempt. Dates are full and valid, no clarifications needed.",
+  "tags": [
+    "happy_path",
+    "direct_input",
+    "confirmation"
+  ],
+  "testdata": {
+    "cityUK": "London",
+    "passportName": "Amelia Johnson",
+    "rawPassportNumber": "A1234567",
+    "validatedPassportNumber": "A1234567",
+    "ukStartDate": "{{today+15}}",
+    "validatedStartDate": "{{today+15}}",
+    "ukEndDate": "{{today+25}}",
+    "validatedReturnDate": "{{today+25}}"
+  },
+  "phases": [
+    {
+      "id": "init_and_city",
+      "description": "Agent initializes variables, workflow returns 'Show Cards', user selects 'London' as embassy city.",
+      "completionCriteria": "Bot displays embassy selection, user selects 'London', bot proceeds to next step."
+    },
+    {
+      "id": "passport_name",
+      "description": "Bot asks for passport name, user provides valid name.",
+      "completionCriteria": "Bot captures 'Amelia Johnson' and proceeds."
+    },
+    {
+      "id": "passport_number",
+      "description": "Bot asks for passport number, user provides valid number, validation workflow returns valid.",
+      "completionCriteria": "Bot captures and validates '123456789'."
+    },
+    {
+      "id": "start_date",
+      "description": "Bot asks for travel start date, user provides '15 May 2026', confirms, validation passes.",
+      "completionCriteria": "Bot confirms and saves start date."
+    },
+    {
+      "id": "end_date",
+      "description": "Bot asks for return date, user provides '25 May 2026', confirms, validation passes.",
+      "completionCriteria": "Bot confirms and saves return date."
+    },
+    {
+      "id": "trigger_and_confirm",
+      "description": "Bot triggers invitation letter email workflow, receives 'success', confirms to user.",
+      "completionCriteria": "Bot says confirmation message and resets variables."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 14,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

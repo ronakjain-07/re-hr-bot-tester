@@ -1,0 +1,27 @@
+{
+  "name": "UK Visa Edge - Future Travel Date Next Year",
+  "groupId": "uk_visa",
+  "goal": "Verify that the bot handles a travel date scheduled far into the next year correctly.",
+  "phases": [
+    {
+      "id": "intent_trigger",
+      "description": "User asks for a UK visa application letter.",
+      "completionCriteria": "The bot asks for the expected travel date."
+    },
+    {
+      "id": "provide_far_future_date",
+      "description": "User provides a travel date for late next year.",
+      "completionCriteria": "The bot accepts the date (or tells them if there is a limit on how far in advance they can apply) and asks for the full name as per passport."
+    },
+    {
+      "id": "provide_name",
+      "description": "User provides their full name.",
+      "completionCriteria": "The bot asks for the passport number."
+    },
+    {
+      "id": "provide_passport",
+      "description": "User provides a valid passport number.",
+      "completionCriteria": "The bot processes the request and provides the visa letter."
+    }
+  ]
+}

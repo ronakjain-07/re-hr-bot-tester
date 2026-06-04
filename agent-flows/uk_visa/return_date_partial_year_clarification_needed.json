@@ -1,0 +1,64 @@
+{
+  "name": "Return Date Partial — Year Clarification Needed",
+  "groupId": "uk_visa",
+  "goal": "User provides return date without year, bot asks for year, user provides it, date is confirmed and validated.",
+  "constraints": "Return date input like '26th Apr', bot asks for year, user provides '2026'.",
+  "tags": [
+    "date_parsing",
+    "partial_date",
+    "clarification",
+    "return_date"
+  ],
+  "testdata": {
+    "cityUK": "Cardiff",
+    "passportName": "Ava Brown",
+    "rawPassportNumber": "F0987654",
+    "validatedPassportNumber": "F0987654",
+    "ukStartDate": "{{today+15}}",
+    "validatedStartDate": "{{today+15}}",
+    "ukEndDate_input": "{{today+25|dm}}",
+    "ukEndDate_year": "{{today+25|y}}",
+    "ukEndDate_combined": "{{today+25}}",
+    "validatedReturnDate": "{{today+25}}"
+  },
+  "phases": [
+    {
+      "id": "init_and_city",
+      "description": "Agent initializes, user selects 'Cardiff'.",
+      "completionCriteria": "Bot captures 'Cardiff'."
+    },
+    {
+      "id": "passport_name",
+      "description": "User provides 'Ava Brown'.",
+      "completionCriteria": "Bot captures name."
+    },
+    {
+      "id": "passport_number",
+      "description": "User provides valid passport number.",
+      "completionCriteria": "Bot validates and proceeds."
+    },
+    {
+      "id": "start_date",
+      "description": "User provides valid start date, confirms.",
+      "completionCriteria": "Bot saves start date."
+    },
+    {
+      "id": "end_date_partial",
+      "description": "User provides '26th Apr', bot asks for year, user provides '2026', bot confirms '26 Apr 2026', user affirms.",
+      "completionCriteria": "Bot saves end date."
+    },
+    {
+      "id": "trigger_and_confirm",
+      "description": "Bot triggers invitation letter workflow and confirms.",
+      "completionCriteria": "Bot says confirmation message."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 17,
+    "maxLlmCalls": 34
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

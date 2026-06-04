@@ -1,0 +1,34 @@
+{
+  "name": "Invalid policy query - no KB result",
+  "groupId": "policies",
+  "goal": "User asks about a policy not present in the KB (e.g., sabbatical leave policy).",
+  "constraints": "Bot must inform user that the info is not available, share most relevant policy doc name/link if available, and recommend checking with HR. No guessing or external info.",
+  "tags": [
+    "negative_path",
+    "fallback",
+    "no_kb_result"
+  ],
+  "testdata": {
+    "user_name": "Deepak Singh",
+    "user_designation": "Product Manager",
+    "query": "Can you share the sabbatical leave policy details?",
+    "expected_policy": "None",
+    "expected_info": "not available",
+    "expected_link_prefix": "https://app.yellow.ai/minio/"
+  },
+  "phases": [
+    {
+      "id": "ask_unknown_policy",
+      "description": "User asks about sabbatical leave policy, which is not in KB.",
+      "completionCriteria": "Bot responds with Deepak Singh's name/designation, states info is not available, shares most relevant doc/link if any, and recommends checking with HR."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 8
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

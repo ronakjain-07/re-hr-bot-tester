@@ -1,0 +1,37 @@
+{
+  "name": "Edge Case — Unrecognized Quick Reply Option",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify bot re-shows quick replies when user enters an unrecognized value for a quick reply step.",
+  "constraints": "User types a value not in quick replies at CC Category step. On second attempt, user selects valid option.",
+  "tags": [
+    "validation",
+    "quick_reply",
+    "edge_case"
+  ],
+  "testdata": {
+    "invalid_cc_category": "1000 CC",
+    "valid_cc_category": "411 CC"
+  },
+  "phases": [
+    {
+      "id": "cc_category_invalid",
+      "description": "User enters invalid CC category.",
+      "completionCriteria": "Bot re-shows quick replies for CC Category.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "cc_category_valid",
+      "description": "User selects valid CC category.",
+      "completionCriteria": "Bot accepts and proceeds.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,53 @@
+{
+  "goal": "Reschedule an existing Annual Health Checkup appointment to a new date",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user",
+    "Test account must have an existing AHC appointment booked"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "modify_intent",
+      "description": "State intent to modify/reschedule the annual health checkup",
+      "completionCriteria": "Bot has presented Reschedule and Cancel options for the existing booking",
+      "maxAttempts": 3
+    },
+    {
+      "id": "select_reschedule",
+      "description": "Choose reschedule and provide new date",
+      "completionCriteria": "Bot has accepted the new date and asked whether to change location",
+      "maxAttempts": 5
+    },
+    {
+      "id": "change_location",
+      "description": "Confirm location change and provide new state/city",
+      "completionCriteria": "Bot has presented clinic options for the new city",
+      "maxAttempts": 4
+    },
+    {
+      "id": "confirm_reschedule",
+      "description": "Click Select on a clinic to confirm reschedule",
+      "completionCriteria": "Bot confirms the appointment has been rescheduled",
+      "maxAttempts": 3,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC reschedule existing booking",
+  "tags": [
+    "happy",
+    "reschedule"
+  ],
+  "testdata": {
+    "newAppointmentDate": "{{today+8}}",
+    "changeLocation": "Yes",
+    "state": "Gujarat",
+    "city": "Surat"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

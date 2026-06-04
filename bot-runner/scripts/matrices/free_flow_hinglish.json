@@ -1,0 +1,108 @@
+{
+  "groupId": "free_flow",
+  "template": {
+    "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+    "manualPrereqs": ["Chrome must be open and logged into Google Chat as the test user"],
+    "limits": { "maxTotalTurns": 15, "maxLlmCalls": 30 },
+    "uploads": []
+  },
+  "variants": [
+    {
+      "name": "Free flow - emp letter chahiye",
+      "tags": ["happy", "hinglish"],
+      "goal": "Request employment letter using Hinglish 'emp letter chahiye'",
+      "testdata": {},
+      "phases": [
+        { "id": "hinglish_request", "description": "Say 'emp letter chahiye'", "completionCriteria": "Bot recognizes employment letter intent and shows employee details card", "maxAttempts": 4 },
+        { "id": "confirm_approval", "description": "Send for HROPS approval", "completionCriteria": "Bot confirms the employment letter request", "maxAttempts": 3 }
+      ]
+    },
+    {
+      "name": "Free flow - company ka letter chahiye employment ke liye",
+      "tags": ["happy", "hinglish"],
+      "goal": "Test Hinglish 'company ka letter chahiye employment ke liye'",
+      "testdata": {},
+      "phases": [
+        { "id": "hinglish_request", "description": "Say 'company ka letter chahiye employment ke liye'", "completionCriteria": "Bot recognizes employment letter intent", "maxAttempts": 4 },
+        { "id": "send_for_approval", "description": "Send for HROPS approval", "completionCriteria": "Bot confirms request raised", "maxAttempts": 3 }
+      ]
+    },
+    {
+      "name": "Free flow - I need proof that I work here",
+      "tags": ["happy", "synonym"],
+      "goal": "Test 'I need proof that I work here' maps to employment letter",
+      "testdata": {},
+      "phases": [
+        { "id": "proof_synonym", "description": "Say 'I need proof that I work here'", "completionCriteria": "Bot offers employment letter or asks which type of proof is needed", "maxAttempts": 4 },
+        { "id": "complete_flow", "description": "Complete the employment letter request", "completionCriteria": "Bot confirms employment letter request raised", "maxAttempts": 5 }
+      ]
+    },
+    {
+      "name": "Free flow - I need employment proof for bank",
+      "tags": ["happy", "specific_use_case"],
+      "goal": "Test employment letter request with specific purpose (bank)",
+      "testdata": {},
+      "phases": [
+        { "id": "bank_purpose_request", "description": "Say 'I need employment proof for bank'", "completionCriteria": "Bot maps this to employment letter flow", "maxAttempts": 4 },
+        { "id": "complete_flow", "description": "Complete the letter request", "completionCriteria": "Bot confirms employment letter request", "maxAttempts": 5 }
+      ]
+    },
+    {
+      "name": "Free flow - appraisal Hinglish",
+      "tags": ["happy", "hinglish"],
+      "goal": "Test 'want appraisal' maps to appraisal letter and bot asks for year",
+      "testdata": { "year": "2024" },
+      "phases": [
+        { "id": "hinglish_appraisal", "description": "Say just 'want appraisal' or 'appraisal letter mail kar do'", "completionCriteria": "Bot recognizes appraisal intent and asks for the year", "maxAttempts": 4 },
+        { "id": "provide_year", "description": "Provide year 2024", "completionCriteria": "Bot shows appraisal card", "maxAttempts": 3 }
+      ]
+    },
+    {
+      "name": "Free flow - NPS pension contribution query",
+      "tags": ["happy", "free_flow"],
+      "goal": "Ask about pension contribution in free-flow style",
+      "testdata": {},
+      "phases": [
+        { "id": "pension_free_flow", "description": "Ask 'Free flow - Pension contribution' or 'what is pension contribution'", "completionCriteria": "Bot provides pension contribution information or starts NPS flow", "maxAttempts": 4 }
+      ]
+    },
+    {
+      "name": "Free flow - travel policy query",
+      "tags": ["happy", "policy"],
+      "goal": "Ask about travel/business travel policy in free-flow",
+      "testdata": {},
+      "phases": [
+        { "id": "travel_policy", "description": "Say 'i want Business travel policy' or 'tell me about travel policy'", "completionCriteria": "Bot provides travel policy information", "maxAttempts": 4 }
+      ]
+    },
+    {
+      "name": "Free flow - HR se employment letter kaise milega",
+      "tags": ["happy", "hinglish"],
+      "goal": "Verify 'HR se employment letter kaise milega' triggers employment letter flow",
+      "testdata": {},
+      "phases": [
+        { "id": "how_to_get_letter", "description": "Say 'HR se employment letter kaise milega'", "completionCriteria": "Bot starts employment letter flow or explains the process", "maxAttempts": 4 },
+        { "id": "complete_flow", "description": "Complete the employment letter request", "completionCriteria": "Bot confirms request raised", "maxAttempts": 5 }
+      ]
+    },
+    {
+      "name": "Free flow - visa letter ka process kya hai",
+      "tags": ["happy", "hinglish"],
+      "goal": "Test Hinglish visa process query",
+      "testdata": { "name": "Geetika Mago", "passportNumber": "B1234567", "startDate": "{{today+15}}", "endDate": "{{today+20}}", "city": "Chennai" },
+      "phases": [
+        { "id": "visa_process_query", "description": "Ask 'visa letter ka process kya hai' or 'uk jaana hai visa letter chahiye'", "completionCriteria": "Bot starts UK visa letter flow", "maxAttempts": 4 },
+        { "id": "complete_flow", "description": "Complete UK visa letter request with valid data", "completionCriteria": "Bot confirms UK visa letter request", "maxAttempts": 15 }
+      ]
+    },
+    {
+      "name": "Free flow - Can HR provide me a document",
+      "tags": ["happy", "synonym"],
+      "goal": "Verify vague 'Can HR provide me a document' gives letter options",
+      "testdata": {},
+      "phases": [
+        { "id": "vague_document_request", "description": "Ask 'Can HR provide me a document'", "completionCriteria": "Bot shows Letters options or asks which type of letter is needed", "maxAttempts": 4 }
+      ]
+    }
+  ]
+}

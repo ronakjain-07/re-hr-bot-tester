@@ -1,0 +1,36 @@
+{
+  "name": "Cancel Upcoming Remote Day",
+  "groupId": "hybrid_flows",
+  "goal": "Employee cancels a previously scheduled remote work day.",
+  "constraints": "Remote day must exist in the employee's schedule.",
+  "tags": [
+    "remote",
+    "cancel",
+    "schedule"
+  ],
+  "testdata": {
+    "cancel_date": "{{today+12|iso}}"
+  },
+  "phases": [
+    {
+      "id": "initiate_cancellation",
+      "description": "User requests to cancel a remote work day.",
+      "completionCriteria": "Bot asks for the date to cancel.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_cancel_date",
+      "description": "User provides a valid date with a scheduled remote day.",
+      "completionCriteria": "Bot confirms cancellation and updates schedule.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 16
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

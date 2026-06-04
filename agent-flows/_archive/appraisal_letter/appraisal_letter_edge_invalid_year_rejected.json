@@ -1,0 +1,17 @@
+{
+  "name": "Appraisal Letter Edge - Invalid Year Rejected",
+  "groupId": "appraisal_letter",
+  "goal": "Verify that the bot rejects an invalid year (e.g. 1800) for the appraisal letter and prompts for a valid year.",
+  "phases": [
+    {
+      "id": "intent_trigger",
+      "description": "User asks for their appraisal letter.",
+      "completionCriteria": "The bot asks for which year the user wants the appraisal letter."
+    },
+    {
+      "id": "provide_invalid_year",
+      "description": "User provides an invalid year like 1800.",
+      "completionCriteria": "The bot indicates the year is invalid or data is not found, and prompts the user again or guides them."
+    }
+  ]
+}

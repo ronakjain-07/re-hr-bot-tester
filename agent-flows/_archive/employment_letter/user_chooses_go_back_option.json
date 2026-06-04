@@ -1,0 +1,37 @@
+{
+  "name": "User Chooses Go Back Option",
+  "groupId": "employment_letter",
+  "goal": "User selects 'Go back' and is redirected to the main flow with correct prompt.",
+  "constraints": "Employee details are valid. User selects 'Go back' from options.",
+  "tags": [
+    "branch",
+    "navigation",
+    "go_back"
+  ],
+  "testdata": {
+    "employee_id": "EMP24680",
+    "employee_name": "Vikram Rao"
+  },
+  "phases": [
+    {
+      "id": "fetch_employee_details",
+      "description": "Bot fetches and displays employee details.",
+      "completionCriteria": "Bot displays employee details and presents options.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "user_selects_go_back",
+      "description": "User selects 'Go back' option.",
+      "completionCriteria": "Bot marks task as complete, redirects to main flow, and displays the list of available services as specified.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

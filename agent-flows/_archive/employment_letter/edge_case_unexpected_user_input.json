@@ -1,0 +1,37 @@
+{
+  "name": "Edge Case — Unexpected User Input",
+  "groupId": "employment_letter",
+  "goal": "Bot ignores irrelevant user input and waits for a valid option selection.",
+  "constraints": "Employee details are valid. User inputs an unrecognized message (e.g., 'banana') instead of selecting an option.",
+  "tags": [
+    "edge_case",
+    "validation",
+    "input_handling"
+  ],
+  "testdata": {
+    "employee_id": "EMP54321",
+    "employee_name": "Meera Joshi"
+  },
+  "phases": [
+    {
+      "id": "fetch_employee_details",
+      "description": "Bot fetches and displays employee details.",
+      "completionCriteria": "Bot displays employee details and presents options.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "user_enters_unexpected_input",
+      "description": "User enters an irrelevant message (e.g., 'banana').",
+      "completionCriteria": "Bot does not proceed and continues to wait for a valid option selection.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

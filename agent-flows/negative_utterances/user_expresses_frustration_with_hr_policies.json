@@ -1,0 +1,37 @@
+{
+  "name": "User Expresses Frustration with HR Policies",
+  "groupId": "negative_utterances",
+  "goal": "Assess how the bot responds to user frustration regarding company HR policies.",
+  "constraints": "Bot should acknowledge the user's feelings and offer to provide information or escalate if needed. No defensive or dismissive language.",
+  "tags": [
+    "sentiment",
+    "empathy",
+    "escalation"
+  ],
+  "testdata": {
+    "policy": "annual leave carryover",
+    "frustration_reason": "policy changed without notice"
+  },
+  "phases": [
+    {
+      "id": "initiate_negative_sentiment",
+      "description": "User expresses strong frustration about the annual leave carryover policy change.",
+      "completionCriteria": "Bot acknowledges the frustration and offers to explain the policy or escalate.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "request_policy_details",
+      "description": "User asks for more details about the policy.",
+      "completionCriteria": "Bot provides accurate details about the annual leave carryover policy.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

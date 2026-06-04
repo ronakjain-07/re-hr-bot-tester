@@ -1,0 +1,38 @@
+{
+  "name": "User complains about slow response to IT ticket",
+  "groupId": "negative_utterances",
+  "goal": "Check bot's response to complaints about IT ticket delays.",
+  "constraints": "Bot should provide status update and set expectations.",
+  "tags": [
+    "IT",
+    "ticket",
+    "delay",
+    "complaint"
+  ],
+  "testdata": {
+    "ticket_id": "IT-20240612-001",
+    "issue_type": "Laptop not booting"
+  },
+  "phases": [
+    {
+      "id": "inquire_ticket_status",
+      "description": "User asks for the status of their IT ticket.",
+      "completionCriteria": "Bot provides current ticket status.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_complaint",
+      "description": "User complains about the slow response (e.g., 'Why is this taking so long?').",
+      "completionCriteria": "Bot acknowledges the delay, apologizes, and provides an updated ETA if possible.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

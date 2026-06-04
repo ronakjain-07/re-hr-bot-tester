@@ -1,0 +1,45 @@
+{
+  "name": "user_enters_numeric_option_for_employment_letter",
+  "groupId": "employment_letter",
+  "goal": "User enters '1' as a numeric shortcut to request employment letter.",
+  "constraints": "Employee details must be present. User types '1' instead of clicking.",
+  "tags": [
+    "happy_path",
+    "numeric_input",
+    "shortcut"
+  ],
+  "testdata": {
+    "employee_id": "E24680",
+    "employee_name": "Sonal Verma",
+    "email": "sonal.verma@example.com",
+    "department": "Marketing"
+  },
+  "phases": [
+    {
+      "id": "display_employee_details",
+      "description": "Bot displays employee details and options.",
+      "completionCriteria": "Bot displays correct employee details and options.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_inputs_1",
+      "description": "User enters '1' to proceed.",
+      "completionCriteria": "Bot proceeds to trigger mail workflow silently.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "confirm_success",
+      "description": "Bot triggers mail and confirms success.",
+      "completionCriteria": "Bot displays the exact confirmation message for employment letter request.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

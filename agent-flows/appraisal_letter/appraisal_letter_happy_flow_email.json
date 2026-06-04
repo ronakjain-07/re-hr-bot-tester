@@ -1,0 +1,41 @@
+{
+  "constraints": "The bot always asks for the year regardless of how the user phrases the request. Never provide the year in the initial request — wait for the bot to ask.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Appraisal letter happy flow - email",
+  "tags": [
+    "happy"
+  ],
+  "goal": "Request an appraisal letter and choose to receive it by email",
+  "testdata": {
+    "year": "2024"
+  },
+  "phases": [
+    {
+      "id": "request_appraisal",
+      "description": "Say 'Show my appraisal letter' or similar",
+      "completionCriteria": "Bot asks which year the appraisal letter is needed for",
+      "maxAttempts": 4
+    },
+    {
+      "id": "provide_year",
+      "description": "Provide a valid past year (2024)",
+      "completionCriteria": "Bot shows the appraisal details card with options (Email or Show Letter)",
+      "maxAttempts": 3
+    },
+    {
+      "id": "choose_email",
+      "description": "Choose to email the appraisal letter",
+      "completionCriteria": "Bot confirms the appraisal letter has been sent by email",
+      "maxAttempts": 3
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "appraisal_letter"
+}

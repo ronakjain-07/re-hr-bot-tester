@@ -1,0 +1,47 @@
+{
+  "constraints": "Test UK visa invitation letter flow thoroughly. Available cities: Bangalore, North Goa, Mumbai, Chennai, New Delhi.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "uploads": [],
+  "name": "UK visa edge - invalid passport format rejected",
+  "tags": [
+    "edge",
+    "passport_validation"
+  ],
+  "goal": "Verify bot only accepts 1-2 letters followed by 6-7 digits for passport number",
+  "testdata": {
+    "invalidPassport": "123456789",
+    "validPassport": "B1234567",
+    "name": "Geetika Mago",
+    "startDate": "{{today+15}}",
+    "endDate": "{{today+20}}",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_passport_prompt",
+      "description": "Navigate to passport number prompt",
+      "completionCriteria": "Bot asks for passport number",
+      "maxAttempts": 7
+    },
+    {
+      "id": "invalid_passport_digits_only",
+      "description": "Enter all-numeric passport '123456789'",
+      "completionCriteria": "Bot rejects and says passport must be 1-2 letters followed by 6-7 digits",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_passport_and_complete",
+      "description": "Enter valid passport B1234567 and complete",
+      "completionCriteria": "Bot confirms UK visa letter request",
+      "maxAttempts": 12
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

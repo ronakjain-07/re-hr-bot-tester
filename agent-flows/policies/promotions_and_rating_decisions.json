@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Promotions and rating decisions",
+  "tags": [
+    "happy",
+    "kb"
+  ],
+  "goal": "Ask how promotions are decided in the company",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_promotions",
+      "description": "Ask 'How are promotions decided in the company?' and 'Who decides my final performance rating?'",
+      "completionCriteria": "Bot answers about the promotion and rating process",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

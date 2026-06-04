@@ -1,0 +1,28 @@
+{
+  "constraints": "The bot always asks for the year regardless of how the user phrases the request. Never provide the year in the initial request — wait for the bot to ask.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Appraisal letter - 'ok' should not trigger",
+  "tags": [
+    "edge",
+    "intent_guard"
+  ],
+  "goal": "Verify that typing 'ok' does not accidentally trigger the appraisal letter flow",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "send_ok",
+      "description": "Type just 'ok' as the first message",
+      "completionCriteria": "Bot does NOT start the appraisal letter flow — it either asks what the user needs or shows the main menu",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "appraisal_letter"
+}

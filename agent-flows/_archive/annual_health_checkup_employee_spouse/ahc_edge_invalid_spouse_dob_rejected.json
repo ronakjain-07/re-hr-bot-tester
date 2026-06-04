@@ -1,0 +1,49 @@
+{
+  "goal": "Verify that the bot rejects a spouse date of birth that makes them under 18",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "initiate_booking",
+      "description": "Start booking flow and select Only Spouse or Employee with Spouse",
+      "completionCriteria": "Bot has asked for the spouse's date of birth",
+      "maxAttempts": 5
+    },
+    {
+      "id": "invalid_dob",
+      "description": "Provide a DOB that makes spouse under 18",
+      "completionCriteria": "Bot has rejected the DOB and asked for a valid one (spouse must be 18+)",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_dob_and_complete",
+      "description": "Provide valid spouse DOB and complete booking",
+      "completionCriteria": "Bot has confirmed the appointment booking",
+      "maxAttempts": 10,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - invalid spouse DOB rejected",
+  "tags": [
+    "edge",
+    "spouse_validation"
+  ],
+  "testdata": {
+    "spouseName": "Tiya",
+    "invalidSpouseDob": "13th March 2009",
+    "validSpouseDob": "13th March 1995",
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9808912543",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee_spouse"
+}

@@ -1,0 +1,43 @@
+{
+  "constraints": "The bot always asks for the year regardless of how the user phrases the request. Never provide the year in the initial request — wait for the bot to ask.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Appraisal letter edge - future year rejected",
+  "tags": [
+    "edge",
+    "year_validation"
+  ],
+  "goal": "Verify bot rejects a year greater than the current year",
+  "testdata": {
+    "futureYear": "2030",
+    "validYear": "2024"
+  },
+  "phases": [
+    {
+      "id": "request_appraisal",
+      "description": "Ask for appraisal letter",
+      "completionCriteria": "Bot asks which year",
+      "maxAttempts": 4
+    },
+    {
+      "id": "provide_future_year",
+      "description": "Provide 2030 (future year)",
+      "completionCriteria": "Bot rejects future year and asks for a year up to the current year",
+      "maxAttempts": 3
+    },
+    {
+      "id": "provide_valid_year",
+      "description": "Provide a valid past year",
+      "completionCriteria": "Bot shows appraisal card successfully",
+      "maxAttempts": 3
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "appraisal_letter"
+}

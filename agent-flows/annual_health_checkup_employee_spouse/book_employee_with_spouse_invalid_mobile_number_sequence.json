@@ -1,0 +1,60 @@
+{
+  "name": "Book Employee with Spouse — Invalid Mobile Number Sequence",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User enters an invalid mobile number (e.g., all digits identical); bot rejects and user provides a valid number.",
+  "constraints": "First mobile is '9999999999' (invalid); second is '9876543210' (valid).",
+  "tags": [
+    "validation",
+    "mobile_number",
+    "edge_case"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Aruna Joshi",
+    "spouseDOB": "20 Jan 1980",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10_invalid": "9999999999",
+    "empMobile10_valid": "9876543210",
+    "state": "Gujarat",
+    "city": "Ahmedabad",
+    "clinicName": "CIMS Hospital"
+  },
+  "phases": [
+    {
+      "id": "spouse_details_and_appointment",
+      "description": "User provides spouse details and appointment date.",
+      "completionCriteria": "Bot accepts spouse name, DOB, and appointment date.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "mobile_invalid",
+      "description": "User enters invalid mobile number.",
+      "completionCriteria": "Bot replies with 'Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.'",
+      "maxAttempts": 1
+    },
+    {
+      "id": "mobile_valid",
+      "description": "User enters valid mobile number.",
+      "completionCriteria": "Bot accepts and stores mobile number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "finish_booking",
+      "description": "User completes booking flow.",
+      "completionCriteria": "Bot confirms booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 42
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

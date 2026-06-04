@@ -1,0 +1,40 @@
+{
+  "constraints": "Test UK visa invitation letter flow thoroughly. Available cities: Bangalore, North Goa, Mumbai, Chennai, New Delhi.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "uploads": [],
+  "name": "UK visa - Hinglish request",
+  "tags": [
+    "happy",
+    "hinglish"
+  ],
+  "goal": "Request UK visa letter in Hinglish",
+  "testdata": {
+    "name": "Geetika Mago",
+    "passportNumber": "B1234567",
+    "startDate": "{{today+15}}",
+    "endDate": "{{today+20}}",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "hinglish_intent",
+      "description": "Say 'uk visa letter chahiye' or 'uk jaana hai visa letter chahiye'",
+      "completionCriteria": "Bot understands and starts UK visa flow",
+      "maxAttempts": 4
+    },
+    {
+      "id": "complete_flow",
+      "description": "Complete the UK visa letter with valid data",
+      "completionCriteria": "Bot confirms UK visa letter request",
+      "maxAttempts": 15
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

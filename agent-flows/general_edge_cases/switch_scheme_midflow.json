@@ -1,0 +1,35 @@
+{
+  "name": "Switch scheme mid-flow (NPS → VPF)",
+  "groupId": "general_edge_cases",
+  "goal": "User starts opting in to NPS, then changes their mind to VPF mid-flow. The bot must switch or cleanly clarify — not stay stuck in NPS or break.",
+  "constraints": "General edge case: the user changes intent mid-conversation. The bot should handle the switch gracefully, never run on stale intent.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous",
+    "context-switch"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 16
+  },
+  "phases": [
+    {
+      "id": "start_nps",
+      "description": "Begin opting in to NPS:",
+      "verbatimUserMessage": "I want to opt in to NPS",
+      "completionCriteria": "Bot starts the NPS opt-in flow (shows the NPS intro / asks to proceed).",
+      "maxAttempts": 1
+    },
+    {
+      "id": "switch_to_vpf",
+      "description": "Change intent to VPF mid-flow:",
+      "verbatimUserMessage": "Actually, I want to opt in to VPF instead",
+      "completionCriteria": "Bot recognizes the changed intent and switches to the VPF flow (or clearly asks to confirm the switch); it does NOT keep running the NPS flow as if nothing changed.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

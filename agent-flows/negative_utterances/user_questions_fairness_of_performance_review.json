@@ -1,0 +1,38 @@
+{
+  "name": "User questions fairness of performance review",
+  "groupId": "negative_utterances",
+  "goal": "Check bot's response to user questioning the fairness of their performance review.",
+  "constraints": "Bot should provide information on review process and escalation options.",
+  "tags": [
+    "performance_review",
+    "fairness",
+    "complaint",
+    "escalation"
+  ],
+  "testdata": {
+    "review_period": "2023 Q4",
+    "review_score": 2.5
+  },
+  "phases": [
+    {
+      "id": "inquire_review_score",
+      "description": "User asks about their performance review score.",
+      "completionCriteria": "Bot provides the review score and summary.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_questions_fairness",
+      "description": "User questions the fairness of the score (e.g., 'This can't be right.').",
+      "completionCriteria": "Bot explains the review process and offers escalation options.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

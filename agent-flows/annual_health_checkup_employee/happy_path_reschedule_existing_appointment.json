@@ -1,0 +1,56 @@
+{
+  "name": "Happy Path — Reschedule Existing Appointment",
+  "groupId": "annual_health_checkup_employee",
+  "goal": "User reschedules an existing appointment for Employee Only.",
+  "constraints": "Eligibility mode is 'manage'. User selects 'Reschedule the appointment' and provides valid new date, location unchanged.",
+  "tags": [
+    "happy_path",
+    "reschedule",
+    "employee_only"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "manage",
+        "message": "You already have a booking."
+      }
+    },
+    "status2": "Reschedule the appointment",
+    "appointmentDatestr": "{{today+7}}",
+    "change_location": "No"
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "description": "Eligibility and reschedule intent.",
+      "completionCriteria": "User selects 'Reschedule the appointment'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_2",
+      "description": "New appointment date collection and validation.",
+      "completionCriteria": "User provides valid new appointment date.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "phase_3",
+      "description": "Location change decision.",
+      "completionCriteria": "User indicates not to change location.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_4",
+      "description": "Reschedule confirmation.",
+      "completionCriteria": "Bot confirms appointment rescheduled and offers further assistance.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

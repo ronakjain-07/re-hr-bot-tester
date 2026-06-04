@@ -1,0 +1,27 @@
+{
+  "name": "Opt out — no scheme named (NPS vs VPF)",
+  "groupId": "general_edge_cases",
+  "goal": "When the user says 'opt out' without naming NPS or VPF, the bot must ask WHICH scheme to opt out of — not silently assume one.",
+  "constraints": "General edge case: under-specified / ambiguous user intent. The bot should clarify, never guess.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "phases": [
+    {
+      "id": "ambiguous_opt_out",
+      "description": "Send an under-specified opt-out request:",
+      "verbatimUserMessage": "I want to opt out",
+      "completionCriteria": "Bot treats the opt-out request as unclear and asks which scheme — NPS or VPF — the user means; it does NOT assume one or start a single flow.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

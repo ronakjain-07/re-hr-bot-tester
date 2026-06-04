@@ -1,0 +1,51 @@
+{
+  "name": "user_attempts_invalid_option_then_corrects",
+  "groupId": "employment_letter",
+  "goal": "User enters an invalid option, then selects the correct employment letter option.",
+  "constraints": "Employee details must be present. User first enters invalid input, then valid.",
+  "tags": [
+    "validation",
+    "edge_case",
+    "recovery"
+  ],
+  "testdata": {
+    "employee_id": "E11223",
+    "employee_name": "Ritika Jain",
+    "email": "ritika.jain@example.com",
+    "department": "Legal"
+  },
+  "phases": [
+    {
+      "id": "display_employee_details",
+      "description": "Bot displays employee details and options.",
+      "completionCriteria": "Bot displays correct employee details and options.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_enters_invalid_option",
+      "description": "User enters an invalid input (e.g., 'abc').",
+      "completionCriteria": "Bot re-prompts or ignores invalid input, still shows options.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter' after invalid input.",
+      "completionCriteria": "Bot proceeds to trigger mail workflow silently.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "confirm_success",
+      "description": "Bot triggers mail and confirms success.",
+      "completionCriteria": "Bot displays the exact confirmation message for employment letter request.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

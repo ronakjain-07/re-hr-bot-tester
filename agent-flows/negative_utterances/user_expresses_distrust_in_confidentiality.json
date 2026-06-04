@@ -1,0 +1,36 @@
+{
+  "name": "User Expresses Distrust in Confidentiality",
+  "groupId": "negative_utterances",
+  "goal": "Check bot's reassurance when user doubts the confidentiality of HR conversations.",
+  "constraints": "Bot should reassure the user about confidentiality and explain data privacy policies.",
+  "tags": [
+    "confidentiality",
+    "privacy",
+    "trust"
+  ],
+  "testdata": {
+    "concern": "sharing medical leave details"
+  },
+  "phases": [
+    {
+      "id": "express_distrust",
+      "description": "User expresses concern about sharing personal information due to confidentiality doubts.",
+      "completionCriteria": "Bot reassures user and explains confidentiality measures.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "ask_for_policy",
+      "description": "User requests to see the company data privacy policy.",
+      "completionCriteria": "Bot provides a summary or link to the official privacy policy.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

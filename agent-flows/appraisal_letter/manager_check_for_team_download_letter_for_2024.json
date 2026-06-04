@@ -1,0 +1,62 @@
+{
+  "name": "Manager - Check for Team, Download Letter for 2024",
+  "groupId": "appraisal_letter",
+  "goal": "Manager uses 'Check for team' to request a team member's 2024 appraisal letter for download.",
+  "constraints": "menuType is 'check for team', isManagerAllowed is 'yes'. User selects 'Check for team', enters Ecode, selects 2024, chooses download. Tool returns webViewLink.",
+  "tags": [
+    "manager",
+    "check_for_team",
+    "download"
+  ],
+  "testdata": {
+    "menuType": "check for team",
+    "isManagerAllowed": "yes",
+    "year_resp": "2024",
+    "userId": "EMP5678",
+    "check_for_team": "yes",
+    "userAction": "Download",
+    "tool_resp": {
+      "webViewLink": "https://appraisal.letters.com/letter/2024/def456"
+    }
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm menuType is 'check for team' and isManagerAllowed is 'yes'.",
+      "completionCriteria": "Bot presents quick replies: Check for team, 2026, 2025, Others."
+    },
+    {
+      "id": "select_check_for_team",
+      "description": "User selects 'Check for team'.",
+      "completionCriteria": "Bot asks for Ecode."
+    },
+    {
+      "id": "ecode_entry",
+      "description": "User enters Ecode 'EMP5678'.",
+      "completionCriteria": "Bot presents year quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "year_selection",
+      "description": "User selects 2024.",
+      "completionCriteria": "Bot prompts for delivery preference."
+    },
+    {
+      "id": "delivery_preference",
+      "description": "User selects 'Show appraisal letter here'.",
+      "completionCriteria": "Bot triggers workflow and provides webViewLink."
+    },
+    {
+      "id": "link_and_followup",
+      "description": "Bot shows link and asks for further questions.",
+      "completionCriteria": "Bot message includes download link and 'Do you have any other questions?'"
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 18,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

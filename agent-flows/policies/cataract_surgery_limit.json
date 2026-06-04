@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Cataract surgery limit",
+  "tags": [
+    "happy",
+    "kb"
+  ],
+  "goal": "Ask about cataract surgery coverage limit",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_cataract",
+      "description": "Ask 'what is my cataract surgery limit'",
+      "completionCriteria": "Bot provides the cataract surgery coverage limit",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

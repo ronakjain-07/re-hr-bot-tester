@@ -1,0 +1,60 @@
+{
+  "name": "Reschedule Flow — User Changes Appointment Date and Location",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User chooses to reschedule, changes both appointment date and location; bot executes correct workflows.",
+  "constraints": "Eligibility mode is 'manage'; user selects 'Reschedule the appointment', changes both date and location.",
+  "tags": [
+    "reschedule",
+    "location_change",
+    "workflow"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "manage",
+        "message": "You already have an appointment booked."
+      }
+    },
+    "status2": "Reschedule the appointment",
+    "appointmentDatestr": "{{today+7}}",
+    "changeLocation": "Yes",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "clinicName": "Fortis Malar Hospital"
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents manage options; user selects 'Reschedule the appointment'.",
+      "completionCriteria": "Bot stores user intent as reschedule."
+    },
+    {
+      "id": "step4",
+      "description": "Bot asks for new appointment date; user provides valid date.",
+      "completionCriteria": "Bot stores new appointment date."
+    },
+    {
+      "id": "step5",
+      "description": "Bot validates new date via workflow; receives valid response.",
+      "completionCriteria": "Bot receives isValid=true."
+    },
+    {
+      "id": "step11",
+      "description": "Bot asks if user wants to change location; user says Yes.",
+      "completionCriteria": "Bot calls update appointment date workflow, proceeds to state selection."
+    },
+    {
+      "id": "step7_9",
+      "description": "User provides new state, city, and selects clinic.",
+      "completionCriteria": "Bot confirms new clinic selection and reschedules appointment."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,90 @@
+{
+  "name": "Happy Path — Employee Buys 350 CC from Company Store (All Valid Inputs)",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify a regular employee can successfully complete a new motorcycle purchase application for a 350 CC model via company store, providing all valid details.",
+  "constraints": "All user inputs are valid and accepted on first attempt. Employee is eligible (first purchase). All workflows succeed.",
+  "tags": [
+    "happy_path",
+    "350cc",
+    "company_store",
+    "valid_data"
+  ],
+  "testdata": {
+    "empType": "employee",
+    "mobile": "9876543210",
+    "state": "Karnataka",
+    "city": "Bangalore",
+    "address": "123, MG Road, Bangalore, 560001",
+    "cc_category": "350 CC",
+    "model": "BULLET 350 THE STANDARD BLACK",
+    "purchase_from": "Company Store",
+    "store_code": "CS123",
+    "payment_method": "Cash",
+    "undertaking_file": "undertaking.pdf",
+    "feedback": "No"
+  },
+  "phases": [
+    {
+      "id": "main_menu",
+      "description": "User selects 'Start New Application' from main menu.",
+      "completionCriteria": "Bot shows quick replies including 'Start New Application', user selects it, bot proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "eligibility_check",
+      "description": "Eligibility workflow confirms first purchase.",
+      "completionCriteria": "Bot says 'Seems like this is your first RE motorcycle purchase under the Employee discount Scheme'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "mobile_entry",
+      "description": "User enters valid 10-digit mobile number.",
+      "completionCriteria": "Bot accepts number and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "location_details",
+      "description": "User provides valid state and city.",
+      "completionCriteria": "Bot accepts state and city, both shown in Title Case.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "address_entry",
+      "description": "User provides complete address.",
+      "completionCriteria": "Bot accepts address and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "model_selection",
+      "description": "User selects 350 CC and a valid model.",
+      "completionCriteria": "Bot shows correct models for 350 CC, user selects one, bot proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "store_selection",
+      "description": "User selects Company Store and enters valid code.",
+      "completionCriteria": "Bot accepts code and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "payment_and_upload",
+      "description": "User selects Cash, uploads undertaking letter.",
+      "completionCriteria": "Bot confirms upload and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "preview_and_submit",
+      "description": "User confirms application preview and submits.",
+      "completionCriteria": "Bot shows preview, user confirms, bot submits and displays UID.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

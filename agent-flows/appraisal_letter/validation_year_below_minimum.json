@@ -1,0 +1,54 @@
+{
+  "name": "Validation - Year Below Minimum",
+  "groupId": "appraisal_letter",
+  "goal": "User selects 'Others', enters year below 2018, is re-prompted, then enters valid year.",
+  "constraints": "User selects 'Others', enters 2017, is re-prompted, then enters 2018. Delivery preference: email.",
+  "tags": [
+    "validation",
+    "others",
+    "year_range"
+  ],
+  "testdata": {
+    "menuType": "only years",
+    "isManagerAllowed": "no",
+    "first_year_entry": "2017",
+    "second_year_entry": "2018",
+    "userAction": "Email",
+    "tool_resp": "email successful"
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm menuType is 'only years'.",
+      "completionCriteria": "Bot presents quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "select_others",
+      "description": "User selects 'Others'.",
+      "completionCriteria": "Bot asks for year."
+    },
+    {
+      "id": "invalid_year_entry",
+      "description": "User enters 2017.",
+      "completionCriteria": "Bot rejects input and re-prompts for year."
+    },
+    {
+      "id": "valid_year_entry",
+      "description": "User enters 2018.",
+      "completionCriteria": "Bot prompts for delivery preference."
+    },
+    {
+      "id": "delivery_preference",
+      "description": "User selects 'Get the letter via email'.",
+      "completionCriteria": "Bot triggers workflow and returns 'We have triggered the appraisal letter to your email.'"
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 16,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

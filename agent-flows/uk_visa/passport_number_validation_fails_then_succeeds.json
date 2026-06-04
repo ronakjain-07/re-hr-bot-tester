@@ -1,0 +1,68 @@
+{
+  "name": "Passport Number Validation Fails Then Succeeds",
+  "groupId": "uk_visa",
+  "goal": "User enters an invalid passport number first, then corrects it on the second attempt.",
+  "constraints": "First passport number fails validation, second is valid. Max attempts not exceeded.",
+  "tags": [
+    "validation",
+    "passport_number",
+    "retry"
+  ],
+  "testdata": {
+    "cityUK": "Manchester",
+    "passportName": "Oliver Smith",
+    "rawPassportNumber_attempt1": "ABC123",
+    "validatedPassportNumber_attempt1": "NA",
+    "rawPassportNumber_attempt2": "M1234567",
+    "validatedPassportNumber_attempt2": "M1234567",
+    "ukStartDate": "{{today+15}}",
+    "validatedStartDate": "{{today+15}}",
+    "ukEndDate": "{{today+25}}",
+    "validatedReturnDate": "{{today+25}}"
+  },
+  "phases": [
+    {
+      "id": "init_and_city",
+      "description": "Agent initializes, user selects 'Manchester' as embassy city.",
+      "completionCriteria": "Bot captures 'Manchester'."
+    },
+    {
+      "id": "passport_name",
+      "description": "Bot asks for passport name, user provides 'Oliver Smith'.",
+      "completionCriteria": "Bot captures name."
+    },
+    {
+      "id": "passport_number_invalid",
+      "description": "Bot asks for passport number, user provides 'ABC123', validation returns 'NA'.",
+      "completionCriteria": "Bot prompts for re-entry."
+    },
+    {
+      "id": "passport_number_valid",
+      "description": "User provides 'M1234567', validation passes.",
+      "completionCriteria": "Bot proceeds to next step."
+    },
+    {
+      "id": "start_date",
+      "description": "User provides valid start date, confirms.",
+      "completionCriteria": "Bot saves start date."
+    },
+    {
+      "id": "end_date",
+      "description": "User provides valid end date, confirms.",
+      "completionCriteria": "Bot saves end date."
+    },
+    {
+      "id": "trigger_and_confirm",
+      "description": "Bot triggers invitation letter workflow and confirms.",
+      "completionCriteria": "Bot says confirmation message."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 18,
+    "maxLlmCalls": 36
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

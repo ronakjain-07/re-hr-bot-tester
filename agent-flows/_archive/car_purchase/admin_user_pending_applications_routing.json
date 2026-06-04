@@ -1,0 +1,30 @@
+{
+  "name": "Admin User - Pending Applications Routing",
+  "groupId": "car_purchase",
+  "goal": "Ensure that selecting 'Pending Applications' from the admin menu routes to the correct agent.",
+  "constraints": "Admin user; selects 'Pending Applications' at Step 2.",
+  "tags": [
+    "routing",
+    "admin",
+    "pending"
+  ],
+  "testdata": {
+    "userType": "Admin Users"
+  },
+  "phases": [
+    {
+      "id": "phase1",
+      "description": "Admin user selects 'Pending Applications'.",
+      "completionCriteria": "Bot routes to @[agent:conversation_6vne5v7a].",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 3,
+    "maxLlmCalls": 6
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

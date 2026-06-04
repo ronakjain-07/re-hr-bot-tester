@@ -1,0 +1,47 @@
+{
+  "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "uploads": [],
+  "name": "AHC edge - invalid calendar date rejected (31 Feb)",
+  "tags": [
+    "edge",
+    "date_validation"
+  ],
+  "goal": "Verify bot rejects an invalid calendar date like 31 February",
+  "testdata": {
+    "invalidDate": "31 February 2027",
+    "validDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_date_prompt",
+      "description": "Navigate to appointment date prompt",
+      "completionCriteria": "Bot asks for appointment date",
+      "maxAttempts": 8
+    },
+    {
+      "id": "invalid_calendar_date",
+      "description": "Enter '31 February 2027' as appointment date",
+      "completionCriteria": "Bot rejects the invalid calendar date and asks for a valid date",
+      "maxAttempts": 3
+    },
+    {
+      "id": "complete_with_valid_date",
+      "description": "Enter a valid date and complete booking",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 10,
+      "expectClick": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

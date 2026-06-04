@@ -1,0 +1,36 @@
+{
+  "constraints": "Use natural language. Testdata provides specific percentage values to use.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "VPF opt in happy flow",
+  "tags": [
+    "happy",
+    "opt_in"
+  ],
+  "goal": "Successfully opt into the Voluntary Provident Fund scheme",
+  "testdata": {
+    "vpfPercentage": "5"
+  },
+  "phases": [
+    {
+      "id": "greeting_and_intent",
+      "description": "State VPF opt-in intent",
+      "completionCriteria": "Bot has acknowledged VPF intent and asked for the contribution percentage or presented options",
+      "maxAttempts": 4
+    },
+    {
+      "id": "provide_percentage",
+      "description": "Provide the VPF contribution percentage",
+      "completionCriteria": "Bot has confirmed the VPF opt-in with the given percentage",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "voluntary_provident_fund"
+}

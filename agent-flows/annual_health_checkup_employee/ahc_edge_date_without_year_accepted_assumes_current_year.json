@@ -1,0 +1,47 @@
+{
+  "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "uploads": [],
+  "name": "AHC edge - date without year accepted (assumes current year)",
+  "tags": [
+    "edge",
+    "date_format"
+  ],
+  "goal": "Verify bot accepts 'Apr 5' or '5 Apr' without a year and assumes current year",
+  "testdata": {
+    "dateNoYear": "{{today+7|dm}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_date_prompt",
+      "description": "Navigate to date prompt",
+      "completionCriteria": "Bot asks for appointment date",
+      "maxAttempts": 8
+    },
+    {
+      "id": "date_without_year",
+      "description": "Enter a date without year like '22 May' (in current month or next month, at least 7 days out)",
+      "completionCriteria": "Bot accepts the date (assuming current year) and proceeds to ask for mobile number",
+      "maxAttempts": 4,
+      "recoveryHint": "If rejected as past/too soon, try a later month like '22 Jun'"
+    },
+    {
+      "id": "complete_booking",
+      "description": "Complete the rest of the booking",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 10,
+      "expectClick": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

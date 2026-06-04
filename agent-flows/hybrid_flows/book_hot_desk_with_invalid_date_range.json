@@ -1,0 +1,33 @@
+{
+  "name": "Book Hot Desk with Invalid Date Range",
+  "groupId": "hybrid_flows",
+  "goal": "Employee attempts to book a hot desk with an end date before the start date.",
+  "constraints": "Bot must validate date order and reject invalid ranges.",
+  "tags": [
+    "hot_desk",
+    "booking",
+    "negative",
+    "validation"
+  ],
+  "testdata": {
+    "start_date": "{{today+20|iso}}",
+    "end_date": "{{today+18|iso}}",
+    "location": "HQ 2nd Floor"
+  },
+  "phases": [
+    {
+      "id": "initiate_invalid_booking",
+      "description": "User requests to book a hot desk with an invalid date range.",
+      "completionCriteria": "Bot detects the invalid date range and prompts user to correct it.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

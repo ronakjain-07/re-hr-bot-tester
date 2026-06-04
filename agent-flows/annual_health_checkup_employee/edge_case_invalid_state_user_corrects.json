@@ -1,0 +1,72 @@
+{
+  "name": "Edge Case — Invalid State, User Corrects",
+  "groupId": "annual_health_checkup_employee",
+  "goal": "User provides an invalid state, then corrects to a valid state.",
+  "constraints": "First state input is not in allowed list; user provides valid state on second attempt.",
+  "tags": [
+    "edge",
+    "validation",
+    "state"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "Eligible for booking."
+      }
+    },
+    "coverageType": "Employee Only",
+    "appointmentDatestr": "{{today+7}}",
+    "emp_mobile_raw": "9876543210",
+    "state_attempt1": "Atlantis",
+    "state_attempt2": "Tamil Nadu",
+    "city": "Chennai",
+    "clinicName": "Apollo Clinic, Adyar"
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "description": "Eligibility and booking intent.",
+      "completionCriteria": "User selects 'Book an appointment'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_2",
+      "description": "Coverage type selection.",
+      "completionCriteria": "User selects 'Employee Only'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_3",
+      "description": "Appointment date, mobile collection.",
+      "completionCriteria": "User provides valid date and mobile.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_4",
+      "description": "Invalid then valid state entry.",
+      "completionCriteria": "Bot rejects first state, accepts second valid state.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "phase_5",
+      "description": "City and clinic selection.",
+      "completionCriteria": "User selects valid city and clinic.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_6",
+      "description": "Booking confirmation.",
+      "completionCriteria": "Bot confirms booking and thanks user.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

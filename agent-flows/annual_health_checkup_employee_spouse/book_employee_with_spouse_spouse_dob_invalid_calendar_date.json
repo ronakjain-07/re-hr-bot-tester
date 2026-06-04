@@ -1,0 +1,60 @@
+{
+  "name": "Book Employee with Spouse — Spouse DOB Invalid Calendar Date",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User attempts to enter an invalid calendar date for spouse DOB, then corrects it.",
+  "constraints": "First DOB input is invalid (e.g., 31 Feb 1990). Second input is valid and meets all age requirements.",
+  "tags": [
+    "validation",
+    "spouse_dob",
+    "edge_case"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Rita Mehra",
+    "spouseDOB_invalid": "31 Feb 1990",
+    "spouseDOB_valid": "15 Mar 1985",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10": "9123456789",
+    "state": "Maharashtra",
+    "city": "Pune",
+    "clinicName": "Ruby Hall Clinic"
+  },
+  "phases": [
+    {
+      "id": "eligibility_and_coverage",
+      "description": "User initiates booking and selects 'Employee with Spouse'.",
+      "completionCriteria": "Bot captures 'Employee with Spouse' as coverageType.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_dob_invalid",
+      "description": "User enters invalid spouse DOB; bot rejects and prompts again.",
+      "completionCriteria": "Bot replies with 'That doesn’t look like a valid date. Please enter a valid date of birth.'",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_dob_valid",
+      "description": "User enters valid spouse DOB; bot accepts.",
+      "completionCriteria": "Bot accepts and stores DOB in DD MMM YYYY format.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "appointment_to_clinic",
+      "description": "User completes rest of booking with valid inputs.",
+      "completionCriteria": "Bot confirms booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

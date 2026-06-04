@@ -1,0 +1,46 @@
+{
+  "name": "Coverage Type Validation — User Enters Invalid Option",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User attempts to type an invalid coverage type instead of selecting from widget; bot enforces widget selection.",
+  "constraints": "User types an invalid option (e.g., 'Spouse Only') instead of selecting from widget.",
+  "tags": [
+    "validation",
+    "coverage_type",
+    "widget_enforcement"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "You are eligible to book an appointment."
+      }
+    },
+    "status2": "Book an appointment",
+    "coverageType": "Spouse Only"
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents booking option; user chooses to book.",
+      "completionCriteria": "Bot displays eligibility message and quick reply for booking; user selects 'Book an appointment'."
+    },
+    {
+      "id": "step2_invalid",
+      "description": "Bot asks for coverage type; user types 'Spouse Only' instead of selecting.",
+      "completionCriteria": "Bot re-renders widget, prompts user to select from widget again."
+    },
+    {
+      "id": "step2_valid",
+      "description": "User selects 'Only Spouse' from widget.",
+      "completionCriteria": "Bot accepts selection and proceeds."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 42
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

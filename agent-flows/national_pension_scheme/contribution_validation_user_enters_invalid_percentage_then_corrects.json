@@ -1,0 +1,81 @@
+{
+  "name": "Contribution Validation — User Enters Invalid Percentage, Then Corrects",
+  "groupId": "national_pension_scheme",
+  "goal": "User enters invalid contribution percentage (e.g., 20 for New Regime), bot rejects and re-prompts until valid value is entered.",
+  "constraints": "First contribution is invalid; second is valid.",
+  "tags": [
+    "contribution",
+    "validation",
+    "edge_case"
+  ],
+  "testdata": {
+    "employee_name": "Neha Kapoor",
+    "employee_id": "RE55555",
+    "position_title": "Business Analyst",
+    "employee_email": "neha.kapoor@royalenfield.com",
+    "pranNumber": "123456789012",
+    "pranProofFile": "pran_proof.pdf",
+    "pranProofSizeMB": 3,
+    "taxRegime": "New Regime",
+    "npsContributionNew_invalid": 20,
+    "npsContributionNew_valid": 13
+  },
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Proceed'.",
+      "completionCriteria": "Bot displays employee details confirmation.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "employee_details",
+      "description": "User confirms details.",
+      "completionCriteria": "Bot asks about PRAN availability.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_availability",
+      "description": "User says 'Yes'.",
+      "completionCriteria": "Bot prompts for PRAN number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_details",
+      "description": "User enters valid PRAN and uploads valid PDF proof.",
+      "completionCriteria": "Bot prompts for Opt-In/Opt-Out.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "opt_selection",
+      "description": "User selects 'Opt IN for NPS'.",
+      "completionCriteria": "Bot prompts for tax regime.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "tax_regime",
+      "description": "User selects 'New Regime'.",
+      "completionCriteria": "Bot prompts for contribution percentage.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "contribution_invalid",
+      "description": "User enters 20 as contribution.",
+      "completionCriteria": "Bot rejects and re-prompts for contribution.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "contribution_valid",
+      "description": "User enters 13 as contribution.",
+      "completionCriteria": "Bot submits update and displays completion message.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

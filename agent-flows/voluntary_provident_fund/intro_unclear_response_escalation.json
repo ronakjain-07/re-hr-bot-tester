@@ -1,0 +1,35 @@
+{
+  "name": "Intro Unclear Response Escalation",
+  "groupId": "voluntary_provident_fund",
+  "goal": "User provides unclear responses three times at the intro step, triggering escalation.",
+  "constraints": "User never selects a valid quick reply; escalation must occur after 3 invalid attempts.",
+  "tags": [
+    "negative",
+    "validation",
+    "intro",
+    "escalation"
+  ],
+  "testdata": {
+    "unclear_responses": [
+      "Maybe",
+      "Continue",
+      "Let's go"
+    ]
+  },
+  "phases": [
+    {
+      "id": "intro_attempts",
+      "description": "User provides three unclear responses at the intro step.",
+      "completionCriteria": "Bot re-prompts after each invalid input; after third, bot escalates with the exact escalation message.",
+      "maxAttempts": 3
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

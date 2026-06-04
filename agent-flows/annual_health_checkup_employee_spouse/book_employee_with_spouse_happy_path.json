@@ -1,0 +1,65 @@
+{
+  "name": "Book Employee with Spouse — Happy Path",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User books an annual health checkup for themselves and their spouse, providing all valid information in the first attempt.",
+  "constraints": "All user inputs are valid and accepted on first try. Spouse is over 18. Appointment date is valid and available.",
+  "tags": [
+    "happy_path",
+    "booking",
+    "employee_with_spouse"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Anita Sharma",
+    "spouseDOB": "12 Feb 1980",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10": "9876543210",
+    "state": "Karnataka",
+    "city": "Bangalore",
+    "clinicName": "Apollo Clinic Indiranagar"
+  },
+  "phases": [
+    {
+      "id": "eligibility_check",
+      "description": "Bot presents booking option based on eligibility.",
+      "completionCriteria": "Bot asks 'Would you like to book an appointment?' and user selects 'Book an appointment'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "coverage_type",
+      "description": "Bot asks for coverage type and user selects 'Employee with Spouse'.",
+      "completionCriteria": "Bot captures 'Employee with Spouse' as coverageType.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_details",
+      "description": "User provides spouse name and valid DOB (over 18, past date).",
+      "completionCriteria": "Bot accepts spouse name and DOB in DD MMM YYYY format.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "appointment_date",
+      "description": "User provides valid appointment date.",
+      "completionCriteria": "Bot accepts appointment date and validates it successfully.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "mobile_state_city_clinic",
+      "description": "User provides valid mobile, state, city, and selects clinic from rich media.",
+      "completionCriteria": "Bot confirms booking, thanks user, displays selected clinic name, and offers further help.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

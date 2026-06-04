@@ -1,0 +1,28 @@
+{
+  "name": "Intro — User Chooses to Go Back to Main Menu",
+  "groupId": "national_pension_scheme",
+  "goal": "User selects 'Go Back to Main Menu' at intro step; flow exits immediately.",
+  "constraints": "No further steps after intro.",
+  "tags": [
+    "intro",
+    "exit",
+    "main_menu"
+  ],
+  "testdata": {},
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Go Back to Main Menu'.",
+      "completionCriteria": "Bot exits to main menu and marks goal as completed.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 2,
+    "maxLlmCalls": 2
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

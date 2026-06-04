@@ -1,0 +1,53 @@
+{
+  "name": "User - Preview Then Confirm Without Edit",
+  "groupId": "car_purchase",
+  "goal": "Verify that a user can preview the application and confirm submission without making edits.",
+  "constraints": "User selects 'Preview', then 'Confirm', then submits.",
+  "tags": [
+    "preview",
+    "confirm",
+    "happy_path"
+  ],
+  "testdata": {
+    "userType": "users",
+    "emp_mobile_raw": "9001122334",
+    "phoneValidatorResp": {
+      "result": {
+        "isValid": true,
+        "normalizedNumber": "+919001122334"
+      }
+    },
+    "onRoadPriceOfCar": "1350000",
+    "emiOption": "48 Months",
+    "dealerName": "JKL Motors",
+    "dealerFullAddress": "12 Green Avenue, Bangalore",
+    "cheque": "EICHER MOTORS LTD",
+    "carMakerName": "Toyota",
+    "carModel": "Innova",
+    "fuelType": "Diesel",
+    "undertakingLetter": "undertaking.pdf",
+    "proformaInvoiceOfCar": "invoice.pdf"
+  },
+  "phases": [
+    {
+      "id": "phase1",
+      "description": "User completes all fields and selects 'Preview'.",
+      "completionCriteria": "Bot shows preview/edit/submit options.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase2",
+      "description": "User selects 'Confirm' and submits.",
+      "completionCriteria": "Bot confirms submission with workflow message.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

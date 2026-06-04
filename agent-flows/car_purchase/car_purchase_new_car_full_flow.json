@@ -1,0 +1,72 @@
+{
+  "constraints": "Match real employee chat: choose New car purchase, Start new Application, then step through mobile, price, EMI, dealer, car details, PDF uploads, and confirm. Use testdata values — do not invent dealer codes.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 45,
+    "maxLlmCalls": 90
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    },
+    {
+      "key": "proforma_invoice",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Car purchase - new car full flow",
+  "tags": [
+    "happy"
+  ],
+  "goal": "Complete new car purchase application end-to-end (mobile, price, dealer, uploads, submit)",
+  "testdata": {
+    "mobileNumber": "9057234202",
+    "onRoadPrice": "28 lakhs",
+    "emiOption": "48 Months",
+    "dealerName": "eicher motors",
+    "dealerAddress": "abc market surat",
+    "chequeName": "raj p",
+    "manufacturer": "tata",
+    "carModel": "curvv",
+    "fuelType": "Petrol"
+  },
+  "phases": [
+    {
+      "id": "intent_new_car",
+      "description": "Say you want new car purchase (e.g. 'i want to purchase a car' then choose new car)",
+      "completionCriteria": "Bot has started new car application and asked for 10-digit mobile number or Start new Application is visible",
+      "maxAttempts": 6
+    },
+    {
+      "id": "mobile_price_emi",
+      "description": "Provide valid mobile, on-road price, and EMI option",
+      "completionCriteria": "Bot has accepted mobile and price and asked for dealer name or next car detail",
+      "maxAttempts": 8
+    },
+    {
+      "id": "dealer_and_car_details",
+      "description": "Provide dealer name, address, cheque name, manufacturer, model, and fuel type",
+      "completionCriteria": "Bot has asked to upload undertaking letter or proforma invoice PDF",
+      "maxAttempts": 12
+    },
+    {
+      "id": "upload_undertaking",
+      "description": "Upload signed undertaking letter PDF",
+      "completionCriteria": "Bot has accepted undertaking and asked for proforma invoice upload",
+      "maxAttempts": 5,
+      "expectUpload": true
+    },
+    {
+      "id": "upload_proforma_and_submit",
+      "description": "Upload proforma invoice PDF, review preview, and confirm/submit",
+      "completionCriteria": "Bot confirms the car purchase request was submitted successfully",
+      "maxAttempts": 8,
+      "expectUpload": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "car_purchase"
+}

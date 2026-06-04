@@ -1,0 +1,20 @@
+{
+  "name": "Appraisal Letter Edge - Check for team invalid employee ID",
+  "groupId": "appraisal_letter",
+  "goal": "Verify the bot correctly handles a manager checking for a team member's appraisal letter but providing an invalid Ecode.",
+  "phases": [
+    {
+      "id": "intent_trigger",
+      "description": "User requests appraisal letter and selects 'Check for team'.",
+      "completionCriteria": "The bot asks for the Ecode of the employee."
+    },
+    {
+      "id": "provide_invalid_ecode",
+      "description": "User provides an invalid Ecode (e.g., 999999).",
+      "completionCriteria": "The bot indicates the Ecode is invalid or not found and prompts again or ends the flow."
+    }
+  ],
+  "testdata": {
+    "userId": "999999"
+  }
+}

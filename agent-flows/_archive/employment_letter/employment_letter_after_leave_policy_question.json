@@ -1,0 +1,34 @@
+{
+  "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Employment letter - after leave policy question",
+  "tags": [
+    "edge",
+    "context_switch"
+  ],
+  "goal": "Ask leave policy then request employment letter in same session",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_leave_policy",
+      "description": "Ask 'tell me about leave policy'",
+      "completionCriteria": "Bot answers with leave policy information from knowledge base",
+      "maxAttempts": 4
+    },
+    {
+      "id": "then_employment_letter",
+      "description": "Then say 'i want employment letter'",
+      "completionCriteria": "Bot starts employment letter flow (details card or fetch-details message)",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "employment_letter"
+}

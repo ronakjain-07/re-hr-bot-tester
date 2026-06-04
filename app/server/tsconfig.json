@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "baseUrl": ".",
+    "paths": {
+      "@hr/shared": ["../shared/src/index.ts"],
+      "@hr/shared/*": ["../shared/src/*"]
+    },
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts", "../shared/src/**/*.ts"]
+}

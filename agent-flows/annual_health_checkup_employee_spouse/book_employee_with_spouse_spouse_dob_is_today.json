@@ -1,0 +1,61 @@
+{
+  "name": "Book Employee with Spouse — Spouse DOB Is Today",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User tries to enter today's date as spouse DOB; bot rejects and user corrects it.",
+  "constraints": "First DOB input is today's date; second input is valid and accepted.",
+  "tags": [
+    "validation",
+    "spouse_dob",
+    "date_today",
+    "negative"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Sonal Verma",
+    "spouseDOB_today": "10 Jun 2024",
+    "spouseDOB_valid": "10 Jun 1980",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10": "9876012345",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "clinicName": "Apollo Hospital Greams Road"
+  },
+  "phases": [
+    {
+      "id": "coverage_and_spouse_name",
+      "description": "User selects 'Employee with Spouse' and provides spouse name.",
+      "completionCriteria": "Bot captures spouse name.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_dob_today",
+      "description": "User enters today's date as spouse DOB.",
+      "completionCriteria": "Bot replies with 'Date of birth cannot be today or a future date. Only spouses aged 18 or above are eligible. Please enter a valid date of birth.'",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_dob_valid",
+      "description": "User enters valid spouse DOB.",
+      "completionCriteria": "Bot accepts and stores DOB.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "finish_booking",
+      "description": "User completes booking flow.",
+      "completionCriteria": "Bot confirms booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

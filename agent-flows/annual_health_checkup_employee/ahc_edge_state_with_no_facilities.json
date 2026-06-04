@@ -1,0 +1,47 @@
+{
+  "goal": "Verify bot handles a state where no health check facility exists",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "reach_state_prompt",
+      "description": "Navigate booking until state is asked",
+      "completionCriteria": "Bot has asked for the state",
+      "maxAttempts": 10
+    },
+    {
+      "id": "try_invalid_state",
+      "description": "Provide a state with no facilities",
+      "completionCriteria": "Bot either rejects the state, provides no clinics, or asks to try another location",
+      "maxAttempts": 3
+    },
+    {
+      "id": "complete_with_valid_state",
+      "description": "Provide a valid state and complete the booking",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 8,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - state with no facilities",
+  "tags": [
+    "edge",
+    "location_validation"
+  ],
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "stateWithNoFacility": "Sikkim",
+    "validState": "Tamil Nadu",
+    "validCity": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

@@ -1,0 +1,28 @@
+{
+  "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "uploads": [],
+  "name": "Free flow - Can HR provide me a document",
+  "tags": [
+    "happy",
+    "synonym"
+  ],
+  "goal": "Verify vague 'Can HR provide me a document' gives letter options",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "vague_document_request",
+      "description": "Ask 'Can HR provide me a document'",
+      "completionCriteria": "Bot shows Letters options or asks which type of letter is needed",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "free_flow"
+}

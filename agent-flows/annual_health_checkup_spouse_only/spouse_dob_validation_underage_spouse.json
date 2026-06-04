@@ -1,0 +1,54 @@
+{
+  "name": "Spouse DOB Validation — Underage Spouse",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User enters a spouse DOB indicating age under 18; bot enforces age validation and re-prompts.",
+  "constraints": "Spouse DOB entered makes spouse only 16 years old.",
+  "tags": [
+    "validation",
+    "spouse_dob",
+    "age_check"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "You are eligible to book an appointment."
+      }
+    },
+    "status2": "Book an appointment",
+    "coverageType": "Only Spouse",
+    "spouseName": "Riya Singh",
+    "spouseDOB_invalid": "15 Mar 2008",
+    "spouseDOB_valid": "15 Mar 1988"
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents booking option; user chooses to book.",
+      "completionCriteria": "Bot displays eligibility message and quick reply for booking; user selects 'Book an appointment'."
+    },
+    {
+      "id": "step2",
+      "description": "Bot asks for coverage type; user selects 'Only Spouse'.",
+      "completionCriteria": "Bot accepts selection and proceeds."
+    },
+    {
+      "id": "step3_underage",
+      "description": "User enters underage DOB for spouse.",
+      "completionCriteria": "Bot rejects input, displays age error, and re-prompts."
+    },
+    {
+      "id": "step3_valid",
+      "description": "User enters valid DOB (>18 years).",
+      "completionCriteria": "Bot accepts DOB and proceeds."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 23,
+    "maxLlmCalls": 43
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

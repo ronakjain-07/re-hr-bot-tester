@@ -1,0 +1,61 @@
+{
+  "name": "Book Employee with Spouse — Spouse Under 18",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User attempts to enter a spouse DOB making spouse under 18; bot rejects and user enters a valid DOB.",
+  "constraints": "First DOB input makes spouse 17; second input is valid (spouse 25).",
+  "tags": [
+    "validation",
+    "spouse_dob",
+    "age_check",
+    "negative"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Priya Singh",
+    "spouseDOB_underage": "10 Jul 2008",
+    "spouseDOB_valid": "10 Jul 1996",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10": "9988776655",
+    "state": "Delhi",
+    "city": "New Delhi",
+    "clinicName": "Fortis Escorts"
+  },
+  "phases": [
+    {
+      "id": "coverage_and_spouse_name",
+      "description": "User selects 'Employee with Spouse' and provides spouse name.",
+      "completionCriteria": "Bot captures spouse name.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_dob_underage",
+      "description": "User enters spouse DOB making spouse under 18.",
+      "completionCriteria": "Bot replies with 'Only spouses aged 18 or above are eligible. Please enter a valid date of birth.'",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_dob_valid",
+      "description": "User enters valid spouse DOB.",
+      "completionCriteria": "Bot accepts and stores DOB.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "finish_booking",
+      "description": "User completes booking flow.",
+      "completionCriteria": "Bot confirms booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,39 @@
+{
+  "name": "user_chooses_main_menu_from_options",
+  "groupId": "employment_letter",
+  "goal": "User reviews employee details and chooses 'Main menu', returning to the main menu.",
+  "constraints": "Employee details must be present. User selects 'Main menu' instead of proceeding.",
+  "tags": [
+    "branch",
+    "main_menu",
+    "navigation"
+  ],
+  "testdata": {
+    "employee_id": "E67890",
+    "employee_name": "Rahul Mehta",
+    "email": "rahul.mehta@example.com",
+    "department": "HR"
+  },
+  "phases": [
+    {
+      "id": "show_employee_details",
+      "description": "Bot displays employee details and options.",
+      "completionCriteria": "Bot displays correct employee details and options.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_chooses_main_menu",
+      "description": "User selects 'Main menu'.",
+      "completionCriteria": "Bot ends task and displays main menu prompt with all listed options.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 15
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

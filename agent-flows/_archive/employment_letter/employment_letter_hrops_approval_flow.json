@@ -1,0 +1,35 @@
+{
+  "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Employment letter HROPS approval flow",
+  "tags": [
+    "happy",
+    "hrops"
+  ],
+  "goal": "Approve a pending employment letter request as HROPS",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "greeting_and_intent",
+      "description": "Greet the bot and state intent to approve employment letters",
+      "completionCriteria": "Bot has shown pending employment letter requests with Approve and Reject options",
+      "maxAttempts": 4
+    },
+    {
+      "id": "approve_request",
+      "description": "Click or type 'Approve' on the pending request",
+      "completionCriteria": "Bot has confirmed the approval and sent the email trigger",
+      "maxAttempts": 4,
+      "recoveryHint": "If email trigger fails, note the error but accept it as partial pass"
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "employment_letter"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Edge Case — Employee ID is Empty String",
+  "groupId": "employment_letter",
+  "goal": "Bot correctly handles an empty string as employee_id and shows the error message.",
+  "constraints": "Employee details fetch returns employee_id as an empty string.",
+  "tags": [
+    "edge_case",
+    "validation",
+    "error_handling"
+  ],
+  "testdata": {
+    "employee_id": "",
+    "employee_name": "Deepak Kumar"
+  },
+  "phases": [
+    {
+      "id": "fetch_employee_details_empty_id",
+      "description": "Bot attempts to fetch employee details but receives empty employee_id.",
+      "completionCriteria": "Bot displays only: 'There is some issue in fetching your details.' and marks task as done.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 3,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,40 @@
+{
+  "name": "Edge Case — Workflow Failure on Submission",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify bot handles submission workflow failure after retries and shows fallback message.",
+  "constraints": "All steps valid, but UID generator workflow fails three times.",
+  "tags": [
+    "workflow_failure",
+    "submission",
+    "negative"
+  ],
+  "testdata": {
+    "mobile": "9988776655",
+    "state": "Punjab",
+    "city": "Ludhiana",
+    "model": "HIMALAYAN MANA BLACK",
+    "workflow_failure": "uid-generator_pzqjtr"
+  },
+  "phases": [
+    {
+      "id": "application_complete",
+      "description": "User completes all steps and confirms preview.",
+      "completionCriteria": "Bot attempts submission.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "submission_failure",
+      "description": "UID generator workflow fails three times.",
+      "completionCriteria": "Bot says: 'I couldn't complete your submission right now. Please try again later or contact your location admin SPOC.' Conversation ends.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

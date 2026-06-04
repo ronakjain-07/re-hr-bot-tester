@@ -1,0 +1,60 @@
+{
+  "constraints": "Match real employee chat: choose New car purchase, Start new Application, then step through mobile, price, EMI, dealer, car details, PDF uploads, and confirm. Use testdata values — do not invent dealer codes.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 45,
+    "maxLlmCalls": 90
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    },
+    {
+      "key": "proforma_invoice",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Car purchase edge - invalid 12-digit mobile rejected",
+  "tags": [
+    "edge",
+    "mobile_validation"
+  ],
+  "goal": "Verify bot rejects 12-digit mobile then accepts valid 10-digit number",
+  "testdata": {
+    "invalidMobile12": "932101243221",
+    "validMobile": "9057234202",
+    "onRoadPrice": "24 lakhs",
+    "emiOption": "48 Months",
+    "dealerName": "eicher motors",
+    "dealerAddress": "surat",
+    "chequeName": "raj p",
+    "manufacturer": "tata",
+    "carModel": "nexon",
+    "fuelType": "Petrol"
+  },
+  "phases": [
+    {
+      "id": "reach_mobile_prompt",
+      "description": "Navigate to new car Start new Application until mobile prompt",
+      "completionCriteria": "Bot asks for valid 10-digit mobile number",
+      "maxAttempts": 8
+    },
+    {
+      "id": "invalid_mobile_12_digit",
+      "description": "Enter 12-digit mobile (e.g. 932101243221)",
+      "completionCriteria": "Bot rejects the mobile as invalid and asks for a valid 10-digit number",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_mobile_continue",
+      "description": "When the bot asks for on-road price, type testdata.onRoadPrice; reply to EMI/dealer prompts with matching testdata if shown next.",
+      "completionCriteria": "User has typed the on-road price from testdata and the bot has accepted it or has moved on to EMI, dealer, or a later vehicle detail prompt",
+      "maxAttempts": 6
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "car_purchase"
+}

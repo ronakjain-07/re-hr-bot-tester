@@ -1,0 +1,31 @@
+{
+  "name": "Fallback when policy not found in KB",
+  "groupId": "policies",
+  "goal": "User asks about a rare benefit not present in KB (e.g., pet insurance).",
+  "constraints": "Bot must follow fallback instructions: concise, relevant doc name/link, recommend HR, no guessing, under 100 words.",
+  "tags": [
+    "negative",
+    "fallback",
+    "edge_case"
+  ],
+  "testdata": {
+    "user_query": "Is pet insurance included in our employee benefits?",
+    "employee_name": "Sneha Kulkarni",
+    "designation": "Marketing Lead"
+  },
+  "phases": [
+    {
+      "id": "query_received",
+      "description": "User asks about a benefit not in KB.",
+      "completionCriteria": "Bot states info not available, shares most relevant doc name/link, suggests checking with HR, no external knowledge."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

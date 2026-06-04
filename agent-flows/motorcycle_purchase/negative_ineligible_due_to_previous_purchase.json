@@ -1,0 +1,37 @@
+{
+  "name": "Negative — Ineligible Due to Previous Purchase",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify bot ends application if user is ineligible due to recent previous purchase.",
+  "constraints": "Eligibility workflow returns 'previouspurchase'.",
+  "tags": [
+    "negative",
+    "eligibility",
+    "previous_purchase"
+  ],
+  "testdata": {
+    "empType": "employee",
+    "eligibility_result": "previouspurchase"
+  },
+  "phases": [
+    {
+      "id": "main_menu",
+      "description": "User selects 'Start New Application'.",
+      "completionCriteria": "Bot proceeds to eligibility check.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "eligibility_check",
+      "description": "Workflow returns ineligible due to previous purchase.",
+      "completionCriteria": "Bot says: 'I have found that you've previously purchased a Motorcycle of this category. I regret to inform you that you are not eligible for another purchase since it has been less than 2 years from your last purchase as per the policy.' Conversation ends.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 4,
+    "maxLlmCalls": 8
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

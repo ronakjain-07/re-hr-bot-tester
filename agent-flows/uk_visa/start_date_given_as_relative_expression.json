@@ -1,0 +1,62 @@
+{
+  "name": "Start Date Given as Relative Expression",
+  "groupId": "uk_visa",
+  "goal": "User provides travel start date as a relative expression (e.g., 'next Wednesday').",
+  "constraints": "Bot must resolve relative date, confirm, and proceed if valid.",
+  "tags": [
+    "date_parsing",
+    "relative_date",
+    "happy_path"
+  ],
+  "testdata": {
+    "cityUK": "Edinburgh",
+    "passportName": "Sophia Lee",
+    "rawPassportNumber": "C9876543",
+    "validatedPassportNumber": "C9876543",
+    "ukStartDate_input": "next Wednesday",
+    "ukStartDate_resolved": "{{today+7}}",
+    "validatedStartDate": "{{today+7}}",
+    "ukEndDate": "{{today+17}}",
+    "validatedReturnDate": "{{today+17}}"
+  },
+  "phases": [
+    {
+      "id": "init_and_city",
+      "description": "Agent initializes, user selects 'Edinburgh'.",
+      "completionCriteria": "Bot captures 'Edinburgh'."
+    },
+    {
+      "id": "passport_name",
+      "description": "User provides 'Sophia Lee'.",
+      "completionCriteria": "Bot captures name."
+    },
+    {
+      "id": "passport_number",
+      "description": "User provides valid passport number.",
+      "completionCriteria": "Bot validates and proceeds."
+    },
+    {
+      "id": "start_date_relative",
+      "description": "User provides 'next Wednesday', bot resolves to '22 Jul 2026', confirms, user affirms.",
+      "completionCriteria": "Bot saves start date."
+    },
+    {
+      "id": "end_date",
+      "description": "User provides valid end date, confirms.",
+      "completionCriteria": "Bot saves end date."
+    },
+    {
+      "id": "trigger_and_confirm",
+      "description": "Bot triggers invitation letter workflow and confirms.",
+      "completionCriteria": "Bot says confirmation message."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 32
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,35 @@
+{
+  "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Employment letter edge - ambiguous intent",
+  "tags": [
+    "edge",
+    "intent_disambiguation"
+  ],
+  "goal": "Test that the bot correctly interprets an ambiguous letter request",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ambiguous_request",
+      "description": "Send an ambiguous or misspelled employment letter request",
+      "completionCriteria": "Bot has understood the intent and shown the employee details card OR asked a clarifying question",
+      "maxAttempts": 5,
+      "recoveryHint": "Try 'I need a letter from HR', 'employment certificate', 'letter for job', 'work letter'"
+    },
+    {
+      "id": "confirm_or_proceed",
+      "description": "Confirm or clarify intent and reach the action options",
+      "completionCriteria": "Bot has presented action buttons (Send for HROPS Approval, Go Home)",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "employment_letter"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Letter request — type not specified",
+  "groupId": "general_edge_cases",
+  "goal": "When the user asks for 'a letter' without naming the type, the bot must ask which letter (Employment / UK Visa / Appraisal) — not assume one.",
+  "constraints": "General edge case: under-specified / ambiguous user intent. The bot should clarify which letter, never guess.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "phases": [
+    {
+      "id": "ambiguous_letter",
+      "description": "Send a vague letter request:",
+      "verbatimUserMessage": "I need a letter",
+      "completionCriteria": "Bot recognizes the request is unclear and asks which letter the user needs (Employment Letter / UK Visa Letter / Appraisal Letter); it does NOT assume a specific letter type.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

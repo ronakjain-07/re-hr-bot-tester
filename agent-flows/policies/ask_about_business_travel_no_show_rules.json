@@ -1,0 +1,34 @@
+{
+  "name": "Ask about business travel no-show rules",
+  "groupId": "policies",
+  "goal": "User inquires about no-show rules for business travel bookings.",
+  "constraints": "Bot must answer only from KB, personalize reply, and cite correct doc/link. No external info or suggestions.",
+  "tags": [
+    "happy_path",
+    "business_travel",
+    "no_show"
+  ],
+  "testdata": {
+    "user_name": "Megha Bansal",
+    "user_designation": "Operations Lead",
+    "query": "What are the no-show rules for business travel bookings?",
+    "expected_policy": "Business_Travel_Guidelines",
+    "expected_info": "no-show rules",
+    "expected_link_prefix": "https://app.yellow.ai/minio/"
+  },
+  "phases": [
+    {
+      "id": "ask_no_show",
+      "description": "User asks about no-show rules for travel.",
+      "completionCriteria": "Bot responds with Megha Bansal's name/designation, lists no-show rules, and provides correct source and signed URL."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,218 @@
+{
+  "groupId": "motorcycle_purchase",
+  "template": {
+    "constraints": "Match real chat: motorcycle purchase → Start New Application → mobile → state → city → address → CC → model → dealer/store → dealer code 10441 → undertaking PDF → submit. Use testdata; invalid city tests use Mumbai in Haryana etc.",
+    "manualPrereqs": ["Chrome must be open and logged into Google Chat as the test user"],
+    "limits": { "maxTotalTurns": 40, "maxLlmCalls": 80 },
+    "uploads": [
+      { "key": "undertaking_letter", "path": "../upload/Car Undertakin letter format.pdf" }
+    ]
+  },
+  "variants": [
+    {
+      "name": "Motorcycle purchase - full application flow",
+      "tags": ["happy"],
+      "goal": "Complete motorcycle purchase from mobile through dealer code, upload, and successful submission",
+      "testdata": {
+        "mobileNumber": "9462137658",
+        "state": "Haryana",
+        "city": "Gurgaon",
+        "address": "123 market, chandigarh",
+        "ccCategory": "450 CC",
+        "bikeModel": "HIMALAYAN",
+        "dealerType": "Dealer",
+        "dealerCode": "10441",
+        "paymentMode": "Cash",
+        "comment": "No"
+      },
+      "phases": [
+        {
+          "id": "start_application",
+          "description": "Request motorcycle purchase and click Start New Application",
+          "completionCriteria": "Bot asks for 10-digit mobile number",
+          "maxAttempts": 6
+        },
+        {
+          "id": "location_details",
+          "description": "Provide valid mobile, state, city, and full address",
+          "completionCriteria": "Bot shows CC categories (350/411/450/650 CC) or asks to choose CC category",
+          "maxAttempts": 10
+        },
+        {
+          "id": "bike_and_dealer",
+          "description": "Select CC category, bike model, dealer vs company store, and dealer sales code 10441",
+          "completionCriteria": "Bot asks to download/upload undertaking letter PDF",
+          "maxAttempts": 12
+        },
+        {
+          "id": "upload_and_submit",
+          "description": "Upload undertaking PDF, answer comment (No), confirm and submit",
+          "completionCriteria": "Bot confirms motorcycle purchase request submitted successfully",
+          "maxAttempts": 10,
+          "expectUpload": true
+        }
+      ]
+    },
+    {
+      "name": "Motorcycle purchase edge - invalid mobile rejected",
+      "tags": ["edge", "mobile_validation"],
+      "goal": "Verify bot rejects invalid mobile (e.g. 94621376542) then accepts valid number",
+      "testdata": {
+        "invalidMobile": "94621376542",
+        "validMobile": "9462137658",
+        "state": "Haryana",
+        "city": "Gurgaon"
+      },
+      "phases": [
+        {
+          "id": "reach_mobile",
+          "description": "Start motorcycle flow until mobile prompt",
+          "completionCriteria": "Bot asks for 10-digit mobile number",
+          "maxAttempts": 6
+        },
+        {
+          "id": "invalid_mobile",
+          "description": "Enter invalid mobile (11 digits)",
+          "completionCriteria": "Bot says number is not valid and asks for correct 10-digit number",
+          "maxAttempts": 3
+        },
+        {
+          "id": "valid_mobile",
+          "description": "Enter valid 10-digit mobile",
+          "completionCriteria": "Bot accepts mobile and asks for state or city",
+          "maxAttempts": 5
+        }
+      ]
+    },
+    {
+      "name": "Motorcycle purchase edge - wrong city no facility",
+      "tags": ["edge", "city_validation"],
+      "goal": "Verify bot rejects Mumbai when state is Haryana (no facility in that city)",
+      "testdata": {
+        "mobileNumber": "9462137658",
+        "state": "Haryana",
+        "invalidCity": "Mumbai",
+        "validCity": "Gurgaon",
+        "address": "sector 14"
+      },
+      "phases": [
+        {
+          "id": "reach_city_prompt",
+          "description": "Reach state and city step after valid mobile",
+          "completionCriteria": "Bot asks for city name",
+          "maxAttempts": 8
+        },
+        {
+          "id": "invalid_city_mumbai",
+          "description": "Enter Mumbai as city",
+          "completionCriteria": "Bot says this is not a city where facility is available or asks to try another location",
+          "maxAttempts": 3
+        },
+        {
+          "id": "valid_city",
+          "description": "Enter valid Haryana city (e.g. Gurgaon)",
+          "completionCriteria": "Bot accepts city and asks for address or CC category",
+          "maxAttempts": 5
+        }
+      ]
+    },
+    {
+      "name": "Motorcycle purchase edge - city not in state",
+      "tags": ["edge", "city_validation"],
+      "goal": "Verify bot rejects city that does not belong to selected state (e.g. Chandigarh when Haryana selected with strict validation)",
+      "testdata": {
+        "mobileNumber": "9462137658",
+        "state": "Haryana",
+        "invalidCityForState": "Chandigarh",
+        "validCity": "Panipat"
+      },
+      "phases": [
+        {
+          "id": "reach_city",
+          "description": "Provide Haryana and reach city prompt",
+          "completionCriteria": "Bot asks for city",
+          "maxAttempts": 8
+        },
+        {
+          "id": "city_not_in_state",
+          "description": "Enter Chandigarh when state is Haryana",
+          "completionCriteria": "Bot rejects city as not valid for Haryana or asks for a listed Haryana city",
+          "maxAttempts": 4,
+          "recoveryHint": "Bot may say 'not valid city for Haryana' or 'not a city where we have facility' — either counts as rejection"
+        }
+      ]
+    },
+    {
+      "name": "Motorcycle purchase - show more navigation",
+      "tags": ["happy", "navigation"],
+      "goal": "Use Show More on bike model list before selecting a model",
+      "testdata": {
+        "mobileNumber": "9462137658",
+        "state": "Haryana",
+        "city": "Gurgaon",
+        "address": "414 sec 20",
+        "ccCategory": "411 CC"
+      },
+      "phases": [
+        {
+          "id": "reach_bike_list",
+          "description": "Reach bike model selection for a CC category",
+          "completionCriteria": "Bot shows bike models with Show More or similar navigation",
+          "maxAttempts": 15
+        },
+        {
+          "id": "show_more",
+          "description": "Click or type Show more to see additional models",
+          "completionCriteria": "Bot shows more bike models in the list",
+          "maxAttempts": 4
+        }
+      ]
+    },
+    {
+      "name": "Motorcycle purchase - dealer selected",
+      "tags": ["happy", "dealer"],
+      "goal": "Select Dealer (not company store) and enter dealer code 10441",
+      "testdata": {
+        "mobileNumber": "9462137658",
+        "state": "Haryana",
+        "city": "Gurgaon",
+        "address": "414, sec 20 A",
+        "ccCategory": "650 CC",
+        "dealerType": "Dealer",
+        "dealerCode": "10441"
+      },
+      "phases": [
+        {
+          "id": "reach_dealer_choice",
+          "description": "Navigate to company store vs dealer question",
+          "completionCriteria": "Bot asks company store or dealer",
+          "maxAttempts": 18
+        },
+        {
+          "id": "dealer_code",
+          "description": "Choose Dealer and enter sales code 10441",
+          "completionCriteria": "Bot accepts dealer code and proceeds to undertaking upload or payment step",
+          "maxAttempts": 6
+        }
+      ]
+    },
+    {
+      "name": "Motorcycle purchase - cannot apply again",
+      "tags": ["edge", "duplicate_prevention"],
+      "goal": "Bot blocks duplicate motorcycle application when one already exists",
+      "testdata": {},
+      "manualPrereqs": [
+        "Chrome must be open and logged into Google Chat as the test user",
+        "Account must already have a submitted motorcycle purchase application"
+      ],
+      "phases": [
+        {
+          "id": "try_apply_again",
+          "description": "Request motorcycle purchase again",
+          "completionCriteria": "Bot says application already exists and does not start a full new form",
+          "maxAttempts": 5
+        }
+      ]
+    }
+  ]
+}

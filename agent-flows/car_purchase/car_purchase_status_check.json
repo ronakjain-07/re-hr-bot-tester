@@ -1,0 +1,37 @@
+{
+  "constraints": "Match real employee chat: choose New car purchase, Start new Application, then step through mobile, price, EMI, dealer, car details, PDF uploads, and confirm. Use testdata values — do not invent dealer codes.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 45,
+    "maxLlmCalls": 90
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    },
+    {
+      "key": "proforma_invoice",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Car purchase - status check",
+  "tags": [
+    "happy",
+    "status"
+  ],
+  "goal": "Check status of a car purchase application",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "status_intent",
+      "description": "Ask for car purchase application status or choose Check Status",
+      "completionCriteria": "Bot shows application status or says no application found",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "car_purchase"
+}

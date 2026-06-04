@@ -1,0 +1,174 @@
+{
+  "groupId": "annual_health_checkup",
+  "template": {
+    "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+    "manualPrereqs": ["Chrome must be open and logged into Google Chat as the test user"],
+    "limits": { "maxTotalTurns": 30, "maxLlmCalls": 60 },
+    "uploads": []
+  },
+  "variants": [
+    {
+      "name": "AHC edge - Sunday date rejected",
+      "tags": ["edge", "date_validation", "day_of_week"],
+      "goal": "Verify bot rejects a Sunday as appointment date (only Mon-Sat allowed)",
+      "testdata": {
+        "appointmentDate": "{{today+7}}",
+        "mobileNumber": "9462171542",
+        "state": "Tamil Nadu",
+        "city": "Chennai"
+      },
+      "phases": [
+        { "id": "reach_date_prompt", "description": "Start AHC booking and reach the appointment date prompt", "completionCriteria": "Bot has asked for preferred appointment date", "maxAttempts": 8 },
+        { "id": "try_sunday", "description": "Calculate the next Sunday and enter it — the AI should compute which upcoming date is a Sunday", "completionCriteria": "Bot rejects Sunday and informs appointments are only Mon-Sat", "maxAttempts": 4, "recoveryHint": "If bot accepts Sunday (may not validate day), provide a safe weekday date to complete booking" },
+        { "id": "complete_with_weekday", "description": "Use _validDate (today+7) to complete the booking", "completionCriteria": "Bot confirms the appointment", "maxAttempts": 8, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC edge - date without year accepted (assumes current year)",
+      "tags": ["edge", "date_format"],
+      "goal": "Verify bot accepts 'Apr 5' or '5 Apr' without a year and assumes current year",
+      "testdata": {
+        "dateNoYear": "22 May",
+        "mobileNumber": "9462171542",
+        "state": "Tamil Nadu",
+        "city": "Chennai"
+      },
+      "phases": [
+        { "id": "reach_date_prompt", "description": "Navigate to date prompt", "completionCriteria": "Bot asks for appointment date", "maxAttempts": 8 },
+        { "id": "date_without_year", "description": "Enter a date without year like '22 May' (in current month or next month, at least 7 days out)", "completionCriteria": "Bot accepts the date (assuming current year) and proceeds to ask for mobile number", "maxAttempts": 4, "recoveryHint": "If rejected as past/too soon, try a later month like '22 Jun'" },
+        { "id": "complete_booking", "description": "Complete the rest of the booking", "completionCriteria": "Bot confirms the appointment", "maxAttempts": 10, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC edge - invalid calendar date rejected (31 Feb)",
+      "tags": ["edge", "date_validation"],
+      "goal": "Verify bot rejects an invalid calendar date like 31 February",
+      "testdata": {
+        "invalidDate": "31 February 2027",
+        "validDate": "{{today+7}}",
+        "mobileNumber": "9462171542",
+        "state": "Tamil Nadu",
+        "city": "Chennai"
+      },
+      "phases": [
+        { "id": "reach_date_prompt", "description": "Navigate to appointment date prompt", "completionCriteria": "Bot asks for appointment date", "maxAttempts": 8 },
+        { "id": "invalid_calendar_date", "description": "Enter '31 February 2027' as appointment date", "completionCriteria": "Bot rejects the invalid calendar date and asks for a valid date", "maxAttempts": 3 },
+        { "id": "complete_with_valid_date", "description": "Enter a valid date and complete booking", "completionCriteria": "Bot confirms the appointment", "maxAttempts": 10, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC edge - city outside selected state rejected",
+      "tags": ["edge", "location_validation"],
+      "goal": "Verify bot rejects a city that is not in the selected state",
+      "testdata": {
+        "appointmentDate": "{{today+7}}",
+        "mobileNumber": "9462171542",
+        "state": "Tamil Nadu",
+        "wrongStateCity": "Surat",
+        "validCity": "Chennai"
+      },
+      "phases": [
+        { "id": "reach_city_prompt", "description": "Navigate AHC booking to the city prompt after entering state Tamil Nadu", "completionCriteria": "Bot has asked for the city", "maxAttempts": 10 },
+        { "id": "city_from_wrong_state", "description": "Enter 'Surat' (which is in Gujarat, not Tamil Nadu)", "completionCriteria": "Bot rejects the city — either as not in selected state or as having no facility", "maxAttempts": 3 },
+        { "id": "valid_city_and_confirm", "description": "Enter Chennai and complete booking", "completionCriteria": "Bot confirms appointment", "maxAttempts": 6, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC edge - spouse name with numbers rejected",
+      "tags": ["edge", "spouse_name_validation"],
+      "goal": "Verify bot rejects spouse name containing numbers",
+      "testdata": {
+        "invalidSpouseName": "Sita123",
+        "validSpouseName": "Sita",
+        "spouseDob": "11th May 1990",
+        "appointmentDate": "{{today+7}}",
+        "mobileNumber": "9462171542",
+        "state": "Tamil Nadu",
+        "city": "Chennai"
+      },
+      "phases": [
+        { "id": "reach_spouse_name", "description": "Start AHC booking with spouse and reach the spouse name prompt", "completionCriteria": "Bot has asked for the spouse's name", "maxAttempts": 5 },
+        { "id": "name_with_numbers", "description": "Enter 'Sita123' as spouse name", "completionCriteria": "Bot rejects the name with numbers and asks for a valid name", "maxAttempts": 3 },
+        { "id": "complete_with_valid_name", "description": "Enter valid spouse name and complete booking", "completionCriteria": "Bot confirms the appointment", "maxAttempts": 15, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC edge - spouse name with symbols rejected",
+      "tags": ["edge", "spouse_name_validation"],
+      "goal": "Verify bot rejects spouse name with symbols",
+      "testdata": {
+        "invalidSpouseName": "Sita@#$",
+        "validSpouseName": "Sita",
+        "spouseDob": "11th May 1990",
+        "appointmentDate": "{{today+7}}",
+        "mobileNumber": "9462171542",
+        "state": "Tamil Nadu",
+        "city": "Chennai"
+      },
+      "phases": [
+        { "id": "reach_spouse_name", "description": "Start AHC with spouse booking and reach name prompt", "completionCriteria": "Bot asks for spouse's name", "maxAttempts": 5 },
+        { "id": "name_with_symbols", "description": "Enter 'Sita@#$' as spouse name", "completionCriteria": "Bot rejects name with symbols", "maxAttempts": 3 },
+        { "id": "valid_name_and_complete", "description": "Provide valid name and complete booking", "completionCriteria": "Bot confirms appointment", "maxAttempts": 15, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC edge - spouse DOB future date rejected",
+      "tags": ["edge", "spouse_dob_validation"],
+      "goal": "Verify bot rejects a future date as spouse DOB",
+      "testdata": {
+        "futureSpouseDob": "{{today+365}}",
+        "validSpouseDob": "11th May 1990",
+        "spouseName": "Sita",
+        "appointmentDate": "{{today+7}}",
+        "mobileNumber": "9462171542",
+        "state": "Tamil Nadu",
+        "city": "Chennai"
+      },
+      "phases": [
+        { "id": "reach_spouse_dob", "description": "Start spouse booking and reach DOB prompt", "completionCriteria": "Bot asks for spouse date of birth", "maxAttempts": 5 },
+        { "id": "future_dob", "description": "Enter a future date as spouse DOB", "completionCriteria": "Bot rejects future DOB (spouse cannot be born in the future)", "maxAttempts": 3 },
+        { "id": "valid_dob_and_complete", "description": "Enter valid DOB and complete booking", "completionCriteria": "Bot confirms appointment", "maxAttempts": 12, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC edge - today's date as spouse DOB rejected",
+      "tags": ["edge", "spouse_dob_validation"],
+      "goal": "Verify bot rejects today's date as spouse DOB",
+      "testdata": {
+        "todayDob": "{{today+0}}",
+        "validSpouseDob": "11th May 1990",
+        "spouseName": "Sita",
+        "appointmentDate": "{{today+7}}",
+        "mobileNumber": "9462171542",
+        "state": "Tamil Nadu",
+        "city": "Chennai"
+      },
+      "phases": [
+        { "id": "reach_spouse_dob", "description": "Start spouse booking and reach DOB prompt", "completionCriteria": "Bot asks for spouse DOB", "maxAttempts": 5 },
+        { "id": "today_as_dob", "description": "Enter today's date as spouse DOB", "completionCriteria": "Bot rejects today's date as spouse DOB", "maxAttempts": 3 },
+        { "id": "valid_dob_complete", "description": "Enter valid DOB and complete booking", "completionCriteria": "Bot confirms appointment", "maxAttempts": 12, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC state - no prior appointments shows only booking",
+      "tags": ["happy", "state_machine"],
+      "goal": "Verify that when user has no prior appointment, only booking option is shown",
+      "testdata": { "appointmentDate": "{{today+7}}", "mobileNumber": "9462171542", "state": "Tamil Nadu", "city": "Chennai" },
+      "phases": [
+        { "id": "check_booking_option_only", "description": "Ask about annual health checkup — expect only Book an appointment option, no reschedule/cancel", "completionCriteria": "Bot shows only Book an appointment option (no reschedule or cancel since no prior booking)", "maxAttempts": 4 },
+        { "id": "complete_booking", "description": "Complete a new booking", "completionCriteria": "Bot confirms appointment booking", "maxAttempts": 15, "expectClick": true }
+      ]
+    },
+    {
+      "name": "AHC edge - phone with symbols rejected",
+      "tags": ["edge", "mobile_validation"],
+      "goal": "Verify bot rejects a phone number containing symbols",
+      "testdata": { "invalidMobile": "946217!542", "validMobile": "9462171542", "appointmentDate": "{{today+7}}", "state": "Tamil Nadu", "city": "Chennai" },
+      "phases": [
+        { "id": "reach_mobile_prompt", "description": "Navigate to mobile number prompt", "completionCriteria": "Bot asks for 10-digit mobile number", "maxAttempts": 10 },
+        { "id": "symbols_in_phone", "description": "Enter '946217!542' (phone with symbol)", "completionCriteria": "Bot rejects the mobile number with symbols", "maxAttempts": 3 },
+        { "id": "valid_mobile_complete", "description": "Provide valid mobile and complete booking", "completionCriteria": "Bot confirms appointment", "maxAttempts": 8, "expectClick": true }
+      ]
+    }
+  ]
+}

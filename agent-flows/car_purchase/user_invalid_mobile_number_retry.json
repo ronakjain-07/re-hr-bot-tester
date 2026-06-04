@@ -1,0 +1,49 @@
+{
+  "name": "User - Invalid Mobile Number Retry",
+  "groupId": "car_purchase",
+  "goal": "Verify that the bot correctly handles an invalid mobile number and prompts for re-entry until valid.",
+  "constraints": "User enters invalid mobile number first, then valid on retry.",
+  "tags": [
+    "validation",
+    "mobile_number",
+    "retry"
+  ],
+  "testdata": {
+    "userType": "users",
+    "emp_mobile_raw_invalid": "12345",
+    "phoneValidatorResp_invalid": {
+      "result": {
+        "isValid": false
+      }
+    },
+    "emp_mobile_raw_valid": "9123456789",
+    "phoneValidatorResp_valid": {
+      "result": {
+        "isValid": true,
+        "normalizedNumber": "+919123456789"
+      }
+    }
+  },
+  "phases": [
+    {
+      "id": "phase1",
+      "description": "User starts new application and enters invalid mobile number.",
+      "completionCriteria": "Bot rejects invalid number and prompts again.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "phase2",
+      "description": "User enters valid mobile number.",
+      "completionCriteria": "Bot accepts and proceeds to next input.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

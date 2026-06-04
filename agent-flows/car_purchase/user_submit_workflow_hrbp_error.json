@@ -1,0 +1,48 @@
+{
+  "name": "User - Submit Workflow HRBP Error",
+  "groupId": "car_purchase",
+  "goal": "Verify that if the submit workflow returns a 'Sorry' HRBP error, the bot displays the specified error message and completes.",
+  "constraints": "Simulate workflow:submitpurchasenewcar_marzen returning 'Sorry' error.",
+  "tags": [
+    "negative",
+    "submit",
+    "hrbp_error"
+  ],
+  "testdata": {
+    "userType": "users",
+    "emp_mobile_raw": "9876501234",
+    "phoneValidatorResp": {
+      "result": {
+        "isValid": true,
+        "normalizedNumber": "+919876501234"
+      }
+    },
+    "onRoadPriceOfCar": "1180000",
+    "emiOption": "36 Months",
+    "dealerName": "VWX Cars",
+    "dealerFullAddress": "90 City Center, Jaipur",
+    "cheque": "EICHER MOTORS LTD",
+    "carMakerName": "Renault",
+    "carModel": "Kwid",
+    "fuelType": "Petrol",
+    "undertakingLetter": "undertaking.pdf",
+    "proformaInvoiceOfCar": "invoice.pdf",
+    "submitWorkflowResponse": "Sorry! Something went wrong while searching for the HRBP details from the employee details table."
+  },
+  "phases": [
+    {
+      "id": "phase1",
+      "description": "User submits application and receives HRBP error.",
+      "completionCriteria": "Bot displays specified error message and ends task.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

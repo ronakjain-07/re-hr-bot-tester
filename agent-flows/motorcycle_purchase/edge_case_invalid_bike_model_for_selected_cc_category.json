@@ -1,0 +1,45 @@
+{
+  "name": "Edge Case — Invalid Bike Model for Selected CC Category",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify bot rejects bike model not in the selected CC category and re-prompts.",
+  "constraints": "User selects 411 CC, then enters a model from 350 CC list, then corrects.",
+  "tags": [
+    "validation",
+    "bike_model",
+    "cc_category",
+    "edge_case"
+  ],
+  "testdata": {
+    "cc_category": "411 CC",
+    "invalid_model": "BULLET 350 THE STANDARD BLACK",
+    "valid_model": "SCRAM 411 GRAPHITE BLUE"
+  },
+  "phases": [
+    {
+      "id": "cc_category_selection",
+      "description": "User selects 411 CC.",
+      "completionCriteria": "Bot shows 411 CC models.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "invalid_model_entry",
+      "description": "User enters model not in 411 CC list.",
+      "completionCriteria": "Bot rejects and re-prompts.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "valid_model_entry",
+      "description": "User selects valid 411 CC model.",
+      "completionCriteria": "Bot accepts and proceeds.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 16
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

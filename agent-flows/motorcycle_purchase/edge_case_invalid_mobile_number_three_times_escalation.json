@@ -1,0 +1,42 @@
+{
+  "name": "Edge Case — Invalid Mobile Number Three Times (Escalation)",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify bot handles three consecutive invalid mobile number entries with escalation message.",
+  "constraints": "User enters invalid mobile number three times. All other steps are skipped.",
+  "tags": [
+    "validation",
+    "mobile_number",
+    "escalation",
+    "negative"
+  ],
+  "testdata": {
+    "mobile_attempts": [
+      "12345",
+      "0000000000",
+      "987654321"
+    ],
+    "expected_escalation": "I'm unable to process your request at the moment. For assistance, please reach out to your location admin SPOC or write to: reenajames@royalenfield.com."
+  },
+  "phases": [
+    {
+      "id": "eligibility_check",
+      "description": "User is eligible and proceeds to mobile number entry.",
+      "completionCriteria": "Bot prompts for mobile number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "invalid_mobile_entries",
+      "description": "User enters three invalid mobile numbers.",
+      "completionCriteria": "Bot re-prompts after each invalid entry, after third invalid shows escalation message and ends.",
+      "maxAttempts": 3
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

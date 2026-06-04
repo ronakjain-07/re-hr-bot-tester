@@ -1,0 +1,47 @@
+{
+  "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "uploads": [],
+  "name": "AHC edge - phone with symbols rejected",
+  "tags": [
+    "edge",
+    "mobile_validation"
+  ],
+  "goal": "Verify bot rejects a phone number containing symbols",
+  "testdata": {
+    "invalidMobile": "946217!542",
+    "validMobile": "9462171542",
+    "appointmentDate": "{{today+7}}",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_mobile_prompt",
+      "description": "Navigate to mobile number prompt",
+      "completionCriteria": "Bot asks for 10-digit mobile number",
+      "maxAttempts": 10
+    },
+    {
+      "id": "symbols_in_phone",
+      "description": "Enter '946217!542' (phone with symbol)",
+      "completionCriteria": "Bot rejects the mobile number with symbols",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_mobile_complete",
+      "description": "Provide valid mobile and complete booking",
+      "completionCriteria": "Bot confirms appointment",
+      "maxAttempts": 8,
+      "expectClick": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

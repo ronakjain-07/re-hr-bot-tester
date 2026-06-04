@@ -1,0 +1,61 @@
+{
+  "name": "Appointment Date — User Omits Year, Bot Prompts for Year",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User provides appointment date without year; bot prompts for year and resolves date.",
+  "constraints": "User says '15 March' as appointment date, bot must ask for year before proceeding.",
+  "tags": [
+    "validation",
+    "appointment_date",
+    "year_confirmation"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "You are eligible to book an appointment."
+      }
+    },
+    "status2": "Book an appointment",
+    "coverageType": "Only Spouse",
+    "spouseName": "Meera Kapoor",
+    "spouseDOB": "10 Feb 1982",
+    "appointmentDate_partial": "{{today+7|dm}}",
+    "appointmentYear": "{{today+7|y}}",
+    "appointmentDatestr": "{{today+7}}"
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents booking option; user chooses to book.",
+      "completionCriteria": "User selects 'Book an appointment'."
+    },
+    {
+      "id": "step2",
+      "description": "Bot asks for coverage type; user selects 'Only Spouse'.",
+      "completionCriteria": "Bot accepts selection."
+    },
+    {
+      "id": "step3",
+      "description": "Bot collects spouse details; user provides valid name and DOB.",
+      "completionCriteria": "Bot accepts spouse name and DOB."
+    },
+    {
+      "id": "step4_partial",
+      "description": "User provides appointment date without year.",
+      "completionCriteria": "Bot asks for year confirmation."
+    },
+    {
+      "id": "step4_full",
+      "description": "User provides year; bot resolves and stores full date.",
+      "completionCriteria": "Bot stores date in DD MMM YYYY format and proceeds."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 42
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

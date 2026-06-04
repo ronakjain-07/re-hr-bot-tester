@@ -1,0 +1,28 @@
+{
+  "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "uploads": [],
+  "name": "Free flow - NPS pension contribution query",
+  "tags": [
+    "happy",
+    "free_flow"
+  ],
+  "goal": "Ask about pension contribution in free-flow style",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "pension_free_flow",
+      "description": "Ask 'Free flow - Pension contribution' or 'what is pension contribution'",
+      "completionCriteria": "Bot provides pension contribution information or starts NPS flow",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "free_flow"
+}

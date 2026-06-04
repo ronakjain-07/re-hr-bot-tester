@@ -1,0 +1,35 @@
+{
+  "name": "Request for IVF coverage details",
+  "groupId": "policies",
+  "goal": "User asks if IVF treatments are covered and what the coverage limits are.",
+  "constraints": "Bot must use only KB info, personalize reply, and cite the correct policy document and signed URL. No external info or filler.",
+  "tags": [
+    "edge_case",
+    "insurance",
+    "IVF",
+    "group_mediclaim"
+  ],
+  "testdata": {
+    "user_name": "Sonal Kapoor",
+    "user_designation": "QA Lead",
+    "query": "Are IVF treatments covered under our group mediclaim? What are the limits?",
+    "expected_policy": "Group_Mediclaim_Policy",
+    "expected_info": "IVF",
+    "expected_link_prefix": "https://app.yellow.ai/minio/"
+  },
+  "phases": [
+    {
+      "id": "ask_ivf",
+      "description": "User asks about IVF coverage under group mediclaim.",
+      "completionCriteria": "Bot responds with Sonal Kapoor's name/designation, confirms if IVF is covered, states limits, and cites correct source with signed URL."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

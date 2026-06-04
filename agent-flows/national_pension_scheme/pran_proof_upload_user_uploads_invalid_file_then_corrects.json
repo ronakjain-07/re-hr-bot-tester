@@ -1,0 +1,82 @@
+{
+  "name": "PRAN Proof Upload — User Uploads Invalid File, Then Corrects",
+  "groupId": "national_pension_scheme",
+  "goal": "User uploads an invalid PRAN proof (e.g., image or PDF >5MB), bot rejects and re-prompts until valid PDF is uploaded.",
+  "constraints": "First file is invalid (e.g., image or oversized PDF), second is valid PDF <5MB.",
+  "tags": [
+    "pran_proof",
+    "file_validation",
+    "edge_case"
+  ],
+  "testdata": {
+    "employee_name": "Meera Singh",
+    "employee_id": "RE33333",
+    "position_title": "Finance Analyst",
+    "employee_email": "meera.singh@royalenfield.com",
+    "pranNumber": "123456789012",
+    "pranProofFile_invalid": "pran_proof.jpg",
+    "pranProofFile_valid": "pran_proof.pdf",
+    "pranProofSizeMB_invalid": 6,
+    "pranProofSizeMB_valid": 2,
+    "taxRegime": "Old Regime",
+    "npsContributionOld": 8
+  },
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Proceed'.",
+      "completionCriteria": "Bot displays employee details confirmation.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "employee_details",
+      "description": "User confirms details.",
+      "completionCriteria": "Bot asks about PRAN availability.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_availability",
+      "description": "User says 'Yes'.",
+      "completionCriteria": "Bot prompts for PRAN number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_number",
+      "description": "User enters valid PRAN.",
+      "completionCriteria": "Bot prompts for PRAN proof upload.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_proof_invalid",
+      "description": "User uploads invalid file (image or PDF >5MB).",
+      "completionCriteria": "Bot rejects and re-prompts for PRAN proof.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_proof_valid",
+      "description": "User uploads valid PDF proof.",
+      "completionCriteria": "Bot prompts for Opt-In/Opt-Out.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "opt_selection",
+      "description": "User selects 'Opt IN for NPS'.",
+      "completionCriteria": "Bot prompts for tax regime.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "tax_regime_and_contribution",
+      "description": "User selects 'Old Regime' and enters 8 as contribution.",
+      "completionCriteria": "Bot submits update and displays completion message.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

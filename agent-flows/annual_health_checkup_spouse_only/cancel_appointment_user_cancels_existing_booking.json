@@ -1,0 +1,40 @@
+{
+  "name": "Cancel Appointment — User Cancels Existing Booking",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User cancels an existing appointment; bot confirms cancellation and ends flow.",
+  "constraints": "Eligibility mode is 'manage'; user selects 'Cancel appointment'.",
+  "tags": [
+    "cancel",
+    "manage",
+    "confirmation"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "manage",
+        "message": "You already have an appointment booked."
+      }
+    },
+    "status2": "Cancel appointment"
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents manage options; user selects 'Cancel appointment'.",
+      "completionCriteria": "Bot stores user intent as cancel."
+    },
+    {
+      "id": "step12",
+      "description": "Bot confirms cancellation and ends conversation.",
+      "completionCriteria": "Bot displays cancellation confirmation and exit message."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

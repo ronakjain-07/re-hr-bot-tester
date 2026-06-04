@@ -1,0 +1,42 @@
+{
+  "constraints": "Follow NPS journey brief: Proceed → confirm employee details → PRAN yes → 12-digit PRAN → PDF proof upload → Opt IN/OUT → (opt-in) tax regime + % → success. Each phase completes when the bot reaches the NEXT step in the brief, not the final confirmation.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 28,
+    "maxLlmCalls": 56
+  },
+  "uploads": [
+    {
+      "key": "pran_proof",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "NPS opt out happy flow",
+  "tags": [
+    "happy",
+    "opt_out"
+  ],
+  "goal": "Successfully opt out of the National Pension Scheme",
+  "testdata": {
+    "pranNumber": "500123456789"
+  },
+  "phases": [
+    {
+      "id": "nps_intro",
+      "description": "Proceed through NPS intro and confirm employee details",
+      "completionCriteria": "Bot asks if user has PRAN or shows Opt IN/Opt OUT",
+      "maxAttempts": 6
+    },
+    {
+      "id": "pran_and_opt_out",
+      "description": "Enter PRAN if needed, upload proof if asked, choose Opt OUT",
+      "completionCriteria": "Bot confirms NPS opt-out was submitted successfully",
+      "maxAttempts": 12,
+      "expectUpload": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "national_pension_scheme"
+}

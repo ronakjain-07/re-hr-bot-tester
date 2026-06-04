@@ -1,0 +1,45 @@
+{
+  "name": "user_requests_employment_letter_with_special_characters_in_name",
+  "groupId": "employment_letter",
+  "goal": "User with special characters in their name requests an employment letter.",
+  "constraints": "Employee details must be present. Employee name includes special characters.",
+  "tags": [
+    "happy_path",
+    "special_characters",
+    "unicode"
+  ],
+  "testdata": {
+    "employee_id": "E55555",
+    "employee_name": "Zoë D’Souza",
+    "email": "zoe.dsouza@example.com",
+    "department": "Design"
+  },
+  "phases": [
+    {
+      "id": "display_employee_details",
+      "description": "Bot displays employee details and options, including special characters.",
+      "completionCriteria": "Bot displays employee name with correct special characters.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter'.",
+      "completionCriteria": "Bot proceeds to trigger mail workflow silently.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "confirm_success",
+      "description": "Bot triggers mail and confirms success.",
+      "completionCriteria": "Bot displays the exact confirmation message for employment letter request.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

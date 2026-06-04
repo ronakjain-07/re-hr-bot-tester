@@ -1,0 +1,46 @@
+{
+  "name": "user_requests_employment_letter_with_recent_joining_date",
+  "groupId": "employment_letter",
+  "goal": "User who joined recently requests an employment letter.",
+  "constraints": "Employee details must be present. Joining date is within the last 7 days.",
+  "tags": [
+    "happy_path",
+    "recent_join",
+    "date"
+  ],
+  "testdata": {
+    "employee_id": "E99999",
+    "employee_name": "Nisha Patel",
+    "email": "nisha.patel@example.com",
+    "department": "Research",
+    "joining_date": "2024-06-10"
+  },
+  "phases": [
+    {
+      "id": "display_employee_details",
+      "description": "Bot displays employee details and options, including recent joining date.",
+      "completionCriteria": "Bot displays joining date as '2024-06-10'.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter'.",
+      "completionCriteria": "Bot proceeds to trigger mail workflow silently.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "confirm_success",
+      "description": "Bot triggers mail and confirms success.",
+      "completionCriteria": "Bot displays the exact confirmation message for employment letter request.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

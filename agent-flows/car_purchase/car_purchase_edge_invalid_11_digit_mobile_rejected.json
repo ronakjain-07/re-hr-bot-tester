@@ -1,0 +1,53 @@
+{
+  "constraints": "Match real employee chat: choose New car purchase, Start new Application, then step through mobile, price, EMI, dealer, car details, PDF uploads, and confirm. Use testdata values — do not invent dealer codes.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 45,
+    "maxLlmCalls": 90
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    },
+    {
+      "key": "proforma_invoice",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Car purchase edge - invalid 11-digit mobile rejected",
+  "tags": [
+    "edge",
+    "mobile_validation"
+  ],
+  "goal": "Verify bot rejects 11-digit mobile (e.g. 98765432101) before accepting valid number",
+  "testdata": {
+    "invalidMobile11": "98765432101",
+    "validMobile": "9876543310",
+    "onRoadPrice": "30 lakhs"
+  },
+  "phases": [
+    {
+      "id": "reach_mobile_prompt",
+      "description": "Reach new car mobile number step",
+      "completionCriteria": "Bot asks for 10-digit mobile number",
+      "maxAttempts": 8
+    },
+    {
+      "id": "invalid_mobile_11_digit",
+      "description": "Provide 11-digit mobile",
+      "completionCriteria": "Bot rejects mobile as invalid",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_mobile_accepted",
+      "description": "Provide valid 10-digit mobile",
+      "completionCriteria": "Bot accepts mobile and proceeds (e.g. asks on-road price)",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "car_purchase"
+}

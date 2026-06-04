@@ -1,0 +1,49 @@
+{
+  "name": "Edge Case — Re-Apply from Preview Step",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify user can select 'Re-Apply' at preview step and restart application.",
+  "constraints": "User reaches preview, selects 'Re-Apply', then starts new application.",
+  "tags": [
+    "reapply",
+    "preview",
+    "restart"
+  ],
+  "testdata": {
+    "initial_mobile": "9876543210",
+    "initial_state": "Gujarat",
+    "initial_city": "Ahmedabad",
+    "initial_model": "Goan 350 Rave Red",
+    "reapply_mobile": "9876501234",
+    "reapply_state": "Delhi",
+    "reapply_city": "Delhi",
+    "reapply_model": "HIMALAYAN INDIA KAMET WHITE C1"
+  },
+  "phases": [
+    {
+      "id": "first_application",
+      "description": "User completes application up to preview.",
+      "completionCriteria": "Bot shows preview with all details.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "reapply_selection",
+      "description": "User selects 'Re-Apply'.",
+      "completionCriteria": "Bot restarts application from Step 1.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "second_application",
+      "description": "User completes new application with different details.",
+      "completionCriteria": "Bot shows new preview with updated details.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 32,
+    "maxLlmCalls": 60
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

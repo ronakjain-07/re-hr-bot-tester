@@ -1,0 +1,41 @@
+{
+  "constraints": "The bot always asks for the year regardless of how the user phrases the request. Never provide the year in the initial request — wait for the bot to ask.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Appraisal letter happy flow - show letter",
+  "tags": [
+    "happy"
+  ],
+  "goal": "Request an appraisal letter and choose Show Letter option",
+  "testdata": {
+    "year": "2023"
+  },
+  "phases": [
+    {
+      "id": "request_appraisal",
+      "description": "Say 'I need my appraisal letter for 2023'",
+      "completionCriteria": "Bot asks which year the appraisal letter is needed for",
+      "maxAttempts": 4
+    },
+    {
+      "id": "provide_year",
+      "description": "Provide year 2023",
+      "completionCriteria": "Bot shows appraisal card with image and redirection link",
+      "maxAttempts": 3
+    },
+    {
+      "id": "view_letter",
+      "description": "Choose Show Letter option",
+      "completionCriteria": "Bot shows the appraisal image and a working redirect link",
+      "maxAttempts": 3
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "appraisal_letter"
+}

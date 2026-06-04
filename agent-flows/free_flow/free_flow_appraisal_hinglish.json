@@ -1,0 +1,36 @@
+{
+  "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "uploads": [],
+  "name": "Free flow - appraisal Hinglish",
+  "tags": [
+    "happy",
+    "hinglish"
+  ],
+  "goal": "Test 'want appraisal' maps to appraisal letter and bot asks for year",
+  "testdata": {
+    "year": "2024"
+  },
+  "phases": [
+    {
+      "id": "hinglish_appraisal",
+      "description": "Say just 'want appraisal' or 'appraisal letter mail kar do'",
+      "completionCriteria": "Bot recognizes appraisal intent and asks for the year",
+      "maxAttempts": 4
+    },
+    {
+      "id": "provide_year",
+      "description": "Provide year 2024",
+      "completionCriteria": "Bot shows appraisal card",
+      "maxAttempts": 3
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "free_flow"
+}

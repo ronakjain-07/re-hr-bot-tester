@@ -1,0 +1,29 @@
+{
+  "policies": {
+    "queue": []
+  },
+  "employment_letter": {
+    "queue": []
+  },
+  "appraisal_letter": {
+    "queue": []
+  },
+  "national_pension_scheme": {
+    "queue": []
+  },
+  "voluntary_provident_fund": {
+    "queue": []
+  },
+  "car_purchase": {
+    "queue": []
+  },
+  "negative_utterances": {
+    "queue": []
+  },
+  "hybrid_flows": {
+    "queue": []
+  },
+  "free_flow": {
+    "queue": []
+  }
+}

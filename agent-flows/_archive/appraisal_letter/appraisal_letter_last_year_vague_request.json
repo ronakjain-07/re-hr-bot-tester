@@ -1,0 +1,36 @@
+{
+  "constraints": "The bot always asks for the year regardless of how the user phrases the request. Never provide the year in the initial request — wait for the bot to ask.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Appraisal letter - last year vague request",
+  "tags": [
+    "edge",
+    "year_always_required"
+  ],
+  "goal": "Verify bot asks for the year even when user says 'last year'",
+  "testdata": {
+    "year": "2024"
+  },
+  "phases": [
+    {
+      "id": "last_year_request",
+      "description": "Say 'I need my last year appraisal letter'",
+      "completionCriteria": "Bot asks which specific year is needed",
+      "maxAttempts": 4
+    },
+    {
+      "id": "confirm_year",
+      "description": "Provide 2024",
+      "completionCriteria": "Bot shows appraisal card",
+      "maxAttempts": 3
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "appraisal_letter"
+}

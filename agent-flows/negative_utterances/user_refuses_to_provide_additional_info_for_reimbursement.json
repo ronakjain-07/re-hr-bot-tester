@@ -1,0 +1,39 @@
+{
+  "name": "User refuses to provide additional info for reimbursement",
+  "groupId": "negative_utterances",
+  "goal": "Test bot's persistence and politeness when user refuses to provide required reimbursement details.",
+  "constraints": "Bot should politely explain necessity and offer help, without escalating.",
+  "tags": [
+    "reimbursement",
+    "refusal",
+    "expense",
+    "information_request"
+  ],
+  "testdata": {
+    "expense_type": "Travel",
+    "amount": 150.75,
+    "missing_info": "receipt image"
+  },
+  "phases": [
+    {
+      "id": "submit_expense",
+      "description": "User submits a travel expense for reimbursement.",
+      "completionCriteria": "Bot requests missing receipt image.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_refusal",
+      "description": "User refuses to provide the requested receipt (e.g., 'I don't have it, just process it!').",
+      "completionCriteria": "Bot politely explains the requirement and offers guidance.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,34 @@
+{
+  "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "uploads": [],
+  "name": "Free flow - I need employment proof for bank",
+  "tags": [
+    "happy",
+    "specific_use_case"
+  ],
+  "goal": "Test employment letter request with specific purpose (bank)",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "bank_purpose_request",
+      "description": "Say 'I need employment proof for bank'",
+      "completionCriteria": "Bot maps this to employment letter flow",
+      "maxAttempts": 4
+    },
+    {
+      "id": "complete_flow",
+      "description": "Complete the letter request",
+      "completionCriteria": "Bot confirms employment letter request",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "free_flow"
+}

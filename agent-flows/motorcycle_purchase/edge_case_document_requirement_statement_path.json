@@ -1,0 +1,37 @@
+{
+  "name": "Edge Case — Document Requirement Statement Path",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify bot displays DocRequiedmentstatement when eligibility workflow returns 'docreqconcern'.",
+  "constraints": "Eligibility workflow returns 'docreqconcern' and provides a statement.",
+  "tags": [
+    "eligibility",
+    "document_requirement",
+    "edge_case"
+  ],
+  "testdata": {
+    "eligibility_result": "docreqconcern",
+    "doc_statement": "You need to submit your previous purchase invoice."
+  },
+  "phases": [
+    {
+      "id": "eligibility_check",
+      "description": "Eligibility workflow returns 'docreqconcern' with statement.",
+      "completionCriteria": "Bot displays DocRequiedmentstatement and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "mobile_entry",
+      "description": "User enters valid mobile number.",
+      "completionCriteria": "Bot accepts and proceeds.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

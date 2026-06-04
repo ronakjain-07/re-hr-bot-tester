@@ -1,0 +1,28 @@
+{
+  "name": "Request Hybrid Policy Details",
+  "groupId": "hybrid_flows",
+  "goal": "Employee asks for the current hybrid work policy details.",
+  "constraints": "Bot must provide up-to-date policy information.",
+  "tags": [
+    "policy",
+    "information",
+    "hybrid"
+  ],
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_policy",
+      "description": "User requests details about the hybrid work policy.",
+      "completionCriteria": "Bot provides a summary of the current policy.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 4,
+    "maxLlmCalls": 8
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

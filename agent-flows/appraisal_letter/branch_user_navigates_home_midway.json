@@ -1,0 +1,43 @@
+{
+  "name": "Branch - User Navigates Home Midway",
+  "groupId": "appraisal_letter",
+  "goal": "User starts the journey but opts to go Home/Main Menu before completing.",
+  "constraints": "User selects Home/Main Menu from quick replies at any step. Bot routes to Welcome.",
+  "tags": [
+    "branch",
+    "navigation",
+    "home"
+  ],
+  "testdata": {
+    "menuType": "only years",
+    "isManagerAllowed": "no",
+    "year_resp": "2025",
+    "userAction": null,
+    "navigation": "Home"
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm menuType is 'only years'.",
+      "completionCriteria": "Bot presents quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "year_selection",
+      "description": "User selects 2025.",
+      "completionCriteria": "Bot prompts for delivery preference."
+    },
+    {
+      "id": "navigate_home",
+      "description": "User selects 'Go Home/Main Menu'.",
+      "completionCriteria": "Bot routes to Welcome (welcome_xlxylz)."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 15
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

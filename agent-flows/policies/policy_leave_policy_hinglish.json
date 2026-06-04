@@ -1,0 +1,29 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Policy - leave policy Hinglish",
+  "tags": [
+    "happy",
+    "kb",
+    "hinglish"
+  ],
+  "goal": "Ask about leave policy in Hinglish and get a relevant answer",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "hinglish_leave",
+      "description": "Ask 'i want leave policy' — in lowercase/casual format",
+      "completionCriteria": "Bot answers with leave policy information",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "hr-bot-tester",
+  "private": true,
+  "version": "2.0.0",
+  "description": "HR/CX bot test-automation — rebuild (React+Vite+TS frontend, Fastify+TS backend)",
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,web -c blue,magenta \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "npm run dev -w @hr/server",
+    "dev:web": "npm run dev -w @hr/web",
+    "build": "npm run build -w @hr/web",
+    "start": "npm run start -w @hr/server",
+    "typecheck": "npm run typecheck -w @hr/server && npm run typecheck -w @hr/web"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "typescript": "^5.7.2"
+  }
+}

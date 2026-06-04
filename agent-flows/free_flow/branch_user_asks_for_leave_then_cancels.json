@@ -1,0 +1,39 @@
+{
+  "name": "Branch: User Asks for Leave, Then Cancels",
+  "groupId": "free_flow",
+  "goal": "User initiates a leave request but cancels before confirmation.",
+  "constraints": "Bot should handle cancellation gracefully and not submit leave.",
+  "tags": [
+    "leave",
+    "cancel",
+    "branch",
+    "hinglish"
+  ],
+  "testdata": {
+    "leave_type": "casual",
+    "start_date": "{{today+20|iso}}",
+    "end_date": "{{today+22|iso}}"
+  },
+  "phases": [
+    {
+      "id": "initiate_leave",
+      "description": "User says 'Mujhe 20 se 22 July tak casual leave chahiye'.",
+      "completionCriteria": "Bot asks for confirmation or reason for leave.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "cancel_leave",
+      "description": "User says 'Cancel kar do, abhi nahi chahiye'.",
+      "completionCriteria": "Bot confirms leave request is cancelled and nothing is submitted.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 15
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

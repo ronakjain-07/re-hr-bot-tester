@@ -1,0 +1,47 @@
+{
+  "goal": "Verify the bot rejects letters/symbols entered as a mobile number",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "up_to_mobile",
+      "description": "Navigate to the mobile number prompt",
+      "completionCriteria": "Bot has asked for a 10-digit mobile number",
+      "maxAttempts": 10
+    },
+    {
+      "id": "send_letters_as_mobile",
+      "description": "Send alphabetic text where mobile number is expected",
+      "completionCriteria": "Bot rejects and asks for a valid 10-digit number",
+      "maxAttempts": 3
+    },
+    {
+      "id": "recover_and_complete",
+      "description": "Provide valid mobile and complete booking",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 8,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - alphanumeric input as mobile",
+  "tags": [
+    "edge",
+    "mobile_validation"
+  ],
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "invalidMobile": "abcdefghij",
+    "validMobile": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

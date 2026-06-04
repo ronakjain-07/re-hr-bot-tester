@@ -1,0 +1,39 @@
+{
+  "name": "Incorrect Date Format for Leave",
+  "groupId": "free_flow",
+  "goal": "User provides leave dates in an invalid format.",
+  "constraints": "Bot should prompt user to re-enter dates in correct format.",
+  "tags": [
+    "leave",
+    "validation",
+    "date_format",
+    "negative"
+  ],
+  "testdata": {
+    "leave_type": "sick",
+    "start_date": "10-07-2024",
+    "end_date": "12-07-2024"
+  },
+  "phases": [
+    {
+      "id": "initiate_leave_invalid",
+      "description": "User says 'Mujhe 10-07-2024 se 12-07-2024 tak sick leave chahiye'.",
+      "completionCriteria": "Bot detects invalid date format and asks for correct format (YYYY-MM-DD).",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_correct_dates",
+      "description": "User provides '2024-07-10 se 2024-07-12'.",
+      "completionCriteria": "Bot continues leave application process.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 15
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

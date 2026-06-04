@@ -1,0 +1,30 @@
+{
+  "name": "User Sends Unrelated Negative Feedback",
+  "groupId": "negative_utterances",
+  "goal": "Validate bot's ability to redirect when user complains about unrelated company issues.",
+  "constraints": "Bot should acknowledge feedback but steer conversation back to HR topics.",
+  "tags": [
+    "redirection",
+    "feedback",
+    "off-topic"
+  ],
+  "testdata": {
+    "unrelated_issue": "cafeteria food quality"
+  },
+  "phases": [
+    {
+      "id": "off_topic_complaint",
+      "description": "User complains about the cafeteria food quality.",
+      "completionCriteria": "Bot acknowledges the feedback and gently redirects to HR-related assistance.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

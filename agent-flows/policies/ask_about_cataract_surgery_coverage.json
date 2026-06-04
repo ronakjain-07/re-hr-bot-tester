@@ -1,0 +1,35 @@
+{
+  "name": "Ask about cataract surgery coverage",
+  "groupId": "policies",
+  "goal": "User inquires if cataract surgery is covered under employee insurance.",
+  "constraints": "Bot must route to Group_Mediclaim_Policy, answer only from KB, personalize, and cite correct doc/link. No generic info.",
+  "tags": [
+    "edge_case",
+    "insurance",
+    "cataract",
+    "group_mediclaim"
+  ],
+  "testdata": {
+    "user_name": "Vikas Jain",
+    "user_designation": "Finance Analyst",
+    "query": "Is cataract surgery covered under our medical insurance?",
+    "expected_policy": "Group_Mediclaim_Policy",
+    "expected_info": "cataract",
+    "expected_link_prefix": "https://app.yellow.ai/minio/"
+  },
+  "phases": [
+    {
+      "id": "ask_cataract",
+      "description": "User asks if cataract surgery is covered.",
+      "completionCriteria": "Bot responds with Vikas Jain's name/designation, confirms if covered, states limits if any, and cites source with signed URL."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Policy - payslip request",
+  "tags": [
+    "edge",
+    "out_of_scope"
+  ],
+  "goal": "Ask for a payslip — which may be out of scope — and see how bot handles it",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_payslip",
+      "description": "Ask 'i need my payslip'",
+      "completionCriteria": "Bot either provides payslip info or politely explains it cannot help with this and redirects to HR services",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

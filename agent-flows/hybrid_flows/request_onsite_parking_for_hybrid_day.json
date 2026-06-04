@@ -1,0 +1,37 @@
+{
+  "name": "Request Onsite Parking for Hybrid Day",
+  "groupId": "hybrid_flows",
+  "goal": "Employee requests a parking spot for a day they plan to work onsite.",
+  "constraints": "Parking availability must be checked for the requested date.",
+  "tags": [
+    "parking",
+    "onsite",
+    "resource"
+  ],
+  "testdata": {
+    "parking_date": "{{today+7|iso}}",
+    "vehicle_plate": "XYZ1234"
+  },
+  "phases": [
+    {
+      "id": "initiate_parking_request",
+      "description": "User requests parking for a specific onsite day.",
+      "completionCriteria": "Bot asks for the date and vehicle plate.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_parking_details",
+      "description": "User provides valid date and vehicle plate number.",
+      "completionCriteria": "Bot checks availability and confirms reservation.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 18
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

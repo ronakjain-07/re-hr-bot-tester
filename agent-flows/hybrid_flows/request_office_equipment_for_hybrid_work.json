@@ -1,0 +1,38 @@
+{
+  "name": "Request Office Equipment for Hybrid Work",
+  "groupId": "hybrid_flows",
+  "goal": "Employee requests additional office equipment for hybrid work (e.g., monitor, chair).",
+  "constraints": "Request must be within allowed equipment limits.",
+  "tags": [
+    "equipment",
+    "request",
+    "resource"
+  ],
+  "testdata": {
+    "equipment_type": "Monitor",
+    "quantity": 1,
+    "justification": "Need a second monitor for productivity"
+  },
+  "phases": [
+    {
+      "id": "initiate_equipment_request",
+      "description": "User requests additional office equipment.",
+      "completionCriteria": "Bot asks for equipment type, quantity, and justification.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_equipment_details",
+      "description": "User provides valid equipment details and justification.",
+      "completionCriteria": "Bot checks eligibility and confirms the request.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 18
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

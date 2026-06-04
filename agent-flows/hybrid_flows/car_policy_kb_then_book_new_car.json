@@ -1,0 +1,36 @@
+{
+  "constraints": "Rapid topic switching across KB and transactional intents. Evaluate whether the bot stays grounded: addresses the CURRENT phase only; does NOT invent confirmations (bookings, letters raised, approvals) from earlier turns; does NOT mix unrelated policy facts across topics; politely clarifies when confused instead of hallucinating.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 55,
+    "maxLlmCalls": 110
+  },
+  "uploads": [],
+  "name": "Car policy KB then book new car",
+  "tags": [
+    "hybrid",
+    "kb",
+    "car_purchase"
+  ],
+  "goal": "Ask car policy from knowledge base then start new car purchase booking like real chat",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_car_policy",
+      "description": "Ask 'i want to know about car policy'",
+      "completionCriteria": "Bot explains company car policy from knowledge base",
+      "maxAttempts": 4
+    },
+    {
+      "id": "book_new_car",
+      "description": "Say 'help me book one' or 'new car purchase' and reach mobile number step",
+      "completionCriteria": "Bot starts new car application and asks for 10-digit mobile or Start new Application",
+      "maxAttempts": 8,
+      "recoveryHint": "Choose new car purchase if bot lists vehicle types"
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "hybrid_flows"
+}

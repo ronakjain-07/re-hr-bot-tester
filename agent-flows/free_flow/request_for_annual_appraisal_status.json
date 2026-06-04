@@ -1,0 +1,30 @@
+{
+  "name": "Request for Annual Appraisal Status",
+  "groupId": "free_flow",
+  "goal": "User asks about the status of their annual appraisal in Hinglish.",
+  "constraints": "Bot should provide current appraisal status and next steps.",
+  "tags": [
+    "appraisal",
+    "status",
+    "hinglish"
+  ],
+  "testdata": {
+    "appraisal_status": "Under Review"
+  },
+  "phases": [
+    {
+      "id": "ask_appraisal_status",
+      "description": "User says 'Mera annual appraisal ka kya status hai?'",
+      "completionCriteria": "Bot replies with current appraisal status and any pending actions.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 5,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

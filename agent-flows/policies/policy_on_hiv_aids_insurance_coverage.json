@@ -1,0 +1,37 @@
+{
+  "name": "Policy on HIV/AIDS insurance coverage",
+  "groupId": "policies",
+  "goal": "User asks about HIV/AIDS coverage in group mediclaim policy.",
+  "constraints": "Bot must use Group_Mediclaim_Policy, personalize, bullet points, caps, source line with signed URL.",
+  "tags": [
+    "insurance",
+    "HIV",
+    "group_mediclaim"
+  ],
+  "testdata": {
+    "user_query": "Is HIV/AIDS covered under our group mediclaim policy?",
+    "employee_name": "Amit Sinha",
+    "designation": "Support Associate"
+  },
+  "phases": [
+    {
+      "id": "query_received",
+      "description": "User asks about HIV/AIDS coverage.",
+      "completionCriteria": "Bot answers coverage, user's name/designation, no filler."
+    },
+    {
+      "id": "formatting_and_source",
+      "description": "Bot uses correct formatting and source line.",
+      "completionCriteria": "Bullet points, caps, doc name and signed URL.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

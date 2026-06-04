@@ -1,0 +1,29 @@
+{
+  "name": "Embassy Workflow Returns 'Show Message' — Duplicate Request",
+  "groupId": "uk_visa",
+  "goal": "User attempts to initiate a UK visa invitation letter but has already initiated one for the same country.",
+  "constraints": "Embassy workflow returns 'show message' at initialization.",
+  "tags": [
+    "edge_case",
+    "duplicate",
+    "early_exit"
+  ],
+  "testdata": {
+    "visa_embassy_list": "show message"
+  },
+  "phases": [
+    {
+      "id": "init_and_embassy_check",
+      "description": "Agent initializes variables and calls embassy list workflow, which returns 'show message'.",
+      "completionCriteria": "Bot says 'You already initiated a letter for the same country. Can you please try once the visa is approved/rejected.' and ends."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 2,
+    "maxLlmCalls": 4
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

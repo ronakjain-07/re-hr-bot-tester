@@ -1,0 +1,53 @@
+{
+  "name": "Opt Out Submission Failure",
+  "groupId": "voluntary_provident_fund",
+  "goal": "User opts out, but the VPF update workflow fails all three times, triggering escalation.",
+  "constraints": "Workflow submission fails (null/error) on all retries.",
+  "tags": [
+    "negative",
+    "opt_out",
+    "workflow_failure",
+    "escalation"
+  ],
+  "testdata": {
+    "employee_name": "Sonal Jain",
+    "employee_id": "RE55667",
+    "business_email_address": "sonal.jain@royalenfield.com",
+    "job_title": "QA Lead",
+    "location": "Hyderabad"
+  },
+  "phases": [
+    {
+      "id": "init_intro",
+      "description": "User is presented with the VPF intro and chooses 'PROCEED'.",
+      "completionCriteria": "Bot displays intro message and user selects 'PROCEED'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "fetch_details",
+      "description": "Bot fetches and displays employee details for confirmation.",
+      "completionCriteria": "Bot displays correct employee details and user confirms 'Yes'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "opt_out_select",
+      "description": "User selects 'Opt OUT' for VPF.",
+      "completionCriteria": "Bot displays opt-in/out options and user selects 'Opt OUT'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "submission_failure",
+      "description": "Bot attempts to submit VPF update, fails all three times.",
+      "completionCriteria": "Bot escalates with the exact escalation message after three failed workflow calls.",
+      "maxAttempts": 3
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 12,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

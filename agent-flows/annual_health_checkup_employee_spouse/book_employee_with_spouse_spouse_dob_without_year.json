@@ -1,0 +1,62 @@
+{
+  "name": "Book Employee with Spouse — Spouse DOB Without Year",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User provides spouse DOB without year; bot prompts for year and user completes DOB entry.",
+  "constraints": "User enters '15 May' as spouse DOB; bot asks for year; user provides year; bot stores full DOB.",
+  "tags": [
+    "validation",
+    "spouse_dob",
+    "missing_year",
+    "edge_case"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Meena Rao",
+    "spouseDOB_partial": "15 May",
+    "spouseDOB_year": "1982",
+    "spouseDOB_full": "15 May 1982",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10": "9876123450",
+    "state": "West Bengal",
+    "city": "Kolkata",
+    "clinicName": "AMRI Hospital"
+  },
+  "phases": [
+    {
+      "id": "coverage_and_spouse_name",
+      "description": "User selects 'Employee with Spouse' and provides spouse name.",
+      "completionCriteria": "Bot captures spouse name.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_dob_partial",
+      "description": "User enters spouse DOB without year; bot prompts for year.",
+      "completionCriteria": "Bot asks 'Could you confirm the year?'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "spouse_dob_year",
+      "description": "User provides year; bot stores full DOB.",
+      "completionCriteria": "Bot stores DOB in DD MMM YYYY format.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "finish_booking",
+      "description": "User completes booking flow.",
+      "completionCriteria": "Bot confirms booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 23,
+    "maxLlmCalls": 42
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

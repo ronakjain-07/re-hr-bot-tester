@@ -1,0 +1,40 @@
+{
+  "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "uploads": [],
+  "name": "Free flow - visa letter ka process kya hai",
+  "tags": [
+    "happy",
+    "hinglish"
+  ],
+  "goal": "Test Hinglish visa process query",
+  "testdata": {
+    "name": "Geetika Mago",
+    "passportNumber": "B1234567",
+    "startDate": "{{today+15}}",
+    "endDate": "{{today+20}}",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "visa_process_query",
+      "description": "Ask 'visa letter ka process kya hai' or 'uk jaana hai visa letter chahiye'",
+      "completionCriteria": "Bot starts UK visa letter flow",
+      "maxAttempts": 4
+    },
+    {
+      "id": "complete_flow",
+      "description": "Complete UK visa letter request with valid data",
+      "completionCriteria": "Bot confirms UK visa letter request",
+      "maxAttempts": 15
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "free_flow"
+}

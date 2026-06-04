@@ -1,0 +1,40 @@
+{
+  "constraints": "Test UK visa invitation letter flow thoroughly. Available cities: Bangalore, North Goa, Mumbai, Chennai, New Delhi.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "uploads": [],
+  "name": "UK visa - all 5 cities available",
+  "tags": [
+    "happy",
+    "city_selection"
+  ],
+  "goal": "Verify all 5 city options (Bangalore, North Goa, Mumbai, Chennai, New Delhi) are shown in the UK visa flow",
+  "testdata": {
+    "name": "Geetika Mago",
+    "passportNumber": "B1234567",
+    "startDate": "{{today+15}}",
+    "endDate": "{{today+20}}",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "start_visa_flow",
+      "description": "Request a UK visa letter",
+      "completionCriteria": "Bot presents 5 city options including Bangalore, North Goa, Mumbai, Chennai, New Delhi",
+      "maxAttempts": 4
+    },
+    {
+      "id": "select_city_and_complete",
+      "description": "Select Chennai and complete the visa letter request",
+      "completionCriteria": "Bot confirms the UK visa letter request has been raised",
+      "maxAttempts": 10
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

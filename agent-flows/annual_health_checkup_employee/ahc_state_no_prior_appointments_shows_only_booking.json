@@ -1,0 +1,40 @@
+{
+  "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "uploads": [],
+  "name": "AHC state - no prior appointments shows only booking",
+  "tags": [
+    "happy",
+    "state_machine"
+  ],
+  "goal": "Verify that when user has no prior appointment, only booking option is shown",
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "check_booking_option_only",
+      "description": "Ask about annual health checkup — expect only Book an appointment option, no reschedule/cancel",
+      "completionCriteria": "Bot shows only Book an appointment option (no reschedule or cancel since no prior booking)",
+      "maxAttempts": 4
+    },
+    {
+      "id": "complete_booking",
+      "description": "Complete a new booking",
+      "completionCriteria": "Bot confirms appointment booking",
+      "maxAttempts": 15,
+      "expectClick": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

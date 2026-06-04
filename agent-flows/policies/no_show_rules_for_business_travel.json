@@ -1,0 +1,37 @@
+{
+  "name": "No-show rules for business travel",
+  "groupId": "policies",
+  "goal": "User inquires about no-show rules for business travel bookings.",
+  "constraints": "Bot must use travel policy KB, personalize, bullet points, caps, source line with signed URL.",
+  "tags": [
+    "business_travel",
+    "no_show",
+    "rules"
+  ],
+  "testdata": {
+    "user_query": "What are the no-show rules for business travel bookings?",
+    "employee_name": "Neha Joshi",
+    "designation": "Operations Lead"
+  },
+  "phases": [
+    {
+      "id": "query_received",
+      "description": "User asks about no-show rules.",
+      "completionCriteria": "Bot provides rules, user's name/designation, no filler."
+    },
+    {
+      "id": "formatting_and_source",
+      "description": "Bot uses correct formatting and source line.",
+      "completionCriteria": "Bullet points, caps, doc name and signed URL.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

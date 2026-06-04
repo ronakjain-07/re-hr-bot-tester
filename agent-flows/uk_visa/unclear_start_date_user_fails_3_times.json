@@ -1,0 +1,53 @@
+{
+  "name": "Unclear Start Date — User Fails 3 Times",
+  "groupId": "uk_visa",
+  "goal": "User repeatedly provides unclear travel start date, exceeding max attempts, bot gracefully ends.",
+  "constraints": "User provides unclear or unparsable start date 3 times.",
+  "tags": [
+    "negative",
+    "validation",
+    "max_attempts",
+    "start_date"
+  ],
+  "testdata": {
+    "cityUK": "Glasgow",
+    "passportName": "Emily Chen",
+    "rawPassportNumber": "D1237894",
+    "validatedPassportNumber": "D1237894",
+    "ukStartDate_attempts": [
+      "soon",
+      "maybe next summer",
+      "idk"
+    ]
+  },
+  "phases": [
+    {
+      "id": "init_and_city",
+      "description": "Agent initializes, user selects 'Glasgow'.",
+      "completionCriteria": "Bot captures 'Glasgow'."
+    },
+    {
+      "id": "passport_name",
+      "description": "User provides 'Emily Chen'.",
+      "completionCriteria": "Bot captures name."
+    },
+    {
+      "id": "passport_number",
+      "description": "User provides valid passport number.",
+      "completionCriteria": "Bot validates and proceeds."
+    },
+    {
+      "id": "start_date_failures",
+      "description": "User provides unclear start date 3 times, bot prompts each time.",
+      "completionCriteria": "After 3rd unclear input, bot says 'try again later' message and ends."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 12,
+    "maxLlmCalls": 22
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

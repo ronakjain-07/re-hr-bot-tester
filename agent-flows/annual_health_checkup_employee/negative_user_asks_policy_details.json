@@ -1,0 +1,36 @@
+{
+  "name": "Negative — User Asks Policy Details",
+  "groupId": "annual_health_checkup_employee",
+  "goal": "User asks a policy or coverage question; bot must redirect to Knowledge Base.",
+  "constraints": "User attempts to get policy details instead of booking.",
+  "tags": [
+    "negative",
+    "policy",
+    "knowledge_base"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "Eligible for booking."
+      }
+    },
+    "user_policy_question": "What is covered in the annual health checkup?"
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "description": "User asks policy/coverage question.",
+      "completionCriteria": "Bot does not answer, redirects to Knowledge Base.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 5,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

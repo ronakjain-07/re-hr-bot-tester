@@ -1,0 +1,37 @@
+{
+  "name": "Negative - Not Allowed to Check for Team",
+  "groupId": "appraisal_letter",
+  "goal": "User without manager access tries to reference another employee or Ecode. Bot denies and does not proceed.",
+  "constraints": "isManagerAllowed is 'no'. User mentions another employee or Ecode in free text. Bot must block and not proceed to year selection.",
+  "tags": [
+    "negative",
+    "security",
+    "access_control"
+  ],
+  "testdata": {
+    "menuType": "only years",
+    "isManagerAllowed": "no",
+    "user_message": "I want to see appraisal letter for Ecode EMP9999",
+    "year": "2024"
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm user is not a manager.",
+      "completionCriteria": "Bot presents quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "unauthorized_reference",
+      "description": "User mentions another employee in their message.",
+      "completionCriteria": "Bot replies 'You are not allowed to see someone else's appraisal letter.' and does not proceed."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

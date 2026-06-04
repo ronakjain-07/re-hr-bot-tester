@@ -1,0 +1,49 @@
+{
+  "goal": "Verify exact boundary: spouse DOB making them exactly just under 18 years old is rejected",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "start_spouse_booking",
+      "description": "Start AHC booking with spouse and reach DOB prompt",
+      "completionCriteria": "Bot has asked for spouse date of birth",
+      "maxAttempts": 6
+    },
+    {
+      "id": "provide_underage_dob",
+      "description": "Provide a DOB that makes spouse under 18",
+      "completionCriteria": "Bot rejects the DOB with under-18 message",
+      "maxAttempts": 3
+    },
+    {
+      "id": "complete_with_valid_dob",
+      "description": "Provide a valid adult DOB and complete booking",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 12,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - spouse younger than 18 by 1 day",
+  "tags": [
+    "edge",
+    "spouse_validation"
+  ],
+  "testdata": {
+    "spouseName": "Minor",
+    "invalidSpouseDob": "{{today-6570}}",
+    "validSpouseDob": "1st January 1990",
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee_spouse"
+}

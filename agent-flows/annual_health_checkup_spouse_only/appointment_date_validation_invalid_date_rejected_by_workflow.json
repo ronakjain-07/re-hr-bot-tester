@@ -1,0 +1,72 @@
+{
+  "name": "Appointment Date Validation — Invalid Date Rejected by Workflow",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User provides a date that fails external appointment date validator; bot displays exact reason and re-prompts.",
+  "constraints": "Appointment date is a Sunday, which is not allowed per validator workflow.",
+  "tags": [
+    "validation",
+    "appointment_date",
+    "workflow_rejection"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "You are eligible to book an appointment."
+      }
+    },
+    "status2": "Book an appointment",
+    "coverageType": "Only Spouse",
+    "spouseName": "Suman Rao",
+    "spouseDOB": "05 Sep 1980",
+    "appointmentDatestr_invalid": "17 Mar 2024",
+    "dateValidatorResp": {
+      "result": {
+        "isValid": false,
+        "reason": "Appointments cannot be booked on Sundays."
+      }
+    },
+    "appointmentDatestr_valid": "{{today+7}}",
+    "dateValidatorResp_valid": {
+      "result": {
+        "isValid": true,
+        "formattedDate": "18 Mar 2024"
+      }
+    }
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents booking option; user chooses to book.",
+      "completionCriteria": "User selects 'Book an appointment'."
+    },
+    {
+      "id": "step2",
+      "description": "Bot asks for coverage type; user selects 'Only Spouse'.",
+      "completionCriteria": "Bot accepts selection."
+    },
+    {
+      "id": "step3",
+      "description": "Bot collects spouse details; user provides valid name and DOB.",
+      "completionCriteria": "Bot accepts spouse name and DOB."
+    },
+    {
+      "id": "step4_invalid",
+      "description": "User provides a date that is a Sunday.",
+      "completionCriteria": "Bot calls validator, receives isValid=false, displays exact reason, and re-prompts."
+    },
+    {
+      "id": "step4_valid",
+      "description": "User provides a valid date; bot validates successfully.",
+      "completionCriteria": "Bot receives isValid=true and proceeds."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 26,
+    "maxLlmCalls": 46
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

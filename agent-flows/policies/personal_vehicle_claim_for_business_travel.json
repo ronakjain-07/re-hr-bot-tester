@@ -1,0 +1,37 @@
+{
+  "name": "Personal vehicle claim for business travel",
+  "groupId": "policies",
+  "goal": "User asks if personal vehicle expenses are reimbursable for business travel.",
+  "constraints": "Bot must use travel policy KB, personalize, bullet points, caps, source line with signed URL.",
+  "tags": [
+    "business_travel",
+    "reimbursement",
+    "vehicle"
+  ],
+  "testdata": {
+    "user_query": "Can I claim expenses if I use my personal vehicle for business travel?",
+    "employee_name": "Rohan Patel",
+    "designation": "Field Engineer"
+  },
+  "phases": [
+    {
+      "id": "query_received",
+      "description": "User asks about personal vehicle reimbursement.",
+      "completionCriteria": "Bot provides answer, user's name/designation, no filler."
+    },
+    {
+      "id": "formatting_and_source",
+      "description": "Bot uses correct formatting and source line.",
+      "completionCriteria": "Bullet points, caps, doc name and signed URL.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

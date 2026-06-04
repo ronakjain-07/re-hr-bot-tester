@@ -1,0 +1,53 @@
+{
+  "goal": "Verify that the bot rejects past dates and a date that is less than 4 days in advance",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "booking_init",
+      "description": "Start AHC booking flow and reach the date prompt",
+      "completionCriteria": "Bot has asked for the preferred appointment date",
+      "maxAttempts": 5
+    },
+    {
+      "id": "provide_past_date",
+      "description": "Provide a past date, expect rejection with helpful message",
+      "completionCriteria": "Bot has rejected the past date and asked for a new date",
+      "maxAttempts": 3
+    },
+    {
+      "id": "provide_too_soon_date",
+      "description": "Provide a date less than 4 days ahead, expect rejection",
+      "completionCriteria": "Bot has rejected the near-future date with 4-day advance notice requirement",
+      "maxAttempts": 3
+    },
+    {
+      "id": "provide_valid_date_and_complete",
+      "description": "Provide a valid future date and complete the booking",
+      "completionCriteria": "Bot has confirmed the appointment booking",
+      "maxAttempts": 8
+    }
+  ],
+  "name": "AHC edge - past date rejected",
+  "tags": [
+    "edge",
+    "date_validation"
+  ],
+  "testdata": {
+    "pastDate": "{{today-5}}",
+    "tooSoonDate": "{{today+2}}",
+    "validDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

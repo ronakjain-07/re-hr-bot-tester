@@ -1,0 +1,37 @@
+{
+  "name": "Admin User — Pending Applications Option Visible",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify admin user sees 'Pending Applications' in main menu and can access it.",
+  "constraints": "User is admin. No application started. All workflows succeed.",
+  "tags": [
+    "admin",
+    "menu",
+    "pending_applications",
+    "access_control"
+  ],
+  "testdata": {
+    "empType": "admin"
+  },
+  "phases": [
+    {
+      "id": "main_menu_admin",
+      "description": "Admin is shown main menu.",
+      "completionCriteria": "Bot displays quick replies including 'Pending Applications' option.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pending_applications_select",
+      "description": "Admin selects 'Pending Applications'.",
+      "completionCriteria": "Bot routes to @[agent:conversation_6vne5v7a] and ends.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 4,
+    "maxLlmCalls": 8
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

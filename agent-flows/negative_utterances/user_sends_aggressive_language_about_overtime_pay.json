@@ -1,0 +1,37 @@
+{
+  "name": "User Sends Aggressive Language About Overtime Pay",
+  "groupId": "negative_utterances",
+  "goal": "Test bot's response to aggressive or hostile language regarding overtime pay.",
+  "constraints": "Bot should remain calm, acknowledge the concern, and provide factual information.",
+  "tags": [
+    "aggression",
+    "overtime",
+    "de-escalation"
+  ],
+  "testdata": {
+    "overtime_hours": 12,
+    "pay_period": "2024-06-01 to 2024-06-15"
+  },
+  "phases": [
+    {
+      "id": "aggressive_message",
+      "description": "User sends a message with aggressive language about missing overtime pay.",
+      "completionCriteria": "Bot responds calmly, acknowledges the concern, and offers to check overtime pay details.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_details",
+      "description": "User asks for specifics on overtime calculation.",
+      "completionCriteria": "Bot provides a breakdown of overtime pay for the given period.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

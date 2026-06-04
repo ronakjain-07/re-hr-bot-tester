@@ -1,0 +1,29 @@
+{
+  "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Employment letter - fetch details error handling",
+  "tags": [
+    "edge",
+    "backend"
+  ],
+  "goal": "When HR backend fails, bot shows 'issue in fetching your details' without breaking",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "request_letter",
+      "description": "Request employment letter clearly",
+      "completionCriteria": "Bot responds with employee details card OR a clear 'issue in fetching your details' message (not empty/silent)",
+      "maxAttempts": 5,
+      "recoveryHint": "Try 'i want employment letter' after greeting"
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "employment_letter"
+}

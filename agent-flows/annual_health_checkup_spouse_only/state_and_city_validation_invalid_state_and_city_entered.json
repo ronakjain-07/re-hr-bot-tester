@@ -1,0 +1,47 @@
+{
+  "name": "State and City Validation — Invalid State and City Entered",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User enters an invalid state, then a valid one; then enters an invalid city for the chosen state, then a valid city.",
+  "constraints": "State and city inputs are not in the allowed mapping on first attempt.",
+  "tags": [
+    "validation",
+    "state_city",
+    "mapping"
+  ],
+  "testdata": {
+    "state_invalid": "Atlantis",
+    "state_valid": "Maharashtra",
+    "city_invalid": "Gotham",
+    "city_valid": "Mumbai"
+  },
+  "phases": [
+    {
+      "id": "step7_invalid",
+      "description": "User enters invalid state.",
+      "completionCriteria": "Bot rejects input, displays correct error, and re-prompts."
+    },
+    {
+      "id": "step7_valid",
+      "description": "User enters valid state.",
+      "completionCriteria": "Bot accepts state and proceeds."
+    },
+    {
+      "id": "step8_invalid",
+      "description": "User enters invalid city for the selected state.",
+      "completionCriteria": "Bot rejects input, displays correct error, and re-prompts."
+    },
+    {
+      "id": "step8_valid",
+      "description": "User enters valid city.",
+      "completionCriteria": "Bot accepts city and proceeds."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 44
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

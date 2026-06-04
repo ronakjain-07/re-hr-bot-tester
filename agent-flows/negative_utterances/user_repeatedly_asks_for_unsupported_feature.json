@@ -1,0 +1,37 @@
+{
+  "name": "User repeatedly asks for unsupported feature",
+  "groupId": "negative_utterances",
+  "goal": "Verify bot's response to repeated negative requests for an unsupported HR feature.",
+  "constraints": "Bot must politely decline and suggest available alternatives.",
+  "tags": [
+    "unsupported_feature",
+    "repetition",
+    "negative",
+    "alternative"
+  ],
+  "testdata": {
+    "requested_feature": "Advance salary loan"
+  },
+  "phases": [
+    {
+      "id": "initial_request",
+      "description": "User asks for an advance salary loan.",
+      "completionCriteria": "Bot informs user the feature is not supported.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "repeat_request",
+      "description": "User asks again, expressing frustration.",
+      "completionCriteria": "Bot politely declines again and suggests alternatives (e.g., financial counseling).",
+      "maxAttempts": 3
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Bot · Nexus Runner</title>
+<link rel="stylesheet" href="nexus.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+<div class="app">
+<header class="app-header">
+  <div class="brand">
+    <div class="logo"><i data-lucide="bot"></i></div>
+    <div>
+      <div class="bname">HR Bot · Nexus Runner</div>
+      <div class="bsub">Royal Enfield · Agentic Bot Automation</div>
+    </div>
+    <div class="hpill"><span class="v" id="hFlows">0</span>&nbsp;agent specs</div>
+    </div>
+  <div class="header-actions">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light / dark theme">
+      <i data-lucide="sun" id="themeIcon"></i>
+    </button>
+    <div class="chrome-strip">
+      <input type="text" id="chromeProfileInp" class="chrome-prof-inp" autocomplete="off" spellcheck="false" placeholder="Chrome profile" title="Folder under ~/Library/Application Support/Google/Chrome (e.g. Profile 3) — used to seed the automation window login" />
+      <label class="chrome-par-lbl" title="Opens a second Chrome for tests; your everyday Chrome stays open">
+        <input type="checkbox" id="chromeParallelChk" checked />
+        Parallel
+      </label>
+      <button type="button" class="chrome-launch" id="chromeLaunchBtn" onclick="launchChromeFromUi()" title="Parallel (default): second Chrome for HR bot Chat while you keep working in your normal Chrome. Uncheck only if you quit Chrome (Cmd+Q) and want one shared window.">
+        Prepare Chrome
+      </button>
+      <button type="button" class="chrome-ctx-clear" id="yellowClearCtxBtn" onclick="clearYellowContextFromUi()" title="Clear Yellow context via Forge API only (no in-chat clear message). Chrome must be open on RE HR chat.">
+        Clear context
+      </button>
+    </div>
+    <div class="sbadge" id="sbadge">
+      <div class="pdot" id="pdot"></div>
+      <span id="slbl">Connecting…</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── Tabs ── -->
+<nav class="app-tabs">
+  <button class="tb active" data-tab="run" onclick="switchTab('run')">
+    <i data-lucide="play" style="width:13px;height:13px"></i> Run Tests <span class="tc" id="tcRun">0</span>
+  </button>
+  <button class="tb" data-tab="history" onclick="switchTab('history')">
+    <i data-lucide="clock" style="width:13px;height:13px"></i> History <span class="tc" id="tcHist">0</span>
+  </button>
+  <button class="tb" data-tab="reports" onclick="switchTab('reports')">
+    <i data-lucide="file-bar-chart" style="width:13px;height:13px"></i> Reports
+  </button>
+  <button class="tb" data-tab="advanced" onclick="switchTab('advanced')">
+    <i data-lucide="settings-2" style="width:13px;height:13px"></i> Advanced
+  </button>
+  <button class="tb" data-tab="manage" onclick="switchTab('manage')">
+    <i data-lucide="layout-grid" style="width:13px;height:13px"></i> Manage
+  </button>
+</nav>
+
+<main class="app-main">
+
+  <!-- ── Run Panel ── -->
+  <div class="panel active" id="pr">
+
+    <!-- Sidebar -->
+    <div class="sb">
+      <div class="sbh">
+        <div class="sbreportline" id="reportFolderBanner" title="" style="display:none">
+          <i data-lucide="folder" style="width:12px;height:12px;flex-shrink:0;opacity:.75"></i>
+          <span>Reports: <code id="lblReportFolder">—</code></span>
+        </div>
+        <div class="sblbl">Agentic journeys</div>
+        <button type="button" class="view-toggle" id="viewToggle" onclick="toggleFlowView()" style="display:none">Show script flows</button>
+        <div class="sr" id="flowToolbar">
+          <div class="swrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="sinput" id="searchInput" type="text" placeholder="Search journeys…" oninput="filterSearch()">
+          </div>
+          <button class="mbtn" id="btnSelectAll" onclick="selectAll()">All</button>
+          <button class="mbtn" id="btnClearAll" onclick="clearAll()">Clear</button>
+        </div>
+      </div>
+
+      <div class="chrome-help" id="chromeHelpBox">
+        <strong>Chrome not connected</strong>
+        <ol>
+          <li>Click <strong>Prepare Chrome</strong> (parallel mode keeps your daily browser open).</li>
+          <li>Open the RE HR bot chat in the automation window.</li>
+          <li>Status should show <em>Chrome ready</em> before you run tests.</li>
+        </ol>
+      </div>
+      <div class="flist" id="flist">
+        <div style="padding:28px;text-align:center;color:var(--t3);font-size:12.5px">Loading…</div>
+      </div>
+
+
+      <div class="rz">
+        <div class="effort-row">
+          <span class="effort-lbl">Effort</span>
+          <select class="effort-sel" id="agentEffortSel" title="Agentic runs only — higher effort = more retries and deeper LLM evaluation; Manual always runs all test cases">
+            <option value="25">25% — Light (subset of scenarios)</option>
+            <option value="50">50% — Balanced (all scenarios, standard depth)</option>
+            <option value="75" selected>75% — Thorough (all scenarios + deferred retries)</option>
+            <option value="100">100% — Maximum (deep eval + retries)</option>
+          </select>
+        </div>
+        <div class="rzrow">
+          <span class="rzlbl" id="rzlbl">Tick journeys to run together</span>
+          <span class="rzbadge zero" id="rzbadge">0</span>
+        </div>
+        <div class="rzbtns">
+          <button type="button" class="rbtn rbtn-sel" id="rselAgent" onclick="runSelectedJourneys('agent')" disabled title="Run selected agentic journeys">
+            <i data-lucide="bot" style="width:15px;height:15px"></i>
+            <span>Run selected (Agent)</span>
+          </button>
+          <button type="button" class="rbtn rbtn-sel" id="rselManual" onclick="runSelectedJourneys('manual')" disabled title="Run selected manual journeys">
+            <i data-lucide="layers" style="width:15px;height:15px"></i>
+            <span>Run selected (Manual)</span>
+          </button>
+          <button type="button" class="rbtn rbtn-mega" id="rmega" onclick="runMegaAgentSuite()">
+            <i data-lucide="bot" style="width:15px;height:15px"></i>
+            <span>Run all journeys</span>
+          </button>
+          <button type="button" class="rbtn rbtn-ckpt" id="rckpt" onclick="resumeInterruptedAgentSuite()" disabled>
+            <i data-lucide="rotate-ccw" style="width:14px;height:14px"></i>
+            <span id="rckptLbl">Resume…</span>
+          </button>
+          <button type="button" class="pausebtn" id="pausebtn" onclick="pauseRun()">
+            <i data-lucide="pause" style="width:14px;height:14px"></i> Pause
+          </button>
+          <button type="button" class="resumebtn" id="resumebtn" onclick="resumeRun()">
+            <i data-lucide="play" style="width:14px;height:14px"></i> Resume
+          </button>
+          <button type="button" class="stopbtn" id="stopbtn" onclick="stopRun()">
+            <i data-lucide="square" style="width:14px;height:14px"></i> Stop
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="tp">
+      <div class="tbar">
+        <div class="tbar-main">
+          <div class="tbar-left">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div class="tdots"><div class="tdd r"></div><div class="tdd y"></div><div class="tdd g"></div></div>
+              <div class="ttitle">
+                <span class="ttlbl">TERMINAL OUTPUT</span>
+                <span class="livetag" id="livetag">● LIVE</span>
+              </div>
+            </div>
+            <div class="run-hud" id="runHud" aria-live="polite">
+              <div class="run-hud-cr">
+                <span class="run-hud-id" id="rhSpec">Spec —</span>
+                <span class="run-hud-sub" id="rhPhase">Phase —</span>
+                <span class="run-hud-pill llm" id="rhLlm"><span class="rh-llm-lbl">LLM</span></span>
+                <span class="run-hud-pill bot" id="rhBot" style="display:none">⌛ Bot</span>
+                <span class="run-hud-pill exec" id="rhExec" style="display:none">⚙ UI</span>
+              </div>
+              <span class="run-hud-turn" id="rhTurn"></span>
+            </div>
+          </div>
+          <div class="tacts">
+          <div class="tbar-run" id="tbarRunCtl" aria-label="Run controls">
+            <button type="button" class="tctl pause" id="pausebtnT" onclick="pauseRun()" title="Pause after the current spec finishes">
+              <i data-lucide="pause" style="width:11px;height:11px"></i> Pause
+            </button>
+            <button type="button" class="tctl resume" id="resumebtnT" onclick="resumeRun()" title="Continue the suite after a pause">
+              <i data-lucide="play" style="width:11px;height:11px"></i> Resume
+            </button>
+            <button type="button" class="tctl stop" id="stopbtnT" onclick="stopRun()" title="Stop the suite">
+              <i data-lucide="square" style="width:11px;height:11px"></i> Stop
+            </button>
+          </div>
+          <button class="tbtn" onclick="scrollBot()" style="display:flex;align-items:center;gap:5px"><i data-lucide="arrow-down" style="width:12px;height:12px"></i> Bottom</button>
+          <button class="tbtn d" onclick="clearTerm()" style="display:flex;align-items:center;gap:5px"><i data-lucide="trash-2" style="width:12px;height:12px"></i> Clear</button>
+        </div>
+        </div>
+      </div>
+
+      <div class="prog"><div class="progf" id="progf"></div></div>
+      <div class="paused-banner" id="pausedBanner">⏸ Suite paused — finish manual steps, then click Resume</div>
+
+      <div class="terminal" id="terminal">
+        <div class="tempty" id="tempty">
+          <div class="tempty-ico"><i data-lucide="zap" style="width:44px;height:44px;opacity:.25;color:var(--cy)"></i></div>
+          <div class="tempty-txt">Ready to run tests</div>
+          <div class="tempty-hint">$ select test cases and hit run<span class="tcursor"></span></div>
+        </div>
+      </div>
+
+      <div class="sumbar" id="sumbar">
+        <div class="schip p" style="gap:6px"><i data-lucide="check" style="width:12px;height:12px"></i> <span id="spass">0</span> passed</div>
+        <div class="schip w" style="gap:6px"><i data-lucide="minus-circle" style="width:12px;height:12px"></i> <span id="spartial">0</span> partial</div>
+        <div class="schip f" style="gap:6px"><i data-lucide="x" style="width:12px;height:12px"></i> <span id="sfail">0</span> failed</div>
+        <div class="schip s" style="gap:6px"><i data-lucide="minus" style="width:12px;height:12px"></i> <span id="sskip">0</span> skipped</div>
+        <div class="schip" id="sautoWrap" style="gap:6px;display:none;color:#818cf8"><i data-lucide="pause-circle" style="width:12px;height:12px"></i> <span id="sauto">0</span> not scored</div>
+        <div class="ssp"></div>
+        <a class="dlbtn" id="dlbtn" href="#" target="_blank" style="display:none"><i data-lucide="download" style="width:13px;height:13px"></i>&nbsp;HTML report</a>
+        <a class="dlbtn dlbtn-xlsx" id="dlbtnXlsx" href="#" target="_blank" style="display:none"><i data-lucide="table-2" style="width:13px;height:13px"></i>&nbsp;Excel report</a>
+        <a class="dlbtn dlbtn-pdf" id="dlbtnPdf" href="#" target="_blank" style="display:none"><i data-lucide="file-text" style="width:13px;height:13px"></i>&nbsp;PDF report</a>
+      </div>
+      <div class="report-slot" id="reportSlot" aria-live="polite">
+        <div class="report-slot-hd">
+          <span class="report-slot-t"><i data-lucide="bar-chart-2" style="width:13px;height:13px"></i> Report preview (HTML)</span>
+          <button type="button" class="tbtn" onclick="hideReportPreview()">Hide preview</button>
+        </div>
+        <iframe class="report-iframe" id="reportFrame" title="Latest test report" sandbox="allow-same-origin"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Reports Panel ── -->
+  <div class="panel" id="preports">
+    <div class="rep-layout">
+      <div class="rep-side">
+        <div class="hhd" style="padding:14px 16px 10px">
+          <div>
+            <div class="hhtl">Saved reports</div>
+            <div class="hhsub">Preview or download without re-running tests</div>
+          </div>
+          <button class="mbtn" onclick="loadReportsList()" style="padding:8px 12px;display:flex;align-items:center;gap:6px"><i data-lucide="refresh-cw" style="width:12px;height:12px"></i> Refresh</button>
+        </div>
+        <div class="rep-list" id="repList"><div class="hempty" style="padding:24px"><div class="hempty-txt">Loading…</div></div></div>
+      </div>
+      <div class="rep-main">
+        <div class="rep-toolbar" id="repToolbar" style="display:none">
+          <div class="rep-meta" id="repMeta"></div>
+          <div class="rep-ctrls">
+            <label class="rep-lbl">Export view</label>
+            <select id="repViewMode" class="effort-sel" onchange="this.dataset.userPicked='1';reportsPreviewCurrent();updateReportDownloadLinks()">
+              <option value="full">All passed + issues (full suite)</option>
+              <option value="passed">All passed only</option>
+            </select>
+            <label class="rep-lbl">Format</label>
+            <select id="repFormat" class="effort-sel" onchange="reportsPreviewCurrent()">
+              <option value="html">HTML preview</option>
+              <option value="pdf">PDF preview</option>
+            </select>
+            <a class="dlbtn" id="repDlHtml" href="#" target="_blank" style="display:none"><i data-lucide="download" style="width:12px;height:12px"></i> HTML</a>
+            <a class="dlbtn dlbtn-xlsx" id="repDlXlsx" href="#" target="_blank" style="display:none"><i data-lucide="table-2" style="width:12px;height:12px"></i> Excel</a>
+            <a class="dlbtn dlbtn-pdf" id="repDlPdf" href="#" target="_blank" style="display:none"><i data-lucide="file-text" style="width:12px;height:12px"></i> PDF</a>
+            <button type="button" class="mbtn" onclick="rebuildSelectedReport(false)" title="Regenerate HTML/Excel from JSON">Rebuild files</button>
+            <button type="button" class="mbtn" onclick="rebuildSelectedReport(true)" title="Rebuild HTML/Excel and render PDF">Rebuild + PDF</button>
+          </div>
+        </div>
+        <iframe class="rep-preview-frame" id="repPreviewFrame" title="Report preview" sandbox="allow-same-origin"></iframe>
+        <div class="rep-empty" id="repPreviewEmpty">Select a run on the left to preview HTML or PDF, or download Excel.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── History Panel ── -->
+  <div class="panel" id="ph">
+    <div class="hhd">
+      <div>
+        <div class="hhtl">Test Run History</div>
+        <div class="hhsub">All previous test runs and their results</div>
+        <div class="hhs-rep" id="histReportBanner" title="" style="display:none"><i data-lucide="folder-open" style="width:13px;height:13px"></i>Disk folder: <code id="lblHistReportFolder">—</code></div>
+      </div>
+      <button class="mbtn" onclick="loadHistory()" style="padding:8px 16px;display:flex;align-items:center;gap:6px"><i data-lucide="refresh-cw" style="width:12px;height:12px"></i> Refresh</button>
+    </div>
+    <div class="hscroll">
+      <div class="hbox" id="hbody">
+        <div class="hempty"><div class="hempty-ico"><i data-lucide="folder-open" style="width:48px;height:48px"></i></div><div class="hempty-txt">No history yet</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Markdown Preview Modal ── -->
+  <div class="prev-overlay" id="prevOverlay" onclick="closePrev()">
+    <div class="prev-modal" onclick="event.stopPropagation()">
+      <div class="prev-mhd">
+        <div class="prev-mico"><i data-lucide="clipboard" style="width:18px;height:18px"></i></div>
+        <div class="prev-minfo">
+          <div class="prev-mname" id="prevName"></div>
+          <div class="prev-msub">
+            <span class="prev-grp" id="prevGrp"></span>
+            <span class="prev-tc" id="prevTc"></span>
+          </div>
+        </div>
+        <button class="prev-close" onclick="closePrev()"><i data-lucide="x" style="width:14px;height:14px"></i></button>
+      </div>
+      <div class="prev-mbody" id="prevBody">
+        <div class="prev-empty"><div class="prev-empty-ico"><i data-lucide="clipboard" style="width:36px;height:36px"></i></div><div class="prev-empty-txt">Loading…</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── History Result Preview Overlay ── -->
+  <div class="prev-overlay" id="histPrevOverlay" onclick="closeHistPreview()">
+    <div class="prev-modal" onclick="event.stopPropagation()" style="width:min(800px,96vw);height:min(88vh,760px)">
+      <div class="prev-mhd">
+        <div class="prev-mico"><i data-lucide="bar-chart-2" style="width:18px;height:18px"></i></div>
+        <div class="prev-minfo">
+          <div class="prev-mname" id="histPrevName"></div>
+          <div class="prev-msub">
+            <span class="prev-grp" id="histPrevDate"></span>
+            <span class="prev-tc" id="histPrevFile"></span>
+          </div>
+        </div>
+        <button class="prev-close" onclick="closeHistPreview()"><i data-lucide="x" style="width:14px;height:14px"></i></button>
+      </div>
+      <div class="hist-stats-bar" id="histStatsBar"></div>
+      <div class="prev-mbody" id="histPrevBody">
+        <div class="prev-empty"><div class="prev-empty-ico"><i data-lucide="loader-2" style="width:36px;height:36px;animation:spin 1s linear infinite"></i></div><div class="prev-empty-txt">Loading…</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="advancedRoot">
+  <div class="panel" id="padvanced">
+    <div class="adv-bar">
+      <button type="button" class="adv-btn active" data-adv="tune" onclick="switchAdvancedSub('tune')">
+        <i data-lucide="sparkles" style="width:12px;height:12px"></i> Tune Prompts
+      </button>
+      <button type="button" class="adv-btn" data-adv="generator" onclick="switchAdvancedSub('generator')">
+        <i data-lucide="wand-2" style="width:12px;height:12px"></i> Generator
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Generator Panel ── -->
+  <div class="adv-pane" id="pg">
+    <div class="gen-wrap">
+
+      <!-- Left: input form -->
+      <div class="gen-left">
+        <div class="gen-hd">
+          <div class="gen-title">Test Case Generator</div>
+          <div class="gen-sub">Paste a Google Chat conversation and instantly generate a runnable .md test case</div>
+        </div>
+
+        <!-- Method selector -->
+        <div class="gen-methods">
+          <div class="gen-method active" id="gm-text">
+            <div class="gm-ico"><i data-lucide="type" style="width:20px;height:20px;color:var(--cy)"></i></div>
+            <div class="gm-info">
+              <div class="gm-name">Via Text</div>
+              <div class="gm-desc">Paste raw conversation</div>
+            </div>
+          </div>
+          <div class="gen-method soon" id="gm-photo">
+            <div class="gm-ico"><i data-lucide="camera" style="width:20px;height:20px;color:var(--t2)"></i></div>
+            <div class="gm-info">
+              <div class="gm-name">Via Photo</div>
+              <div class="gm-desc">Upload screenshot</div>
+            </div>
+            <span class="coming-soon">Coming Soon</span>
+          </div>
+        </div>
+
+        <!-- Paste area -->
+        <div class="gen-section">
+          <label class="gen-lbl">Paste Conversation</label>
+          <textarea class="gen-ta" id="genInput" placeholder="Paste the full Google Chat conversation here...
+
+The parser will detect:
+  • RE HR Ag Ai V3     →  bot responses
+  • Your User ID (GM/JK/RJ…)  →  user messages
+  • Attachment         →  file upload turns"></textarea>
+        </div>
+
+        <!-- Journey brief (saved per group) -->
+        <div class="gen-brief-box" id="genBriefBox" style="display:none">
+          <label class="gen-lbl">Journey brief <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--t3)">(optional)</span></label>
+          <textarea class="gen-ta" id="genJourneyBrief" style="height:110px;margin-top:6px;font-family:'Space Grotesk',sans-serif" placeholder="Detailed paragraph: screens, fields, approvals, edge cases the bot should handle…"></textarea>
+          <button type="button" class="tbtn" style="margin-top:8px" onclick="saveGenJourneyBrief()">Save journey brief</button>
+        </div>
+
+        <!-- Form fields -->
+        <div class="gen-fields">
+          <div>
+            <label class="gen-lbl">Flow Group</label>
+            <select class="gen-sel" id="genGroup">
+              <option value="">Select flow group…</option>
+              <option value="employment_letter">Employment Letter</option>
+              <option value="annual_health_checkup_employee">AHC — Employee Only</option>
+              <option value="annual_health_checkup_employee_spouse">AHC — Employee with Spouse</option>
+              <option value="annual_health_checkup_spouse_only">AHC — Spouse Only</option>
+              <option value="appraisal_letter">Appraisal Letter</option>
+              <option value="uk_visa">UK Visa</option>
+              <option value="national_pension_scheme">National Pension Scheme</option>
+              <option value="voluntary_provident_fund">Voluntary Provident Fund</option>
+              <option value="car_purchase">Car Purchase</option>
+              <option value="motorcycle_purchase">Motorcycle Purchase</option>
+              <option value="policies">Policies</option>
+              <option value="negative_utterances">Negative Utterances</option>
+            </select>
+          </div>
+          <div>
+            <label class="gen-lbl">Test Case Name</label>
+            <input class="gen-inp" id="genName" type="text" placeholder="e.g. motorcycle_purchase_happy_flow">
+          </div>
+          <div>
+            <label class="gen-lbl">Your User ID <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(the 2–3 letter tag before your messages, e.g. GM, JK, RJ)</span></label>
+            <input class="gen-inp" id="genUserId" type="text" placeholder="e.g. GM" maxlength="6" style="width:120px">
+          </div>
+        </div>
+
+        <button class="gen-btn" onclick="genPreview()">
+          <i data-lucide="sparkles" style="width:15px;height:15px"></i> Generate Markdown Preview
+        </button>
+        <button type="button" class="gen-agent-btn" onclick="genAgentPreview()">
+          🤖 Generate agent spec (JSON) from chat
+        </button>
+      </div>
+
+      <!-- Right: preview pane -->
+      <div class="gen-right">
+        <div class="gen-prev-hd">
+          <span class="gen-prev-title">Generated Markdown</span>
+          <div class="gen-prev-acts">
+            <span class="gen-turns-badge" id="genTurns"></span>
+            <button class="tbtn" onclick="copyGenMd()" style="display:flex;align-items:center;gap:5px"><i data-lucide="copy" style="width:11px;height:11px"></i> Copy</button>
+          </div>
+        </div>
+
+        <div class="gen-prev-body" id="genPreview">
+          <div class="gen-empty-wrap" id="genEmptyState">
+            <div class="gen-empty">
+              <div class="gen-empty-ico"><i data-lucide="sparkles" style="width:38px;height:38px;color:var(--cy);opacity:.35"></i></div>
+              <div class="gen-empty-txt">Preview will appear here</div>
+              <div class="gen-empty-hint">Paste a conversation and click Generate</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gen-save-bar" id="genSaveBar" style="display:none">
+          <div class="gen-save-info" id="genSaveInfo"></div>
+          <button class="gen-save-btn" onclick="saveGenerated()">
+            <i data-lucide="save" style="width:14px;height:14px"></i><span>Save Test Case</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Tune Prompts Panel ── -->
+  <div class="adv-pane" id="pt">
+
+    <!-- Selector bar -->
+    <div class="tsel-bar">
+      <div class="tsel-group grow" style="max-width:300px">
+        <span class="tsel-lbl">Test Run</span>
+        <select class="tsel-dd" id="tuneRunSel" onchange="onTuneRunChange()">
+          <option value="">— select a test run —</option>
+        </select>
+      </div>
+      <div class="tsel-group grow" style="max-width:260px">
+        <span class="tsel-lbl">Flow</span>
+        <select class="tsel-dd" id="tuneFlowSel" onchange="onTuneFlowChange()" disabled>
+          <option value="">— select a flow —</option>
+        </select>
+      </div>
+      <div class="tsel-group grow" style="max-width:240px">
+        <span class="tsel-lbl">Prompt File</span>
+        <select class="tsel-dd" id="tunePromptSel" onchange="onTunePromptChange()" disabled>
+          <option value="">— select prompt file —</option>
+        </select>
+      </div>
+      <div class="tsel-actions">
+        <button class="tsel-refresh" title="Reload runs &amp; prompts" onclick="loadTuneData()">
+          <i data-lucide="refresh-cw" style="width:14px;height:14px"></i>
+        </button>
+        <div class="tsel-iter" id="tuneIterWrap" style="display:none">
+          <span class="tsel-iter-lbl">Iteration <strong id="tuneIterNum">0</strong> / 5</span>
+          <div class="tsel-iter-track"><div class="tsel-iter-fill" id="tuneIterFill"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Failing turns (collapsible) -->
+    <div class="tune-fails-wrap" id="tuneFailsWrap">
+      <div class="tune-fails-hd" onclick="toggleTuneFails()">
+        <span class="tune-fails-label">Failing Turns</span>
+        <span class="tune-fails-badge" id="tuneFailCount">0</span>
+        <span class="tune-fails-toggle" id="tuneFailsToggle">
+          <i data-lucide="chevron-up" style="width:13px;height:13px"></i> Hide
+        </span>
+      </div>
+      <div class="tune-fails-scroll" id="tuneFailList">
+        <div class="tune-fails-empty">Select a test run and flow to see failing turns.</div>
+      </div>
+    </div>
+
+    <!-- Workspace -->
+    <div class="tune-workspace">
+      <!-- View tabs + info -->
+      <div class="tune-view-bar">
+        <button class="tune-vbtn active" id="tvCurrent" onclick="setTuneView('current')">
+          <i data-lucide="file-text" style="width:12px;height:12px"></i> Current
+        </button>
+        <button class="tune-vbtn" id="tvSuggested" onclick="setTuneView('suggested')" disabled>
+          <i data-lucide="sparkles" style="width:12px;height:12px"></i> Suggested
+          <span class="tune-vnew" id="tuneNewBadge" style="display:none">new</span>
+        </button>
+        <button class="tune-vbtn" id="tvSide" onclick="setTuneView('side')" disabled>
+          <i data-lucide="columns" style="width:12px;height:12px"></i> Side-by-side
+        </button>
+        <button class="tune-vbtn" id="tvDiff" onclick="setTuneView('diff')" disabled>
+          <i data-lucide="git-diff" style="width:12px;height:12px"></i> Diff
+        </button>
+        <div class="tune-vinfo">
+          <span id="tuneCharInfo" style="display:none"></span>
+          <span class="tune-vmodel" id="tuneModelInfo" style="display:none">gpt-4.1</span>
+        </div>
+      </div>
+
+      <!-- What changed banner -->
+      <div class="tune-banner" id="tuneBanner">
+        <span class="tune-banner-icon"><i data-lucide="zap" style="width:14px;height:14px"></i></span>
+        <div>
+          <div class="tune-banner-body"><strong>What changed:</strong> <span id="tuneBannerText"></span></div>
+          <div class="tune-banner-meta" id="tuneBannerMeta"></div>
+        </div>
+      </div>
+
+      <!-- Editor panes -->
+      <div class="tune-editors" id="tuneEditors">
+        <!-- Current -->
+        <div class="tune-pane" id="tpCurrent">
+          <div class="tune-pane-hd">
+            <span class="tune-pane-title"><i data-lucide="file-text" style="width:12px;height:12px"></i> Current prompt</span>
+            <span class="tune-pane-chars" id="tpCurrentChars"></span>
+          </div>
+          <div class="tune-pane-inner">
+            <textarea class="tune-ta" id="tuneCurrentTa" placeholder="Load a prompt file by selecting a test run, flow, and prompt file above…" spellcheck="false" oninput="updateTuneChars()"></textarea>
+          </div>
+        </div>
+        <!-- Suggested (single pane) -->
+        <div class="tune-pane hidden" id="tpSuggested">
+          <div class="tune-pane-hd">
+            <span class="tune-pane-title"><i data-lucide="sparkles" style="width:12px;height:12px"></i> Suggested (editable)</span>
+            <span class="tune-pane-chars" id="tpSugChars"></span>
+          </div>
+          <div class="tune-pane-inner">
+            <textarea class="tune-ta" id="tuneSuggestedTa" placeholder="Click Suggest to generate an improved prompt…" spellcheck="false" oninput="updateTuneChars()"></textarea>
+          </div>
+        </div>
+        <!-- Side-by-side left (current — red deletions) -->
+        <div class="tune-pane hidden" id="tpSideL">
+          <div class="tune-pane-hd">
+            <span class="tune-pane-title" style="display:flex;align-items:center;gap:6px">
+              <span style="width:10px;height:10px;border-radius:2px;background:rgba(255,50,80,.35);flex-shrink:0"></span>
+              Current prompt
+            </span>
+            <span class="tune-pane-chars" id="tpSideLChars"></span>
+          </div>
+          <div class="tune-pane-inner" style="padding:0">
+            <div class="diff-view" id="sideLView"></div>
+          </div>
+        </div>
+        <div class="tune-pane-divider hidden" id="tpSideDivider"></div>
+        <!-- Side-by-side right (suggested — green additions) -->
+        <div class="tune-pane hidden" id="tpSideR">
+          <div class="tune-pane-hd">
+            <span class="tune-pane-title" style="display:flex;align-items:center;gap:6px">
+              <span style="width:10px;height:10px;border-radius:2px;background:rgba(0,255,148,.35);flex-shrink:0"></span>
+              <i data-lucide="sparkles" style="width:12px;height:12px"></i> Suggested
+            </span>
+            <span class="tune-pane-chars" id="tpSideRChars"></span>
+          </div>
+          <div class="tune-pane-inner" style="padding:0">
+            <div class="diff-view" id="sideRView"></div>
+          </div>
+        </div>
+        <!-- Diff -->
+        <div class="tune-pane hidden" id="tpDiff">
+          <div class="tune-pane-hd">
+            <span class="tune-pane-title">Diff — current → suggested</span>
+          </div>
+          <div class="tune-pane-inner">
+            <div class="tune-diff-inner" id="tuneDiffEl"></div>
+          </div>
+        </div>
+        <!-- Placeholder when nothing loaded -->
+        <div class="tune-placeholder" id="tpPlaceholder" style="display:none">
+          <div class="tune-placeholder-ico">✨</div>
+          <div>Select a run, flow, and prompt file to get started</div>
+        </div>
+      </div>
+
+      <!-- Action bar -->
+      <div class="tune-action-bar">
+        <div class="tune-status-dot" id="tuneStatusDot"></div>
+        <span class="tune-status-txt" id="tuneStatusTxt">Ready</span>
+        <div class="tune-aspacer"></div>
+        <button class="tune-abtn suggest" id="tuneSuggestBtn" onclick="doTuneSuggest()" disabled>
+          <i data-lucide="sparkles" style="width:13px;height:13px"></i> Suggest
+        </button>
+        <button class="tune-abtn apply" id="tuneApplyBtn" onclick="doTuneApply()" disabled>
+          <i data-lucide="check" style="width:13px;height:13px"></i> Apply
+        </button>
+        <button class="tune-abtn reject" id="tuneRejectBtn" onclick="doTuneReject()" disabled>
+          <i data-lucide="x" style="width:13px;height:13px"></i> Reject
+        </button>
+        <button class="tune-abtn cont" id="tuneContinueBtn" onclick="doTuneContinue()" disabled>
+          <i data-lucide="skip-forward" style="width:13px;height:13px"></i> Continue
+        </button>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Manage Panel ── -->
+  <div class="panel" id="pm">
+    <div class="mn-hd">
+      <div>
+        <div class="mn-htl">Manage Test Cases</div>
+        <div class="mn-hsub">View, preview, and delete test cases across all flow groups</div>
+      </div>
+      <div class="mn-hright">
+        <div class="mn-stat"><span id="mnTcCount">0</span>&nbsp;test cases</div>
+        <button class="mbtn" onclick="loadManage()" style="padding:8px 16px;display:flex;align-items:center;gap:6px"><i data-lucide="refresh-cw" style="width:12px;height:12px"></i> Refresh</button>
+      </div>
+    </div>
+    <div class="mn-scroll">
+      <div class="mn-box" id="mnBody">
+        <div class="hempty"><div class="hempty-ico">📂</div><div class="hempty-txt">Loading…</div></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+            </div>
+
+<div class="mega-modal-overlay" id="megaModalOverlay" style="display:none" onclick="if(event.target===this)closeMegaModal()">
+  <div class="mega-modal" role="dialog" aria-labelledby="megaModalTitle">
+    <div class="mega-modal-hd" id="megaModalTitle">🤖 Run Agent Suite</div>
+    <p class="mega-modal-sub">LLM drives each agent spec — plans messages, evaluates every bot reply. Pick scope:</p>
+    <label class="mega-modal-lbl">Effort</label>
+    <select class="mega-modal-sel" id="megaEffortSel" style="margin-bottom:12px">
+      <option value="25">25% — Light (subset)</option>
+      <option value="50">50% — Balanced (all scenarios)</option>
+      <option value="75" selected>75% — Thorough</option>
+      <option value="100">100% — Maximum</option>
+    </select>
+    <label class="mega-modal-lbl">Journey</label>
+    <select class="mega-modal-sel" id="megaGroupSel"></select>
+    <div class="mega-modal-btns">
+      <button type="button" class="mega-modal-btn primary" onclick="confirmMegaRun('group')">Run this journey</button>
+      <button type="button" class="mega-modal-btn" onclick="confirmMegaRun('all')">Run all journeys</button>
+      <button type="button" class="mega-modal-btn ghost" onclick="closeMegaModal()">Cancel</button>
+              </div>
+            </div>
+        </div>
+
+<div class="mega-modal-overlay" id="manualSpecsOverlay" style="display:none" onclick="if(event.target===this)closeManualSpecsModal()">
+  <div class="mega-modal brief-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="mega-modal-hd" id="manualSpecsTitle">Manual test cases</div>
+    <p class="brief-hint">Paste one or more agent-flow JSON specs for this journey. Use a JSON array, a single object, or separate objects with a blank line between them. Each spec is saved under <code>agent-flows/&lt;journey&gt;/</code>.</p>
+    <textarea class="brief-ta" id="manualSpecsText" placeholder='[\n  { "name": "My happy flow", "groupId": "…", "goal": "…", "phases": [ … ] }\n]'></textarea>
+    <div class="mega-modal-btns" style="flex-direction:row;flex-wrap:wrap">
+      <button type="button" class="mega-modal-btn primary" onclick="saveManualSpecs()">Save test cases</button>
+      <button type="button" class="mega-modal-btn ghost" onclick="closeManualSpecsModal()">Close</button>
+          </div>
+          </div>
+        </div>
+
+<div class="mega-modal-overlay" id="generateSpecsOverlay" style="display:none" onclick="if(event.target===this)closeGenerateSpecsModal()">
+  <div class="mega-modal brief-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="mega-modal-hd" id="generateSpecsTitle">Generate test cases</div>
+    <p class="brief-hint">Creates new agent JSON specs from the Yellow agent prompt (prompts folder) plus optional journey brief. Count follows the <strong>Effort</strong> slider on the Run tab (25% ≈ 3 specs, 50% ≈ 6, 100% ≈ 10).</p>
+    <label class="mega-modal-lbl">Effort %</label>
+    <select class="mega-modal-sel" id="generateSpecsEffort">
+      <option value="25">25%</option>
+      <option value="50" selected>50%</option>
+      <option value="75">75%</option>
+      <option value="100">100%</option>
+    </select>
+    <label class="mega-modal-lbl">Journey brief <span style="font-weight:400;color:var(--t3)">(optional)</span></label>
+    <textarea class="brief-ta" id="generateSpecsBrief" style="min-height:100px" placeholder="Optional — overrides saved brief for this generation only"></textarea>
+    <div id="generateSpecsStatus" class="brief-hint" style="margin-top:8px"></div>
+    <div class="mega-modal-btns" style="flex-direction:row;flex-wrap:wrap">
+      <button type="button" class="mega-modal-btn primary" onclick="runGenerateJourneySpecs()">Generate &amp; save</button>
+      <button type="button" class="mega-modal-btn ghost" onclick="closeGenerateSpecsModal()">Close</button>
+        </div>
+      </div>
+        </div>
+
+<div class="mega-modal-overlay" id="briefModalOverlay" style="display:none" onclick="if(event.target===this)closeBriefModal()">
+  <div class="mega-modal brief-modal" role="dialog" aria-labelledby="briefModalTitle" onclick="event.stopPropagation()">
+    <div class="mega-modal-hd" id="briefModalTitle">Journey brief</div>
+    <p class="brief-hint">Optional — describe this journey in a detailed paragraph (screens, fields, approvals, edge cases). If saved, the test agent and generator use it for better messages and new test ideas. Leave empty if you prefer specs only.</p>
+    <textarea class="brief-ta" id="briefModalText" placeholder="Example: Employee opens RE HR bot → selects Motorcycle purchase → enters dealer code, mobile, state/city, bike model → uploads invoice → submits for HROPS approval. Bot must show preview before submit…"></textarea>
+    <div class="mega-modal-btns" style="margin-top:12px">
+      <button type="button" class="mega-modal-btn primary" onclick="saveJourneyBrief()">Save brief</button>
+      <button type="button" class="mega-modal-btn ghost" onclick="closeBriefModal()">Close</button>
+            </div>
+          </div>
+          </div>
+
+<div class="mega-modal-overlay" id="retryFailedOverlay" style="display:none" onclick="if(event.target===this)closeRetryFailedModal()">
+  <div class="mega-modal brief-modal" role="dialog" onclick="event.stopPropagation()">
+    <div class="mega-modal-hd">Re-run failed scenarios?</div>
+    <p class="brief-hint" id="retryFailedHint">Some scenarios did not fully pass. You can run them again now; results will be merged into the <strong>same</strong> JSON, HTML, and Excel files (updated counts and rows).</p>
+    <ul class="brief-hint" id="retryFailedList" style="max-height:140px;overflow:auto;margin:0 0 12px;padding-left:18px"></ul>
+    <div class="mega-modal-btns" style="flex-direction:row;flex-wrap:wrap">
+      <button type="button" class="mega-modal-btn primary" onclick="startRetryFailedSpecs()">Re-run failed / partial</button>
+      <button type="button" class="mega-modal-btn ghost" onclick="closeRetryFailedModal()">Skip</button>
+      </div>
+        </div>
+        </div>
+
+<div class="db-gate-overlay" id="dbGateOverlay" role="dialog" aria-labelledby="dbGateTitle">
+  <div class="db-gate-card">
+    <h3 id="dbGateTitle">Delete DB record first</h3>
+    <p id="dbGateBody">The runner is paused. Someone with Yellow.ai Studio access must delete the test rows, then continue.</p>
+    <p class="db-gate-access" id="dbGateAccess"></p>
+    <a class="db-gate-link" id="dbGateLink" href="#" target="_blank" rel="noopener noreferrer"></a>
+    <ul class="db-gate-list" id="dbGateList"></ul>
+    <div class="hint" id="dbGateHint"></div>
+    <button type="button" class="db-gate-done" onclick="confirmDbGateDone()">Done — DB cleared</button>
+      </div>
+      </div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="nexus-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "name": "Spouse DOB Validation — Future Date Entered",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User enters a spouse DOB that is a future date; bot enforces DOB validation and re-prompts.",
+  "constraints": "Spouse DOB entered is a future date (e.g., '31 Dec 2050').",
+  "tags": [
+    "validation",
+    "spouse_dob",
+    "future_date"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "You are eligible to book an appointment."
+      }
+    },
+    "status2": "Book an appointment",
+    "coverageType": "Only Spouse",
+    "spouseName": "Priya Verma",
+    "spouseDOB_invalid": "31 Dec 2050",
+    "spouseDOB_valid": "10 Jan 1980"
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents booking option; user chooses to book.",
+      "completionCriteria": "Bot displays eligibility message and quick reply for booking; user selects 'Book an appointment'."
+    },
+    {
+      "id": "step2",
+      "description": "Bot asks for coverage type; user selects 'Only Spouse'.",
+      "completionCriteria": "Bot accepts selection and proceeds."
+    },
+    {
+      "id": "step3_invalid_dob",
+      "description": "User enters future date as spouse DOB.",
+      "completionCriteria": "Bot rejects input, displays correct error message, and re-prompts for DOB."
+    },
+    {
+      "id": "step3_valid_dob",
+      "description": "User enters valid past DOB (>18 years).",
+      "completionCriteria": "Bot accepts DOB and proceeds."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 44
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

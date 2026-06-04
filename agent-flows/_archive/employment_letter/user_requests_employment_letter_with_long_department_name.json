@@ -1,0 +1,45 @@
+{
+  "name": "user_requests_employment_letter_with_long_department_name",
+  "groupId": "employment_letter",
+  "goal": "User with a long department name requests an employment letter.",
+  "constraints": "Employee details must be present. Department name is unusually long.",
+  "tags": [
+    "happy_path",
+    "edge_case",
+    "long_text"
+  ],
+  "testdata": {
+    "employee_id": "E77777",
+    "employee_name": "Anil Kapoor",
+    "email": "anil.kapoor@example.com",
+    "department": "International Business Development and Strategic Partnerships"
+  },
+  "phases": [
+    {
+      "id": "display_employee_details",
+      "description": "Bot displays employee details and options, including long department name.",
+      "completionCriteria": "Bot displays department name in full without truncation.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter'.",
+      "completionCriteria": "Bot proceeds to trigger mail workflow silently.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "confirm_success",
+      "description": "Bot triggers mail and confirms success.",
+      "completionCriteria": "Bot displays the exact confirmation message for employment letter request.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

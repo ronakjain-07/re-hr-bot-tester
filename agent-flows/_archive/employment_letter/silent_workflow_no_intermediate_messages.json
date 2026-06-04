@@ -1,0 +1,37 @@
+{
+  "name": "Silent Workflow — No Intermediate Messages",
+  "groupId": "employment_letter",
+  "goal": "Ensure bot does not display any intermediate or processing messages during workflow execution.",
+  "constraints": "Employee details are valid. User selects 'hropsempletter'. Bot must not show any processing/acknowledgement messages before the final confirmation.",
+  "tags": [
+    "validation",
+    "silent_execution",
+    "workflow"
+  ],
+  "testdata": {
+    "employee_id": "EMP11111",
+    "employee_name": "Sunita Verma"
+  },
+  "phases": [
+    {
+      "id": "fetch_employee_details",
+      "description": "Bot fetches and displays employee details.",
+      "completionCriteria": "Bot displays employee details and presents options.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter'.",
+      "completionCriteria": "Bot triggers mail workflow silently and only displays the final confirmation message if successful.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,45 @@
+{
+  "name": "No PRAN Available — User Exits with Guidance",
+  "groupId": "national_pension_scheme",
+  "goal": "User does not have a PRAN and is guided to generate one before proceeding.",
+  "constraints": "User selects 'No' for PRAN availability.",
+  "tags": [
+    "no_pran",
+    "exit",
+    "guidance"
+  ],
+  "testdata": {
+    "employee_name": "Sonal Gupta",
+    "employee_id": "RE13579",
+    "position_title": "Lead Designer",
+    "employee_email": "sonal.gupta@royalenfield.com"
+  },
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Proceed'.",
+      "completionCriteria": "Bot displays employee details confirmation.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "employee_details",
+      "description": "User confirms details.",
+      "completionCriteria": "Bot asks about PRAN availability.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "pran_availability",
+      "description": "User says 'No'.",
+      "completionCriteria": "Bot displays PRAN generation guidance with clickable links and ends flow.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

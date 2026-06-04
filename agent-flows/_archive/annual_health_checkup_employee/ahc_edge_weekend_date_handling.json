@@ -1,0 +1,41 @@
+{
+  "goal": "Check if the bot accepts or rejects appointments on weekends (Saturday/Sunday)",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "reach_date_and_try_weekend",
+      "description": "Navigate to date prompt and try a Saturday or Sunday date",
+      "completionCriteria": "Bot either accepts the weekend date or explains weekday-only policy",
+      "maxAttempts": 10,
+      "recoveryHint": "If weekend is rejected, use a weekday date from testdata"
+    },
+    {
+      "id": "complete_booking",
+      "description": "Complete the booking with an accepted date",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 10,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC edge - weekend date handling",
+  "tags": [
+    "edge",
+    "date_validation"
+  ],
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

@@ -1,0 +1,46 @@
+{
+  "constraints": "Test UK visa invitation letter flow thoroughly. Available cities: Bangalore, North Goa, Mumbai, Chennai, New Delhi.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "uploads": [],
+  "name": "UK visa - select and go back options",
+  "tags": [
+    "happy",
+    "navigation"
+  ],
+  "goal": "Verify Select and Go Back options work for all cards in the UK visa flow",
+  "testdata": {
+    "name": "Geetika Mago",
+    "passportNumber": "B1234567",
+    "startDate": "{{today+15}}",
+    "endDate": "{{today+20}}",
+    "city": "Mumbai"
+  },
+  "phases": [
+    {
+      "id": "reach_city_selection",
+      "description": "Navigate to the city selection step",
+      "completionCriteria": "Bot shows city options with Select and Go Back buttons",
+      "maxAttempts": 6
+    },
+    {
+      "id": "try_go_back",
+      "description": "Click Go Back to verify navigation works",
+      "completionCriteria": "Bot takes user back to the previous step",
+      "maxAttempts": 3
+    },
+    {
+      "id": "complete_with_selection",
+      "description": "Re-navigate and select a city to complete the flow",
+      "completionCriteria": "Bot confirms the visa letter request",
+      "maxAttempts": 10
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

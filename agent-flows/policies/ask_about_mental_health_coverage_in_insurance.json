@@ -1,0 +1,35 @@
+{
+  "name": "Ask about mental health coverage in insurance",
+  "groupId": "policies",
+  "goal": "User asks if mental health treatments are covered under employee insurance.",
+  "constraints": "Bot must use only KB info, personalize reply, and cite correct source and signed URL. No external info or filler.",
+  "tags": [
+    "happy_path",
+    "insurance",
+    "mental_health",
+    "group_mediclaim"
+  ],
+  "testdata": {
+    "user_name": "Arjun Nair",
+    "user_designation": "UX Designer",
+    "query": "Does our group mediclaim cover mental health treatments?",
+    "expected_policy": "Group_Mediclaim_Policy",
+    "expected_info": "mental health",
+    "expected_link_prefix": "https://app.yellow.ai/minio/"
+  },
+  "phases": [
+    {
+      "id": "ask_mental_health",
+      "description": "User asks about mental health coverage under group mediclaim.",
+      "completionCriteria": "Bot responds with Arjun Nair's name/designation, confirms if covered, states limits if any, and cites correct source with signed URL."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

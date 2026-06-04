@@ -1,0 +1,66 @@
+{
+  "name": "Book Employee with Spouse — Invalid Appointment Date (Validator Rejects)",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User enters an appointment date that is rejected by the appointment date validator; user then provides a valid date.",
+  "constraints": "First appointment date is a holiday or unavailable; validator returns isValid=false and a reason.",
+  "tags": [
+    "validation",
+    "appointment_date",
+    "edge_case"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Vikas Jain",
+    "spouseDOB": "01 Jan 1980",
+    "appointmentDatestr_invalid": "15 Aug 2024",
+    "dateValidatorResp_invalid": {
+      "result": {
+        "isValid": false,
+        "reason": "Selected date is a public holiday. Please choose another date."
+      }
+    },
+    "appointmentDatestr_valid": "{{today+7}}",
+    "empMobile10": "9876523410",
+    "state": "Madhya Pradesh",
+    "city": "Indore",
+    "clinicName": "CHL Hospital"
+  },
+  "phases": [
+    {
+      "id": "spouse_details_to_appointment",
+      "description": "User provides spouse details and appointment date.",
+      "completionCriteria": "Bot accepts spouse name and DOB.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "appointment_date_invalid",
+      "description": "User provides appointment date that is rejected by validator.",
+      "completionCriteria": "Bot displays validator reason and re-prompts for appointment date.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "appointment_date_valid",
+      "description": "User provides valid appointment date.",
+      "completionCriteria": "Bot accepts and stores appointment date.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "finish_booking",
+      "description": "User completes booking flow.",
+      "completionCriteria": "Bot confirms booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

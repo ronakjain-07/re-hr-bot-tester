@@ -1,0 +1,34 @@
+{
+  "name": "Eligibility None — User Not Eligible, Conversation Ends",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User is not eligible for booking; bot displays message and ends conversation.",
+  "constraints": "Eligibility mode is 'none'.",
+  "tags": [
+    "eligibility",
+    "negative",
+    "end_flow"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "none",
+        "message": "You are not eligible for an annual health checkup at this time."
+      }
+    }
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents eligibility message indicating no eligibility.",
+      "completionCriteria": "Bot displays message and ends conversation."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 5,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

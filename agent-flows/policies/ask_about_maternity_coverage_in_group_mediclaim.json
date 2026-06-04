@@ -1,0 +1,35 @@
+{
+  "name": "Ask about maternity coverage in group mediclaim",
+  "groupId": "policies",
+  "goal": "User asks if maternity expenses are covered under the Group Mediclaim policy and requests coverage limits.",
+  "constraints": "Bot must route to Group_Mediclaim_Policy, extract user name/designation, and respond with only KB-backed info. Response must include eligibility, coverage amount, and source link. No generic info or filler.",
+  "tags": [
+    "happy_path",
+    "insurance",
+    "maternity",
+    "group_mediclaim"
+  ],
+  "testdata": {
+    "user_name": "Priya Sharma",
+    "user_designation": "Senior Developer",
+    "query": "Does our group mediclaim cover maternity? What are the limits?",
+    "expected_policy": "Group_Mediclaim_Policy",
+    "expected_coverage": "maternity",
+    "expected_link_prefix": "https://app.yellow.ai/minio/"
+  },
+  "phases": [
+    {
+      "id": "ask_policy",
+      "description": "User asks about maternity coverage in group mediclaim.",
+      "completionCriteria": "Bot responds with Priya Sharma's name/designation, mentions maternity coverage, eligibility, limits, and includes the correct source document and signed URL."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Employee Details — User Rejects Details and Returns to Main Menu",
+  "groupId": "national_pension_scheme",
+  "goal": "User rejects employee details and chooses to go back to main menu.",
+  "constraints": "User selects 'No' for details, then 'Go Back to Main Menu'.",
+  "tags": [
+    "employee_details",
+    "exit",
+    "main_menu"
+  ],
+  "testdata": {
+    "employee_name": "Rahul Verma",
+    "employee_id": "RE11111",
+    "position_title": "QA Lead",
+    "employee_email": "rahul.verma@royalenfield.com"
+  },
+  "phases": [
+    {
+      "id": "intro",
+      "description": "User selects 'Proceed'.",
+      "completionCriteria": "Bot displays employee details confirmation.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "employee_details",
+      "description": "User selects 'No' for details, then 'Go Back to Main Menu'.",
+      "completionCriteria": "Bot exits to main menu and marks goal as completed.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 5,
+    "maxLlmCalls": 5
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

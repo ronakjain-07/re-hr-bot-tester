@@ -1,0 +1,47 @@
+{
+  "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "uploads": [],
+  "name": "AHC edge - city outside selected state rejected",
+  "tags": [
+    "edge",
+    "location_validation"
+  ],
+  "goal": "Verify bot rejects a city that is not in the selected state",
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "wrongStateCity": "Surat",
+    "validCity": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_city_prompt",
+      "description": "Navigate AHC booking to the city prompt after entering state Tamil Nadu",
+      "completionCriteria": "Bot has asked for the city",
+      "maxAttempts": 10
+    },
+    {
+      "id": "city_from_wrong_state",
+      "description": "Enter 'Surat' (which is in Gujarat, not Tamil Nadu)",
+      "completionCriteria": "Bot rejects the city — either as not in selected state or as having no facility",
+      "maxAttempts": 3
+    },
+    {
+      "id": "valid_city_and_confirm",
+      "description": "Enter Chennai and complete booking",
+      "completionCriteria": "Bot confirms appointment",
+      "maxAttempts": 6,
+      "expectClick": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

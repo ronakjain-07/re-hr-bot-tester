@@ -1,0 +1,37 @@
+{
+  "name": "Apply for Work From Home",
+  "groupId": "free_flow",
+  "goal": "User applies for work from home for a specific date in Hinglish.",
+  "constraints": "Bot should process WFH request and confirm.",
+  "tags": [
+    "wfh",
+    "leave",
+    "hinglish"
+  ],
+  "testdata": {
+    "wfh_date": "{{today+7|iso}}",
+    "reason": "doctor appointment"
+  },
+  "phases": [
+    {
+      "id": "initiate_wfh",
+      "description": "User says '15 July ko work from home chahiye, doctor appointment hai'.",
+      "completionCriteria": "Bot summarizes WFH request and asks for confirmation.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "confirm_wfh",
+      "description": "User says 'Confirm kar do'.",
+      "completionCriteria": "Bot confirms WFH request submission.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 7,
+    "maxLlmCalls": 12
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

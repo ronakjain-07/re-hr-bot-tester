@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Variable pay after October joining",
+  "tags": [
+    "happy",
+    "kb"
+  ],
+  "goal": "Ask if an employee who joined after October gets variable pay",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_variable_pay",
+      "description": "Ask 'Will I get variable pay if I joined after October?'",
+      "completionCriteria": "Bot answers whether joining after October affects variable pay eligibility",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

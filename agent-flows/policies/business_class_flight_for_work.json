@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Business class flight for work",
+  "tags": [
+    "edge",
+    "kb"
+  ],
+  "goal": "Ask if business class flights are allowed for work travel",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_business_class",
+      "description": "Ask 'Can I book business class flight for work travel?'",
+      "completionCriteria": "Bot explains the policy on flight class for business travel",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

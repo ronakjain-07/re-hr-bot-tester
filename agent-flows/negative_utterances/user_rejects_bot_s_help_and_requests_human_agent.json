@@ -1,0 +1,37 @@
+{
+  "name": "User rejects bot's help and requests human agent",
+  "groupId": "negative_utterances",
+  "goal": "Test bot's response when user rejects automated help and asks for a human agent.",
+  "constraints": "Bot should gracefully transfer or offer to connect with a human agent.",
+  "tags": [
+    "human_agent",
+    "rejection",
+    "escalation",
+    "support"
+  ],
+  "testdata": {
+    "issue_type": "Benefits clarification"
+  },
+  "phases": [
+    {
+      "id": "bot_offers_help",
+      "description": "Bot offers to assist with a benefits clarification.",
+      "completionCriteria": "Bot provides initial help or information.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_rejects_help",
+      "description": "User rejects bot's help and requests a human agent (e.g., 'I want to talk to a real person.').",
+      "completionCriteria": "Bot acknowledges the request and initiates transfer to a human agent or provides contact details.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

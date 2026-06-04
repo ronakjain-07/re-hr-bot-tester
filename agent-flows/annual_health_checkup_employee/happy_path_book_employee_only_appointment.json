@@ -1,0 +1,65 @@
+{
+  "name": "Happy Path — Book Employee Only Appointment",
+  "groupId": "annual_health_checkup_employee",
+  "goal": "Book an annual health checkup appointment for the employee only, with all valid inputs.",
+  "constraints": "All user inputs are valid and provided on first attempt. Journey follows Employee Only coverage.",
+  "tags": [
+    "happy_path",
+    "booking",
+    "employee_only"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "You are eligible to book your annual health checkup."
+      }
+    },
+    "coverageType": "Employee Only",
+    "appointmentDatestr": "{{today+7}}",
+    "emp_mobile_raw": "9876543210",
+    "state": "Karnataka",
+    "city": "Bangalore",
+    "clinicName": "Apollo Clinic, Koramangala"
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "description": "Eligibility check and booking intent confirmation.",
+      "completionCriteria": "Bot presents booking option and user selects 'Book an appointment'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phase_2",
+      "description": "Coverage type selection.",
+      "completionCriteria": "User selects 'Employee Only' and bot proceeds to appointment date.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "phase_3",
+      "description": "Appointment date collection and validation.",
+      "completionCriteria": "User provides valid appointment date, bot validates date successfully.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "phase_4",
+      "description": "Mobile number, state, city, and clinic selection.",
+      "completionCriteria": "User provides valid mobile, state, city, and selects clinic via rich media.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "phase_5",
+      "description": "Booking confirmation.",
+      "completionCriteria": "Bot confirms appointment booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

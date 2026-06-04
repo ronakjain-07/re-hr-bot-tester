@@ -1,0 +1,35 @@
+{
+  "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Employment letter edge - misspelled request",
+  "tags": [
+    "edge",
+    "typo_handling"
+  ],
+  "goal": "Verify the bot understands a misspelled or casual employment letter request",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "misspelled_request",
+      "description": "Send request with typos like 'employmnt ltter' or 'emplyment lettr'",
+      "completionCriteria": "Bot understands and shows the employee details or asks clarifying question",
+      "maxAttempts": 5,
+      "recoveryHint": "Try various misspellings or synonyms: 'joining letter', 'salary letter', 'proof of employment'"
+    },
+    {
+      "id": "complete_flow",
+      "description": "Complete the flow after intent is recognized",
+      "completionCriteria": "Bot shows action buttons including Send for HROPS Approval",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "employment_letter"
+}

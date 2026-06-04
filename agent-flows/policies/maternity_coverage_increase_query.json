@@ -1,0 +1,28 @@
+{
+  "constraints": "Ask the question naturally as an employee would. The bot should answer using its knowledge base. Accept any correct/helpful answer.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "uploads": [],
+  "name": "Maternity coverage increase query",
+  "tags": [
+    "edge",
+    "kb"
+  ],
+  "goal": "Ask if maternity coverage can be increased",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ask_increase_maternity",
+      "description": "Ask 'can i increase my maternity coverage'",
+      "completionCriteria": "Bot explains whether coverage can be increased or not",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "policies"
+}

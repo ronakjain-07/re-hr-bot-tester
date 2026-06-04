@@ -1,0 +1,39 @@
+{
+  "name": "Happy Path — Employment Letter Request",
+  "groupId": "employment_letter",
+  "goal": "User successfully requests an employment letter and receives confirmation.",
+  "constraints": "Employee details are present and valid. User selects 'hropsempletter' as the option. All workflows succeed.",
+  "tags": [
+    "happy_path",
+    "employment_letter",
+    "success"
+  ],
+  "testdata": {
+    "employee_id": "EMP12345",
+    "employee_name": "Ananya Sharma",
+    "department": "Finance",
+    "email": "ananya.sharma@example.com"
+  },
+  "phases": [
+    {
+      "id": "fetch_employee_details",
+      "description": "Bot fetches employee details and displays them for review.",
+      "completionCriteria": "Bot displays employee details in plain text with options including 'hropsempletter'.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter' to proceed.",
+      "completionCriteria": "Bot triggers mail workflow silently and, upon success, displays the exact confirmation message.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

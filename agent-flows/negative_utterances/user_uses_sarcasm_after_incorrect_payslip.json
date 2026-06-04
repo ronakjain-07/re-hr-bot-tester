@@ -1,0 +1,38 @@
+{
+  "name": "User uses sarcasm after incorrect payslip",
+  "groupId": "negative_utterances",
+  "goal": "Verify bot's handling of sarcastic remarks regarding a payslip error.",
+  "constraints": "Bot should not misinterpret sarcasm as approval; must address the payslip issue directly.",
+  "tags": [
+    "payslip",
+    "sarcasm",
+    "salary",
+    "error_handling"
+  ],
+  "testdata": {
+    "pay_period": "2024-05",
+    "reported_issue": "Net pay lower than expected"
+  },
+  "phases": [
+    {
+      "id": "report_payslip_issue",
+      "description": "User reports a discrepancy in their May 2024 payslip.",
+      "completionCriteria": "Bot acknowledges the issue and asks for details.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_sarcasm",
+      "description": "User responds sarcastically (e.g., 'Oh great, just what I needed!').",
+      "completionCriteria": "Bot recognizes negative sentiment and continues to address the payslip error.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

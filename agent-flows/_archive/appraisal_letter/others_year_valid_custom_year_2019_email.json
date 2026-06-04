@@ -1,0 +1,49 @@
+{
+  "name": "Others Year - Valid Custom Year 2019, Email",
+  "groupId": "appraisal_letter",
+  "goal": "User selects 'Others', enters a valid year (2019), and requests appraisal letter via email.",
+  "constraints": "User selects 'Others', enters 2019, selects email. Tool returns 'email successful'.",
+  "tags": [
+    "validation",
+    "others",
+    "custom_year",
+    "email"
+  ],
+  "testdata": {
+    "menuType": "only years",
+    "isManagerAllowed": "no",
+    "year_resp": "2019",
+    "userAction": "Email",
+    "tool_resp": "email successful"
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm menuType is 'only years'.",
+      "completionCriteria": "Bot presents quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "select_others",
+      "description": "User selects 'Others'.",
+      "completionCriteria": "Bot asks for year."
+    },
+    {
+      "id": "enter_year",
+      "description": "User enters 2019.",
+      "completionCriteria": "Bot prompts for delivery preference."
+    },
+    {
+      "id": "delivery_preference",
+      "description": "User selects 'Get the letter via email'.",
+      "completionCriteria": "Bot triggers workflow and returns 'We have triggered the appraisal letter to your email.'"
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 14,
+    "maxLlmCalls": 25
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

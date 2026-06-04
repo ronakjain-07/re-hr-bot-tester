@@ -1,0 +1,41 @@
+{
+  "name": "Book Employee with Spouse — Cancel Existing Appointment",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User chooses to cancel an existing appointment for employee with spouse.",
+  "constraints": "Eligibility mode is 'manage'. User selects 'Cancel appointment'.",
+  "tags": [
+    "cancel",
+    "employee_with_spouse",
+    "happy_path"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "manage"
+      }
+    },
+    "status2": "Cancel appointment"
+  },
+  "phases": [
+    {
+      "id": "manage_options",
+      "description": "Bot presents reschedule/cancel options; user selects cancel.",
+      "completionCriteria": "Bot captures 'Cancel appointment' as status2.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "cancel_flow",
+      "description": "Bot processes cancellation and confirms to user.",
+      "completionCriteria": "Bot confirms cancellation and offers further help.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 15
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

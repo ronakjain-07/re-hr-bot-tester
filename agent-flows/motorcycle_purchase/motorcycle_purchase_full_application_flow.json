@@ -1,0 +1,62 @@
+{
+  "constraints": "Match real chat: motorcycle purchase → Start New Application → mobile → state → city → address → CC → model → dealer/store → dealer code 10441 → undertaking PDF → submit. Use testdata; invalid city tests use Mumbai in Haryana etc.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 40,
+    "maxLlmCalls": 80
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Motorcycle purchase - full application flow",
+  "tags": [
+    "happy"
+  ],
+  "goal": "Complete motorcycle purchase from mobile through dealer code, upload, and successful submission",
+  "testdata": {
+    "mobileNumber": "9462137658",
+    "state": "Haryana",
+    "city": "Gurgaon",
+    "address": "123 market, chandigarh",
+    "ccCategory": "450 CC",
+    "bikeModel": "HIMALAYAN",
+    "dealerType": "Dealer",
+    "dealerCode": "10441",
+    "paymentMode": "Cash",
+    "comment": "No"
+  },
+  "phases": [
+    {
+      "id": "start_application",
+      "description": "Request motorcycle purchase and click Start New Application",
+      "completionCriteria": "Bot asks for 10-digit mobile number",
+      "maxAttempts": 6
+    },
+    {
+      "id": "location_details",
+      "description": "Provide valid mobile, state, city, and full address",
+      "completionCriteria": "Bot shows CC categories (350/411/450/650 CC) or asks to choose CC category",
+      "maxAttempts": 10
+    },
+    {
+      "id": "bike_and_dealer",
+      "description": "Select CC category, bike model, dealer vs company store, and dealer sales code 10441",
+      "completionCriteria": "Bot asks to download/upload undertaking letter PDF",
+      "maxAttempts": 12
+    },
+    {
+      "id": "upload_and_submit",
+      "description": "Upload undertaking PDF, answer comment (No), confirm and submit",
+      "completionCriteria": "Bot confirms motorcycle purchase request submitted successfully",
+      "maxAttempts": 10,
+      "expectUpload": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "motorcycle_purchase"
+}

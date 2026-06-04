@@ -1,0 +1,48 @@
+{
+  "constraints": "Test AHC booking state machine rules. Dates must respect: 4 days in advance, Mon-Sat only, no past/today dates. Use testdata for valid values.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 30,
+    "maxLlmCalls": 60
+  },
+  "uploads": [],
+  "name": "AHC edge - Sunday date rejected",
+  "tags": [
+    "edge",
+    "date_validation",
+    "day_of_week"
+  ],
+  "goal": "Verify bot rejects a Sunday as appointment date (only Mon-Sat allowed)",
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_date_prompt",
+      "description": "Start AHC booking and reach the appointment date prompt",
+      "completionCriteria": "Bot has asked for preferred appointment date",
+      "maxAttempts": 8
+    },
+    {
+      "id": "try_sunday",
+      "description": "Calculate the next Sunday and enter it — the AI should compute which upcoming date is a Sunday",
+      "completionCriteria": "Bot rejects Sunday and informs appointments are only Mon-Sat",
+      "maxAttempts": 4,
+      "recoveryHint": "If bot accepts Sunday (may not validate day), provide a safe weekday date to complete booking"
+    },
+    {
+      "id": "complete_with_weekday",
+      "description": "Use _validDate (today+7) to complete the booking",
+      "completionCriteria": "Bot confirms the appointment",
+      "maxAttempts": 8,
+      "expectClick": true
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

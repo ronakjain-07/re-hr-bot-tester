@@ -1,0 +1,46 @@
+{
+  "name": "trigger_mail_fails_with_non_success_response",
+  "groupId": "employment_letter",
+  "goal": "Bot handles a non-success response from the mail triggering workflow gracefully.",
+  "constraints": "Employee details must be present. Mail workflow returns a response without 'success'.",
+  "tags": [
+    "negative",
+    "workflow_failure",
+    "edge_case"
+  ],
+  "testdata": {
+    "employee_id": "E99887",
+    "employee_name": "Meena Joshi",
+    "email": "meena.joshi@example.com",
+    "department": "Admin",
+    "triggermail_response": "error: quota exceeded"
+  },
+  "phases": [
+    {
+      "id": "display_employee_details",
+      "description": "Bot displays employee details and options.",
+      "completionCriteria": "Bot displays correct employee details and options.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter'.",
+      "completionCriteria": "Bot triggers mail workflow silently.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "handle_non_success_response",
+      "description": "Mail workflow returns non-success response.",
+      "completionCriteria": "Bot does not display any confirmation or error message (per rules). Task ends silently.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

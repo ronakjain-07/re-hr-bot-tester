@@ -1,0 +1,33 @@
+{
+  "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Employment letter happy flow",
+  "tags": [
+    "happy"
+  ],
+  "goal": "Request an employment letter and send it for HROPS approval",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "greeting_and_intent",
+      "description": "Greet the bot and request an employment letter",
+      "completionCriteria": "Bot has displayed the employee details card and presented action options (Send for HROPS Approval, Go Home)",
+      "maxAttempts": 4
+    },
+    {
+      "id": "send_for_approval",
+      "description": "Click or type 'Send For HROPS Approval'",
+      "completionCriteria": "Bot has confirmed the employment letter request has been raised with HR team",
+      "maxAttempts": 3
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "employment_letter"
+}

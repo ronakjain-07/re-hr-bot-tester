@@ -1,0 +1,46 @@
+{
+  "name": "Edge Case — Invalid City Then Correction",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify bot rejects invalid city for a valid state, then accepts a valid city.",
+  "constraints": "User enters a valid state, then an invalid city, then a valid city.",
+  "tags": [
+    "validation",
+    "city",
+    "correction"
+  ],
+  "testdata": {
+    "state": "Tamil Nadu",
+    "city_attempts": [
+      "Atlantis",
+      "Chennai"
+    ]
+  },
+  "phases": [
+    {
+      "id": "state_entry",
+      "description": "User enters valid state.",
+      "completionCriteria": "Bot accepts and prompts for city.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "city_entry_invalid",
+      "description": "User enters invalid city.",
+      "completionCriteria": "Bot rejects and re-prompts.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "city_entry_valid",
+      "description": "User enters valid city.",
+      "completionCriteria": "Bot accepts and proceeds.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 16
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

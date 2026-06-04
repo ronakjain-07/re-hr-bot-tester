@@ -1,0 +1,46 @@
+{
+  "name": "Apply for Casual Leave in Hinglish",
+  "groupId": "free_flow",
+  "goal": "User applies for casual leave using Hinglish phrases.",
+  "constraints": "Bot should correctly interpret Hinglish and process leave request.",
+  "tags": [
+    "leave",
+    "hinglish",
+    "casual_leave",
+    "happy_path"
+  ],
+  "testdata": {
+    "leave_type": "casual",
+    "start_date": "{{today+10|iso}}",
+    "end_date": "{{today+12|iso}}",
+    "reason": "ghar jaana hai"
+  },
+  "phases": [
+    {
+      "id": "initiate_leave",
+      "description": "User requests 'Mujhe 10 se 12 July tak casual leave chahiye'.",
+      "completionCriteria": "Bot asks for confirmation or reason for leave.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_reason",
+      "description": "User responds with 'Ghar jaana hai'.",
+      "completionCriteria": "Bot summarizes leave details and asks for final confirmation.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "confirm_leave",
+      "description": "User says 'Haan, confirm kar do'.",
+      "completionCriteria": "Bot confirms leave application submission.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

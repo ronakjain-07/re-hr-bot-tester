@@ -1,0 +1,34 @@
+{
+  "constraints": "Match real chat: motorcycle purchase → Start New Application → mobile → state → city → address → CC → model → dealer/store → dealer code 10441 → undertaking PDF → submit. Use testdata; invalid city tests use Mumbai in Haryana etc.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user",
+    "Account must already have a submitted motorcycle purchase application"
+  ],
+  "limits": {
+    "maxTotalTurns": 40,
+    "maxLlmCalls": 80
+  },
+  "uploads": [
+    {
+      "key": "undertaking_letter",
+      "path": "../upload/Car Undertakin letter format.pdf"
+    }
+  ],
+  "name": "Motorcycle purchase - cannot apply again",
+  "tags": [
+    "edge",
+    "duplicate_prevention"
+  ],
+  "goal": "Bot blocks duplicate motorcycle application when one already exists",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "try_apply_again",
+      "description": "Request motorcycle purchase again",
+      "completionCriteria": "Bot says application already exists and does not start a full new form",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "motorcycle_purchase"
+}

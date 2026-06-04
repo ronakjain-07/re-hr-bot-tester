@@ -1,0 +1,74 @@
+{
+  "groupId": "uk_visa",
+  "template": {
+    "constraints": "Use natural language. Testdata provides visa-related details.",
+    "manualPrereqs": ["Chrome must be open and logged into Google Chat as the test user"],
+    "limits": { "maxTotalTurns": 20, "maxLlmCalls": 40 },
+    "uploads": []
+  },
+  "variants": [
+    {
+      "name": "UK visa happy flow",
+      "tags": ["happy"],
+      "goal": "Successfully request a UK visa support letter from HR",
+      "testdata": {
+        "travelDate": "15th June 2026",
+        "purpose": "Business visit"
+      },
+      "phases": [
+        {
+          "id": "greeting_and_intent",
+          "description": "State UK visa letter request intent",
+          "completionCriteria": "Bot has acknowledged the UK visa letter intent and shown employee details or asked for travel info",
+          "maxAttempts": 4
+        },
+        {
+          "id": "provide_details_and_confirm",
+          "description": "Provide travel date/purpose and confirm submission",
+          "completionCriteria": "Bot has confirmed the UK visa letter request has been raised",
+          "maxAttempts": 5
+        }
+      ]
+    },
+    {
+      "name": "UK visa edge case flow",
+      "tags": ["edge"],
+      "goal": "Test UK visa letter request with edge-case travel details",
+      "testdata": {
+        "travelDate": "20th May 2026",
+        "purpose": "Attending a conference"
+      },
+      "phases": [
+        {
+          "id": "greeting_and_intent",
+          "description": "State UK visa letter intent with near-future travel date",
+          "completionCriteria": "Bot has accepted or flagged the travel date and advanced the flow",
+          "maxAttempts": 4
+        },
+        {
+          "id": "complete_request",
+          "description": "Complete the request and get confirmation",
+          "completionCriteria": "Bot confirms the UK visa letter request or explains any restriction",
+          "maxAttempts": 5
+        }
+      ]
+    },
+    {
+      "name": "UK visa edgecase 1 flow",
+      "tags": ["edge"],
+      "goal": "Test bot behaviour when travel date is very soon or in the past for UK visa letter",
+      "testdata": {
+        "travelDate": "16th May 2026",
+        "purpose": "Medical treatment"
+      },
+      "phases": [
+        {
+          "id": "request_with_edge_date",
+          "description": "Request UK visa letter with an edge-case travel date",
+          "completionCriteria": "Bot either processes the request or explains the date restriction",
+          "maxAttempts": 6
+        }
+      ]
+    }
+  ]
+}

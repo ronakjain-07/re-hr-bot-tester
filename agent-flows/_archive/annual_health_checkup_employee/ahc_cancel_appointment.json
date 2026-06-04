@@ -1,0 +1,37 @@
+{
+  "goal": "Cancel an existing Annual Health Checkup appointment",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user",
+    "Test account must have an existing AHC appointment booked"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "modify_intent",
+      "description": "State intent to modify the annual health checkup",
+      "completionCriteria": "Bot has presented Reschedule and Cancel options",
+      "maxAttempts": 3
+    },
+    {
+      "id": "select_cancel",
+      "description": "Choose cancel appointment and confirm",
+      "completionCriteria": "Bot has confirmed the cancellation of the appointment",
+      "maxAttempts": 4
+    }
+  ],
+  "name": "AHC cancel appointment",
+  "tags": [
+    "happy",
+    "cancel"
+  ],
+  "testdata": {
+    "confirmCancel": "Yes"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Request for Team Attendance Summary",
+  "groupId": "free_flow",
+  "goal": "User asks for their team's attendance summary in Hinglish.",
+  "constraints": "Bot should provide attendance stats for the team.",
+  "tags": [
+    "attendance",
+    "team",
+    "summary",
+    "hinglish"
+  ],
+  "testdata": {
+    "team": "Sales",
+    "month": "June",
+    "year": 2024
+  },
+  "phases": [
+    {
+      "id": "ask_team_attendance",
+      "description": "User says 'Mere team ka June attendance summary batao'.",
+      "completionCriteria": "Bot provides attendance summary for Sales team for June 2024.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 7,
+    "maxLlmCalls": 12
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

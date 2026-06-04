@@ -1,0 +1,36 @@
+{
+  "constraints": "Use natural language. Testdata provides visa-related details.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "UK visa edge case flow",
+  "tags": [
+    "edge"
+  ],
+  "goal": "Test UK visa letter request with edge-case travel details",
+  "testdata": {
+    "travelDate": "20th May 2026",
+    "purpose": "Attending a conference"
+  },
+  "phases": [
+    {
+      "id": "greeting_and_intent",
+      "description": "State UK visa letter intent with near-future travel date",
+      "completionCriteria": "Bot has accepted or flagged the travel date and advanced the flow",
+      "maxAttempts": 4
+    },
+    {
+      "id": "complete_request",
+      "description": "Complete the request and get confirmation",
+      "completionCriteria": "Bot confirms the UK visa letter request or explains any restriction",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

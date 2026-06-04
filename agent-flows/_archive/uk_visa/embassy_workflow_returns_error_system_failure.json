@@ -1,0 +1,29 @@
+{
+  "name": "Embassy Workflow Returns 'Error' — System Failure",
+  "groupId": "uk_visa",
+  "goal": "User attempts to initiate a UK visa invitation letter but embassy workflow returns 'error'.",
+  "constraints": "Embassy workflow returns 'error' at initialization.",
+  "tags": [
+    "edge_case",
+    "system_error",
+    "early_exit"
+  ],
+  "testdata": {
+    "visa_embassy_list": "error"
+  },
+  "phases": [
+    {
+      "id": "init_and_embassy_check",
+      "description": "Agent initializes variables and calls embassy list workflow, which returns 'error'.",
+      "completionCriteria": "Bot says 'Something went wrong, please try after sometime.' and ends."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 2,
+    "maxLlmCalls": 4
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

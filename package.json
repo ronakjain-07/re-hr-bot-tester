@@ -1,0 +1,15 @@
+{
+  "name": "re-hr-script-automation",
+  "private": true,
+  "description": "HR bot test automation — v2 app in app/ (legacy runner kept under legacy:* until sign-off)",
+  "scripts": {
+    "dev": "npm --prefix app run dev",
+    "start": "npm --prefix app run start",
+    "build": "npm --prefix app run build",
+    "typecheck": "npm --prefix app run typecheck",
+    "chrome": "HR_CHROME_PARALLEL=1 bash bot-runner/start-chrome.sh",
+    "legacy:ui": "npm run ui --prefix bot-runner",
+    "legacy:agent": "npm run agent --prefix bot-runner",
+    "legacy:agent:all": "npm run agent:all --prefix bot-runner"
+  }
+}

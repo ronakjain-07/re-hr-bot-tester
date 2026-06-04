@@ -1,0 +1,63 @@
+{
+  "name": "Manager - Check for Team, Others Year, Download",
+  "groupId": "appraisal_letter",
+  "goal": "Manager uses 'Check for team', enters Ecode, selects 'Others', enters 2021, and downloads the letter.",
+  "constraints": "menuType is 'check for team', isManagerAllowed is 'yes'. User selects 'Check for team', enters Ecode, selects 'Others', enters 2021, chooses download. Tool returns webViewLink.",
+  "tags": [
+    "manager",
+    "check_for_team",
+    "others",
+    "download"
+  ],
+  "testdata": {
+    "menuType": "check for team",
+    "isManagerAllowed": "yes",
+    "userId": "EMP2222",
+    "check_for_team": "yes",
+    "year_resp": "2021",
+    "userAction": "Download",
+    "tool_resp": {
+      "webViewLink": "https://appraisal.letters.com/letter/2021/mno345"
+    }
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm menuType is 'check for team' and isManagerAllowed is 'yes'.",
+      "completionCriteria": "Bot presents quick replies: Check for team, 2026, 2025, Others."
+    },
+    {
+      "id": "select_check_for_team",
+      "description": "User selects 'Check for team'.",
+      "completionCriteria": "Bot asks for Ecode."
+    },
+    {
+      "id": "ecode_entry",
+      "description": "User enters Ecode 'EMP2222'.",
+      "completionCriteria": "Bot presents year quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "select_others",
+      "description": "User selects 'Others'.",
+      "completionCriteria": "Bot asks for year."
+    },
+    {
+      "id": "enter_year",
+      "description": "User enters 2021.",
+      "completionCriteria": "Bot prompts for delivery preference."
+    },
+    {
+      "id": "delivery_preference",
+      "description": "User selects 'Show appraisal letter here'.",
+      "completionCriteria": "Bot triggers workflow and provides webViewLink."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

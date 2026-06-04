@@ -1,0 +1,50 @@
+{
+  "name": "Happy Path - Download Own Appraisal Letter for 2024",
+  "groupId": "appraisal_letter",
+  "goal": "User requests their own appraisal letter for 2024 and downloads it via provided link.",
+  "constraints": "User selects 2024 from quick replies. Download delivery selected. Tool returns webViewLink.",
+  "tags": [
+    "happy_path",
+    "own_letter",
+    "download"
+  ],
+  "testdata": {
+    "menuType": "only years",
+    "isManagerAllowed": "no",
+    "year_resp": "2024",
+    "userAction": "Download",
+    "tool_resp": {
+      "webViewLink": "https://appraisal.letters.com/letter/2024/abc123"
+    }
+  },
+  "phases": [
+    {
+      "id": "setup",
+      "description": "Run setup workflow and confirm menuType is 'only years' and isManagerAllowed is 'no'.",
+      "completionCriteria": "Bot presents quick replies: 2026, 2025, 2024, Others."
+    },
+    {
+      "id": "year_selection",
+      "description": "User selects 2024.",
+      "completionCriteria": "Bot prompts for delivery preference."
+    },
+    {
+      "id": "delivery_preference",
+      "description": "User selects 'Show appraisal letter here'.",
+      "completionCriteria": "Bot triggers workflow and provides webViewLink."
+    },
+    {
+      "id": "link_and_followup",
+      "description": "Bot shows link and asks for further questions.",
+      "completionCriteria": "Bot message includes download link and 'Do you have any other questions?'"
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 12,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

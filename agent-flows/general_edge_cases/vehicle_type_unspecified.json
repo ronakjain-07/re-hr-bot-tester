@@ -1,0 +1,27 @@
+{
+  "name": "Vehicle purchase — type not specified",
+  "groupId": "general_edge_cases",
+  "goal": "When the user says they want to buy a vehicle without specifying car vs motorcycle (or old vs new), the bot must ask which — not assume one.",
+  "constraints": "General edge case: under-specified / ambiguous user intent. The bot should clarify the vehicle type, never guess.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "phases": [
+    {
+      "id": "ambiguous_vehicle",
+      "description": "Send a vague vehicle-purchase request:",
+      "verbatimUserMessage": "I want to buy a vehicle",
+      "completionCriteria": "Bot recognizes the request is unclear and asks which vehicle purchase the user means (car vs motorcycle, and/or old vs new); it does NOT assume a specific option.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,34 @@
+{
+  "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "uploads": [],
+  "name": "Free flow - I need proof that I work here",
+  "tags": [
+    "happy",
+    "synonym"
+  ],
+  "goal": "Test 'I need proof that I work here' maps to employment letter",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "proof_synonym",
+      "description": "Say 'I need proof that I work here'",
+      "completionCriteria": "Bot offers employment letter or asks which type of proof is needed",
+      "maxAttempts": 4
+    },
+    {
+      "id": "complete_flow",
+      "description": "Complete the employment letter request",
+      "completionCriteria": "Bot confirms employment letter request raised",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "free_flow"
+}

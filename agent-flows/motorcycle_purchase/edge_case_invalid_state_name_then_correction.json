@@ -1,0 +1,47 @@
+{
+  "name": "Edge Case — Invalid State Name Then Correction",
+  "groupId": "motorcycle_purchase",
+  "goal": "Verify bot rejects invalid state name, then accepts valid state on second attempt.",
+  "constraints": "User enters an invalid state, then a valid one. All other steps valid.",
+  "tags": [
+    "validation",
+    "state",
+    "correction"
+  ],
+  "testdata": {
+    "mobile": "9876543210",
+    "state_attempts": [
+      "Atlantis",
+      "Maharashtra"
+    ],
+    "city": "Pune"
+  },
+  "phases": [
+    {
+      "id": "mobile_entry",
+      "description": "User enters valid mobile number.",
+      "completionCriteria": "Bot accepts number and proceeds.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "state_entry_invalid",
+      "description": "User enters invalid state name.",
+      "completionCriteria": "Bot rejects and re-prompts.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "state_entry_valid",
+      "description": "User enters valid state name.",
+      "completionCriteria": "Bot accepts and proceeds to city.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 16
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,45 @@
+{
+  "name": "happy_path_standard_employment_letter",
+  "groupId": "employment_letter",
+  "goal": "User successfully requests and receives confirmation for an employment letter.",
+  "constraints": "Employee details must exist and employee_id is valid. User selects 'hropsempletter' option directly.",
+  "tags": [
+    "happy_path",
+    "employment_letter",
+    "confirmation"
+  ],
+  "testdata": {
+    "employee_id": "E12345",
+    "employee_name": "Amit Sharma",
+    "email": "amit.sharma@example.com",
+    "department": "Finance"
+  },
+  "phases": [
+    {
+      "id": "verify_employee_details",
+      "description": "Bot fetches and displays employee details with proceed options.",
+      "completionCriteria": "Bot displays employee details and 'Please review your employee details below and choose the appropriate option to proceed.'",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter' to proceed.",
+      "completionCriteria": "Bot proceeds to trigger mail workflow silently.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "trigger_mail_and_confirm",
+      "description": "Bot triggers mail workflow and displays confirmation if successful.",
+      "completionCriteria": "Bot displays: 'Your request for an employment letter has been raised with the HR team successfully. Please wait for HR’s confirmation—once approved, you’ll receive the letter on your registered email.'",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

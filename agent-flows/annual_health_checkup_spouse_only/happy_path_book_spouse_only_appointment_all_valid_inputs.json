@@ -1,0 +1,79 @@
+{
+  "name": "Happy Path — Book Spouse Only Appointment (All Valid Inputs)",
+  "groupId": "annual_health_checkup_spouse_only",
+  "goal": "User successfully books an annual health checkup appointment for spouse only, providing all valid details in the first attempt.",
+  "constraints": "All user inputs are valid and accepted by the system on first try. User chooses 'Only Spouse' at coverage step.",
+  "tags": [
+    "happy_path",
+    "booking",
+    "spouse_only",
+    "valid_inputs"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book",
+        "message": "You are eligible to book an appointment."
+      }
+    },
+    "status2": "Book an appointment",
+    "coverageType": "Only Spouse",
+    "spouseName": "Anjali Sharma",
+    "spouseDOB": "12 Feb 1985",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobileNumber": "9876543210",
+    "state": "Karnataka",
+    "city": "Bangalore",
+    "clinicName": "Apollo Clinic, Indiranagar"
+  },
+  "phases": [
+    {
+      "id": "step1",
+      "description": "Bot presents booking option based on eligibility; user chooses to book.",
+      "completionCriteria": "Bot displays eligibility message and quick reply for booking; user selects 'Book an appointment'."
+    },
+    {
+      "id": "step2",
+      "description": "Bot asks for coverage type; user selects 'Only Spouse'.",
+      "completionCriteria": "Bot renders Coverage Type widget; user selection is stored as 'Only Spouse'."
+    },
+    {
+      "id": "step3",
+      "description": "Bot collects spouse name and DOB; user provides valid name and valid DOB (age > 18, past date).",
+      "completionCriteria": "Bot accepts spouse name and DOB, stores them, and proceeds."
+    },
+    {
+      "id": "step4",
+      "description": "Bot asks for appointment date; user provides valid date.",
+      "completionCriteria": "Bot accepts date, stores it as appointmentDatestr."
+    },
+    {
+      "id": "step5",
+      "description": "Bot validates appointment date via workflow; receives valid response.",
+      "completionCriteria": "Bot receives isValid=true and formatted date."
+    },
+    {
+      "id": "step6",
+      "description": "Bot collects and validates 10-digit mobile number.",
+      "completionCriteria": "Bot accepts and stores valid mobile number."
+    },
+    {
+      "id": "step7",
+      "description": "Bot collects and validates state and city.",
+      "completionCriteria": "Bot accepts valid state and city."
+    },
+    {
+      "id": "step8",
+      "description": "Bot renders clinic selection widget; user selects a clinic.",
+      "completionCriteria": "Bot confirms clinic selection, thanks user, displays clinic name, and confirms booking."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

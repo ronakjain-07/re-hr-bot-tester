@@ -1,0 +1,34 @@
+{
+  "constraints": "Use natural language similar to how a real employee would request a letter. Do not invent employee IDs or names — the bot shows them from its database.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "Employment letter edge - repeat request",
+  "tags": [
+    "edge",
+    "duplicate_request"
+  ],
+  "goal": "Test what happens when user requests employment letter twice in a row",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "first_request",
+      "description": "Request employment letter and see details card",
+      "completionCriteria": "Bot shows employee details card with action buttons",
+      "maxAttempts": 4
+    },
+    {
+      "id": "second_request_same_session",
+      "description": "Request employment letter again without submitting the first one",
+      "completionCriteria": "Bot either shows the same card again, warns about duplicate, or handles gracefully",
+      "maxAttempts": 4
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "employment_letter"
+}

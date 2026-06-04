@@ -1,0 +1,38 @@
+{
+  "name": "User threatens to escalate after payroll delay",
+  "groupId": "negative_utterances",
+  "goal": "Test bot's response to escalation threats regarding delayed payroll.",
+  "constraints": "Bot should remain calm, provide status, and offer to connect with HR.",
+  "tags": [
+    "payroll",
+    "delay",
+    "escalation",
+    "threat"
+  ],
+  "testdata": {
+    "pay_period": "2024-06",
+    "expected_pay_date": "2024-06-30"
+  },
+  "phases": [
+    {
+      "id": "report_payroll_delay",
+      "description": "User reports not receiving June payroll.",
+      "completionCriteria": "Bot checks and provides payroll status.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "user_escalation_threat",
+      "description": "User threatens to escalate (e.g., 'If this isn't fixed, I'm going to HR.').",
+      "completionCriteria": "Bot remains calm, offers to connect with HR, and provides next steps.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 22,
+    "maxLlmCalls": 45
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

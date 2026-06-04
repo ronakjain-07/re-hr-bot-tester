@@ -1,0 +1,30 @@
+{
+  "name": "Request for PF Balance",
+  "groupId": "free_flow",
+  "goal": "User asks for their Provident Fund balance in Hinglish.",
+  "constraints": "Bot should fetch and display accurate PF balance.",
+  "tags": [
+    "pf",
+    "balance",
+    "hinglish"
+  ],
+  "testdata": {
+    "pf_balance": "₹1,20,000"
+  },
+  "phases": [
+    {
+      "id": "ask_pf_balance",
+      "description": "User says 'Mera PF balance batao'.",
+      "completionCriteria": "Bot replies with the user's current PF balance.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 5,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

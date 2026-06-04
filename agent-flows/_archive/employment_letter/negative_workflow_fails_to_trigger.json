@@ -1,0 +1,37 @@
+{
+  "name": "Negative — Workflow Fails to Trigger",
+  "groupId": "employment_letter",
+  "goal": "Bot does not display any confirmation if the triggerMail workflow fails (no 'success' in response).",
+  "constraints": "Employee details are valid. User selects 'hropsempletter'. Workflow triggerMail fails (e.g., returns error or no 'success').",
+  "tags": [
+    "negative",
+    "workflow_failure",
+    "error_handling"
+  ],
+  "testdata": {
+    "employee_id": "EMP99999",
+    "employee_name": "Karan Patel"
+  },
+  "phases": [
+    {
+      "id": "fetch_employee_details",
+      "description": "Bot fetches and displays employee details.",
+      "completionCriteria": "Bot displays employee details and presents options.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "user_selects_employment_letter",
+      "description": "User selects 'hropsempletter'.",
+      "completionCriteria": "Bot triggers mail workflow silently. If workflow response does not contain 'success', bot does not display the confirmation message.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 10,
+    "maxLlmCalls": 40
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Missing Employee ID — Error Handling",
+  "groupId": "employment_letter",
+  "goal": "Bot handles missing employee_id by displaying only the exact error message.",
+  "constraints": "Employee details fetch returns no employee_id (null/empty/undefined).",
+  "tags": [
+    "negative",
+    "error_handling",
+    "edge_case"
+  ],
+  "testdata": {
+    "employee_id": null,
+    "employee_name": "Rahul Mehta"
+  },
+  "phases": [
+    {
+      "id": "fetch_employee_details_missing_id",
+      "description": "Bot attempts to fetch employee details but employee_id is missing.",
+      "completionCriteria": "Bot displays only: 'There is some issue in fetching your details.' and marks task as done.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 3,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

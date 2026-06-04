@@ -1,0 +1,60 @@
+{
+  "name": "Book Employee with Spouse — Invalid City Then Valid",
+  "groupId": "annual_health_checkup_employee_spouse",
+  "goal": "User enters an invalid city for the selected state; bot rejects and user provides a valid city.",
+  "constraints": "First city input is not in allowed list for the chosen state; second is valid.",
+  "tags": [
+    "validation",
+    "city",
+    "edge_case"
+  ],
+  "testdata": {
+    "eligibilityValidity": {
+      "result": {
+        "mode": "book"
+      }
+    },
+    "spouseName": "Suresh Kumar",
+    "spouseDOB": "22 Nov 1985",
+    "appointmentDatestr": "{{today+7}}",
+    "empMobile10": "9876512340",
+    "state": "Punjab",
+    "city_invalid": "Atlantis",
+    "city_valid": "Ludhiana",
+    "clinicName": "Fortis Hospital Ludhiana"
+  },
+  "phases": [
+    {
+      "id": "spouse_details_to_state",
+      "description": "User provides spouse details, appointment date, mobile, and state.",
+      "completionCriteria": "Bot accepts spouse name, DOB, appointment date, mobile, and state.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "city_invalid",
+      "description": "User enters invalid city.",
+      "completionCriteria": "Bot replies with 'This is not a city where we have this facility. Please try another location.'",
+      "maxAttempts": 1
+    },
+    {
+      "id": "city_valid",
+      "description": "User enters valid city.",
+      "completionCriteria": "Bot accepts and stores city.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "finish_booking",
+      "description": "User completes booking flow.",
+      "completionCriteria": "Bot confirms booking and displays selected clinic name.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 24,
+    "maxLlmCalls": 42
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

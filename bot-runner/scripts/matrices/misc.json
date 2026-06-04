@@ -1,0 +1,10 @@
+{
+  "groupId": "negative_utterances",
+  "template": {
+    "constraints": "Deprecated — use negative_utterances.json (15 cases).",
+    "manualPrereqs": [],
+    "limits": { "maxTotalTurns": 8, "maxLlmCalls": 16 },
+    "uploads": []
+  },
+  "variants": []
+}

@@ -1,0 +1,34 @@
+{
+  "constraints": "Test free-flow / Hinglish utterances. Bot should understand the intent even from informal language and proceed correctly.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 15,
+    "maxLlmCalls": 30
+  },
+  "uploads": [],
+  "name": "Free flow - HR se employment letter kaise milega",
+  "tags": [
+    "happy",
+    "hinglish"
+  ],
+  "goal": "Verify 'HR se employment letter kaise milega' triggers employment letter flow",
+  "testdata": {},
+  "phases": [
+    {
+      "id": "how_to_get_letter",
+      "description": "Say 'HR se employment letter kaise milega'",
+      "completionCriteria": "Bot starts employment letter flow or explains the process",
+      "maxAttempts": 4
+    },
+    {
+      "id": "complete_flow",
+      "description": "Complete the employment letter request",
+      "completionCriteria": "Bot confirms request raised",
+      "maxAttempts": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "free_flow"
+}

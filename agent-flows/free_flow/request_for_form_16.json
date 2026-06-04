@@ -1,0 +1,30 @@
+{
+  "name": "Request for Form 16",
+  "groupId": "free_flow",
+  "goal": "User requests Form 16 for tax filing in Hinglish.",
+  "constraints": "Bot should provide download link or attachment for Form 16.",
+  "tags": [
+    "form16",
+    "tax",
+    "hinglish"
+  ],
+  "testdata": {
+    "financial_year": "2023-2024"
+  },
+  "phases": [
+    {
+      "id": "request_form16",
+      "description": "User says 'Form 16 chahiye tax ke liye'.",
+      "completionCriteria": "Bot provides Form 16 for FY 2023-2024.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 5,
+    "maxLlmCalls": 10
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

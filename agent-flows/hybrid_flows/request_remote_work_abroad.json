@@ -1,0 +1,39 @@
+{
+  "name": "Request Remote Work Abroad",
+  "groupId": "hybrid_flows",
+  "goal": "Employee requests to work remotely from another country for a limited period.",
+  "constraints": "Request must comply with policy on remote work abroad (e.g., max 30 days, country restrictions).",
+  "tags": [
+    "remote",
+    "abroad",
+    "policy",
+    "edge_case"
+  ],
+  "testdata": {
+    "country": "Spain",
+    "start_date": "{{today+30|iso}}",
+    "end_date": "{{today+44|iso}}"
+  },
+  "phases": [
+    {
+      "id": "initiate_abroad_request",
+      "description": "User requests to work remotely from a foreign country.",
+      "completionCriteria": "Bot asks for country and date range.",
+      "maxAttempts": 2
+    },
+    {
+      "id": "provide_abroad_details",
+      "description": "User provides valid country and date range within policy limits.",
+      "completionCriteria": "Bot checks for compliance and confirms approval or requests additional documentation.",
+      "maxAttempts": 2
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 12,
+    "maxLlmCalls": 22
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

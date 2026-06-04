@@ -1,0 +1,28 @@
+{
+  "name": "Two intents in one message",
+  "groupId": "general_edge_cases",
+  "goal": "When the user asks for two things at once (opt in to NPS AND book a health check-up), the bot must handle one clearly and acknowledge/queue the other — not silently drop one or mix them.",
+  "constraints": "General edge case: compound / ambiguous user intent. The bot should clarify ordering or take them one at a time, never lose a request.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous",
+    "multi-intent"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 7,
+    "maxLlmCalls": 14
+  },
+  "phases": [
+    {
+      "id": "compound_intent",
+      "description": "Send two requests in one message:",
+      "verbatimUserMessage": "I want to opt in to NPS and also book a health check-up",
+      "completionCriteria": "Bot handles one request clearly and explicitly acknowledges or asks about the other (does not silently ignore either); the response is not garbled or mixing both flows at once.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

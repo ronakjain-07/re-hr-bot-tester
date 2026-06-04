@@ -1,0 +1,30 @@
+{
+  "constraints": "Use natural language. Testdata provides visa-related details.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 20,
+    "maxLlmCalls": 40
+  },
+  "uploads": [],
+  "name": "UK visa edgecase 1 flow",
+  "tags": [
+    "edge"
+  ],
+  "goal": "Test bot behaviour when travel date is very soon or in the past for UK visa letter",
+  "testdata": {
+    "travelDate": "16th May 2026",
+    "purpose": "Medical treatment"
+  },
+  "phases": [
+    {
+      "id": "request_with_edge_date",
+      "description": "Request UK visa letter with an edge-case travel date",
+      "completionCriteria": "Bot either processes the request or explains the date restriction",
+      "maxAttempts": 6
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}

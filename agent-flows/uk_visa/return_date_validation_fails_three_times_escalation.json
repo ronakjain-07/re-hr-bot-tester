@@ -1,0 +1,65 @@
+{
+  "name": "Return Date Validation Fails Three Times — Escalation",
+  "groupId": "uk_visa",
+  "goal": "User provides invalid return date three times, bot escalates after max attempts.",
+  "constraints": "Each return date input is invalid (past, before start, NA), escalation after third failure.",
+  "tags": [
+    "negative",
+    "validation",
+    "max_attempts",
+    "return_date"
+  ],
+  "testdata": {
+    "cityUK": "Leeds",
+    "passportName": "William Green",
+    "rawPassportNumber": "G2345678",
+    "validatedPassportNumber": "G2345678",
+    "ukStartDate": "{{today+15}}",
+    "validatedStartDate": "{{today+15}}",
+    "ukEndDate_attempts": [
+      "{{today-5}}",
+      "{{today+10}}",
+      "NA"
+    ],
+    "validatedReturnDate_attempts": [
+      "PAST_DATE",
+      "BEFORE_START_DATE",
+      "NA"
+    ]
+  },
+  "phases": [
+    {
+      "id": "init_and_city",
+      "description": "Agent initializes, user selects 'Leeds'.",
+      "completionCriteria": "Bot captures 'Leeds'."
+    },
+    {
+      "id": "passport_name",
+      "description": "User provides 'William Green'.",
+      "completionCriteria": "Bot captures name."
+    },
+    {
+      "id": "passport_number",
+      "description": "User provides valid passport number.",
+      "completionCriteria": "Bot validates and proceeds."
+    },
+    {
+      "id": "start_date",
+      "description": "User provides valid start date, confirms.",
+      "completionCriteria": "Bot saves start date."
+    },
+    {
+      "id": "end_date_failures",
+      "description": "User provides three invalid return dates, bot prompts each time.",
+      "completionCriteria": "After third invalid input, bot escalates and ends."
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 16,
+    "maxLlmCalls": 32
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

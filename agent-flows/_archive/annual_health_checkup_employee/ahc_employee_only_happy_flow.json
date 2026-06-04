@@ -1,0 +1,67 @@
+{
+  "goal": "Successfully book an Annual Health Checkup for the employee only",
+  "constraints": "Use testdata values. Appointment date must be at least 5 days from today. Use plausible Indian names, cities, phone numbers.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 35,
+    "maxLlmCalls": 70
+  },
+  "uploads": [],
+  "phases": [
+    {
+      "id": "greeting",
+      "description": "Open the conversation and state health checkup intent",
+      "completionCriteria": "Bot has greeted the user and offered to book an appointment or acknowledged the AHC intent",
+      "maxAttempts": 3
+    },
+    {
+      "id": "select_booking_type",
+      "description": "Select Employee Only booking type",
+      "completionCriteria": "Bot has presented appointment type options (Employee Only, Employee with Spouse, Only Spouse) or asked for booking type",
+      "maxAttempts": 3
+    },
+    {
+      "id": "provide_appointment_date",
+      "description": "Provide a valid appointment date at least 4 days ahead",
+      "completionCriteria": "Bot has accepted the appointment date and asked for the mobile number",
+      "maxAttempts": 5,
+      "recoveryHint": "If date is rejected as past or too soon, provide a later date (22nd May 2026 or later)"
+    },
+    {
+      "id": "provide_mobile",
+      "description": "Provide a valid 10-digit mobile number",
+      "completionCriteria": "Bot has accepted the mobile number and asked for the state",
+      "maxAttempts": 3
+    },
+    {
+      "id": "provide_location",
+      "description": "Provide state and city; handle invalid city if rejected",
+      "completionCriteria": "Bot has presented clinic selection options for the valid city",
+      "maxAttempts": 5,
+      "recoveryHint": "If city is rejected, try another city in the same state"
+    },
+    {
+      "id": "confirm_booking",
+      "description": "Click Select on a clinic card to confirm the booking",
+      "completionCriteria": "Bot has confirmed the appointment booking with a confirmation message",
+      "maxAttempts": 3,
+      "expectClick": true
+    }
+  ],
+  "name": "AHC Employee Only happy flow",
+  "tags": [
+    "happy",
+    "booking",
+    "employee_only"
+  ],
+  "testdata": {
+    "appointmentDate": "{{today+7}}",
+    "mobileNumber": "9462171542",
+    "state": "Tamil Nadu",
+    "city": "Chennai"
+  },
+  "schemaVersion": 1,
+  "groupId": "annual_health_checkup_employee"
+}

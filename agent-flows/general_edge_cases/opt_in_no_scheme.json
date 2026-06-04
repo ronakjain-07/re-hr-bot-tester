@@ -1,0 +1,27 @@
+{
+  "name": "Opt in — no scheme named (NPS vs VPF)",
+  "groupId": "general_edge_cases",
+  "goal": "When the user says 'opt in' without naming NPS or VPF, the bot must ask WHICH scheme to opt in to — not silently assume one and not dead-end.",
+  "constraints": "General edge case: under-specified / ambiguous user intent. The bot should ask a clarifying question and route correctly, never guess.",
+  "tags": [
+    "edge",
+    "clarification",
+    "general",
+    "ambiguous"
+  ],
+  "testdata": {},
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "phases": [
+    {
+      "id": "ambiguous_opt_in",
+      "description": "Send an under-specified opt-in request:",
+      "verbatimUserMessage": "I want to opt in",
+      "completionCriteria": "Bot treats the opt-in request as unclear and asks which scheme — NPS or VPF — the user wants to opt in to; it does NOT assume one or jump straight into a single flow.",
+      "maxAttempts": 1
+    }
+  ],
+  "schemaVersion": 1
+}

@@ -1,0 +1,37 @@
+{
+  "name": "User Chooses Main Menu Instead",
+  "groupId": "employment_letter",
+  "goal": "User opts for 'Main menu' instead of requesting the employment letter; bot redirects accordingly.",
+  "constraints": "Employee details are valid. User selects 'Main menu' from options.",
+  "tags": [
+    "branch",
+    "main_menu",
+    "navigation"
+  ],
+  "testdata": {
+    "employee_id": "EMP67890",
+    "employee_name": "Priya Singh"
+  },
+  "phases": [
+    {
+      "id": "fetch_employee_details",
+      "description": "Bot fetches and displays employee details.",
+      "completionCriteria": "Bot displays employee details and presents options.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "user_selects_main_menu",
+      "description": "User selects 'Main menu' option.",
+      "completionCriteria": "Bot marks task as complete, redirects to main flow, and displays the list of available services as specified.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 20
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

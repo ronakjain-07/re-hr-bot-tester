@@ -1,0 +1,47 @@
+{
+  "constraints": "Test UK visa invitation letter flow thoroughly. Available cities: Bangalore, North Goa, Mumbai, Chennai, New Delhi.",
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "limits": {
+    "maxTotalTurns": 25,
+    "maxLlmCalls": 50
+  },
+  "uploads": [],
+  "name": "UK visa edge - name with numbers and letters rejected",
+  "tags": [
+    "edge",
+    "name_validation"
+  ],
+  "goal": "Verify bot rejects a name like 'John123Smith' (name+numbers format)",
+  "testdata": {
+    "invalidName": "John123Smith",
+    "validName": "John Smith",
+    "passportNumber": "B1234567",
+    "startDate": "{{today+15}}",
+    "endDate": "{{today+20}}",
+    "city": "Chennai"
+  },
+  "phases": [
+    {
+      "id": "reach_name_prompt",
+      "description": "Start UK visa flow and reach name prompt",
+      "completionCriteria": "Bot asks for the applicant's name",
+      "maxAttempts": 5
+    },
+    {
+      "id": "alphanumeric_name",
+      "description": "Enter 'John123Smith'",
+      "completionCriteria": "Bot rejects alphanumeric name",
+      "maxAttempts": 3
+    },
+    {
+      "id": "complete_flow",
+      "description": "Provide valid name and complete",
+      "completionCriteria": "Bot confirms UK visa letter",
+      "maxAttempts": 12
+    }
+  ],
+  "schemaVersion": 1,
+  "groupId": "uk_visa"
+}
