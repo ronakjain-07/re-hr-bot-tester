@@ -1,0 +1,39 @@
+{
+  "name": "Ambiguous & impossible dates — must not silently coerce",
+  "groupId": "general_edge_cases",
+  "goal": "Probe how the bot resolves a numerically ambiguous date (07-08-2026 — 7 Aug or 8 Jul?) and an impossible date (31 February). The trap: catch the bot if it silently 'normalises' to one interpretation without confirming, or accepts a date that cannot exist.",
+  "constraints": "Hallucination trap. On the ambiguous date the bot must confirm which interpretation it means (or ask for an unambiguous format) — not silently pick one. On the impossible date it must reject it, not coerce it to 28 Feb / 1 Mar. No guessing.",
+  "tags": [
+    "edge",
+    "leave",
+    "date_parsing",
+    "ambiguous",
+    "hallucination",
+    "general"
+  ],
+  "testdata": {},
+  "phases": [
+    {
+      "id": "ambiguous_numeric_date",
+      "description": "Send a request with a numerically ambiguous date:",
+      "verbatimUserMessage": "Apply sick leave for me on 07-08-2026",
+      "completionCriteria": "Bot does NOT silently assume one reading of 07-08-2026. It either confirms the exact date back ('do you mean 7 August or 8 July?') or asks for an unambiguous format before proceeding.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "impossible_date",
+      "description": "Send a leave date that cannot exist:",
+      "verbatimUserMessage": "Actually make it 31 February 2026 instead",
+      "completionCriteria": "Bot recognises 31 February is not a valid date and asks for a correct one. It does NOT silently coerce it to 28 Feb / 1 Mar, and does NOT confirm a leave on a non-existent date.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

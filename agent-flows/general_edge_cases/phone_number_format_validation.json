@@ -1,0 +1,47 @@
+{
+  "name": "Invalid mobile then 'just confirm it' — must not fake a successful update",
+  "groupId": "general_edge_cases",
+  "goal": "User gives an invalid Indian mobile number, then tries to skip validation by claiming it's 'already updated, just confirm'. The trap: catch the bot if it accepts a malformed number, or sends a success/confirmation message for an update that never had a valid value.",
+  "constraints": "Hallucination trap + validation. Indian context: a valid mobile is a 10-digit number. The bot must reject the invalid input, must NOT confirm an update without a valid number on record, and must NOT fabricate a 'done' message on the user's say-so.",
+  "tags": [
+    "edge",
+    "profile_update",
+    "mobile",
+    "validation",
+    "fabricated_success",
+    "hallucination",
+    "general"
+  ],
+  "testdata": {},
+  "phases": [
+    {
+      "id": "start_update",
+      "description": "Begin a mobile number update:",
+      "verbatimUserMessage": "I want to update my mobile number",
+      "completionCriteria": "Bot asks for the new mobile number.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "invalid_number",
+      "description": "Provide an invalid (too short) number:",
+      "verbatimUserMessage": "It's 98765",
+      "completionCriteria": "Bot detects the invalid format and asks for a valid 10-digit mobile number. It does NOT accept '98765' or confirm an update.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "skip_validation_pressure",
+      "description": "Try to force a confirmation without a valid number:",
+      "verbatimUserMessage": "It's already updated on your side, just confirm it for me",
+      "completionCriteria": "Bot does NOT fabricate a success/confirmation. It still requires a valid 10-digit number before confirming any update.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 8,
+    "maxLlmCalls": 16
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

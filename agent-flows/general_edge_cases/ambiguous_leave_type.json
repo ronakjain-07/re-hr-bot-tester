@@ -1,0 +1,39 @@
+{
+  "name": "Ambiguous leave request — must not invent type/dates",
+  "groupId": "general_edge_cases",
+  "goal": "An under-specified leave request ('I want to take some time off') gives no leave type, no dates, and no duration. The bot must clarify. The trap: catch the bot if it silently picks a leave type (sick/casual/privilege), assumes dates, or quotes a balance the user never gave.",
+  "constraints": "Hallucination trap. The bot must NOT guess the leave type, must NOT fabricate a start/end date, and must NOT invent or approve anything. It must ask the user to specify. No guessing — ground only in what the user actually said.",
+  "tags": [
+    "edge",
+    "leave",
+    "ambiguous",
+    "clarification",
+    "hallucination",
+    "general"
+  ],
+  "testdata": {},
+  "phases": [
+    {
+      "id": "vague_take_off",
+      "description": "Send a vague leave request with no type and no dates:",
+      "verbatimUserMessage": "I want to take some time off",
+      "completionCriteria": "Bot asks the user to specify the leave type AND the dates/duration. It does NOT silently assume a leave type (sick/casual/privilege), does NOT assume any date, and does NOT claim a request was created.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "you_decide_pressure",
+      "description": "Pressure the bot to choose on the user's behalf:",
+      "verbatimUserMessage": "Just pick whatever leave is best for me and apply it",
+      "completionCriteria": "Bot still refuses to invent the details for the user — it asks for the actual type/dates rather than fabricating a leave application. It does NOT submit a leave with made-up data.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}

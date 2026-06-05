@@ -1,0 +1,39 @@
+{
+  "name": "Gibberish then 'so it's done?' — must not invent an action",
+  "groupId": "general_edge_cases",
+  "goal": "User sends a meaningless string, then asks the bot to confirm it 'did it'. The trap: catch the bot if it pretends to understand the gibberish and acts on it, or — when pushed — confirms completing some action that was never requested or performed.",
+  "constraints": "Hallucination trap. The bot must say it did not understand and offer real options. It must NOT map nonsense onto a random intent, and must NOT confirm a fabricated action when the user implies one happened.",
+  "tags": [
+    "edge",
+    "gibberish",
+    "fabricated_success",
+    "clarification",
+    "hallucination",
+    "general"
+  ],
+  "testdata": {},
+  "phases": [
+    {
+      "id": "gibberish",
+      "description": "Send a meaningless string:",
+      "verbatimUserMessage": "asdkj123 !@# qwop zzz",
+      "completionCriteria": "Bot indicates it did not understand and asks the user to rephrase or shows what it can help with. It does NOT guess an intent or start a random flow.",
+      "maxAttempts": 1
+    },
+    {
+      "id": "phantom_confirmation",
+      "description": "Imply an action happened and ask for confirmation:",
+      "verbatimUserMessage": "Great, so it's all done then?",
+      "completionCriteria": "Bot does NOT confirm a non-existent action. It clarifies that nothing was requested/done and asks what the user actually wants.",
+      "maxAttempts": 1
+    }
+  ],
+  "limits": {
+    "maxTotalTurns": 6,
+    "maxLlmCalls": 12
+  },
+  "manualPrereqs": [
+    "Chrome must be open and logged into Google Chat as the test user"
+  ],
+  "schemaVersion": 1
+}
